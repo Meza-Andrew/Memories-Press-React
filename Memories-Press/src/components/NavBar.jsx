@@ -15,9 +15,10 @@ import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
 import ShoppingCartSharpIcon from '@mui/icons-material/ShoppingCartSharp';
 
 const pages = ['Funeral Stationary', 'Resources', 'About'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['View Orders', 'Update Contact Info', 'Update Business Info', 'Update Payment Info', 'Change Password', 'Logout'];
 
 function NavBar() {
+  const [user, setUser] = React.useState('false');
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -72,8 +73,11 @@ function NavBar() {
                   {page}
                 </Button>
               ))}
+              <Button variant="contained">Start your design</Button>
             </Box>
           </Box>
+
+          
 
           <Box sx={{ display: { xs: 'flex', md: 'none' }, ml: 'auto' }}>
             <IconButton
@@ -83,11 +87,14 @@ function NavBar() {
             >
               <ShoppingCartSharpIcon />
             </IconButton>
+            {
+            user === 'true' &&  
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
+            }
             <IconButton
               size="large"
               aria-label="menu"
@@ -132,11 +139,20 @@ function NavBar() {
             >
               <ShoppingCartSharpIcon />
             </IconButton>
+            {
+            user === 'true' ? 
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Amy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
+            :
+            <Tooltip title="Login or signup">
+              <Button sx={{ p: 0, color: 'white' }}>
+                Login/Signup
+              </Button>
+            </Tooltip>
+            }
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
