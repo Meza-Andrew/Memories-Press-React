@@ -125,6 +125,13 @@ function NavBar() {
           </Box>
 
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <IconButton
+              size="large"
+              aria-label="shopping cart"
+              color="inherit"
+            >
+              <ShoppingCartSharpIcon />
+            </IconButton>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
