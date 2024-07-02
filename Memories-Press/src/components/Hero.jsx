@@ -1,9 +1,10 @@
 import React from 'react';
 import { Container, Typography, Box, useMediaQuery, useTheme } from '@mui/material';
 
-function Hero() {
+function Hero({heading, subHeading, heroImage}) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); 
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  
   return (
     <Container 
       maxWidth="lg" 
@@ -29,14 +30,14 @@ function Hero() {
           component="h1" 
           // gutterBottom
         >
-          Celebrate life with custom funeral stationery
+          {heading}
         </Typography>
         <Typography 
           variant={isMobile ? 'h6' : 'h5'}
           component="h2" 
           // gutterBottom
         >
-          Create lasting memories that honor your loved one’s unique journey.
+          {subHeading}
         </Typography>
       </Box>
       <Box 
@@ -56,7 +57,7 @@ function Hero() {
             maxWidth: 400,
           }}
           alt="Flowers"
-          src="https://via.placeholder.com/400"
+          src={heroImage}
         />
       </Box>
     </Container>
