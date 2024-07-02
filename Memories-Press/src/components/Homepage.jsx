@@ -1,67 +1,41 @@
 import React from 'react';
-import { Container, Typography, Box, useMediaQuery, useTheme } from '@mui/material';
+import { Container, Button, useTheme, useMediaQuery, Box } from '@mui/material';
+import Hero from './Hero';
+import PrayerCard from './PrayerCard';
 
-function Homepage() {
+function Homepage({isLoggedIn}) {
+  const products = ['Funeral prayer cards', 'Funeral picture boards', 'Funeral bookmarks', 'Memorial hearts'];
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); 
   return (
-    <Container 
-      maxWidth="lg" 
-      sx={{ 
-        height: '100vh', 
+    <>
+      <Hero />
+      <Box sx={{
         display: 'flex', 
-        flexDirection: isMobile ? 'column' : 'row', 
-        alignItems: 'center', 
-        justifyContent: 'space-between', 
-        textAlign: isMobile ? 'center' : 'left', 
-        gap: 0
-      }}
-    >
-      <Box 
-        sx={{ 
-          flex: 1, 
-          order: isMobile ? 2 : 1,
-          // p: isMobile ? 2 : 4 
-        }}
-      >
-        <Typography 
-          variant={isMobile ? 'h4' : 'h2'}
-          component="h1" 
-          // gutterBottom
-        >
-          Celebrate life with custom funeral stationery
-        </Typography>
-        <Typography 
-          variant={isMobile ? 'h6' : 'h5'}
-          component="h2" 
-          // gutterBottom
-        >
-          Create lasting memories that honor your loved one’s unique journey.
-        </Typography>
+        flexDirection: isMobile ? 'column' : 'row',
+      }}>
+        {products.map((product) => (
+          <PrayerCard
+            key={product}
+            title={product}
+          />
+        ))}
       </Box>
-      <Box 
+      <Container
+        disableGutters
         sx={{
-          flex: 1, 
-          order: isMobile ? 1 : 2, 
-          display: 'flex', 
-          justifyContent: isMobile ? 'center' : 'flex-end',
-          // mt: isMobile ? 2 : 0 
+          position: "fixed",
+          bottom: "0",
+          display: { xs: 'flex', md: 'none' }
         }}
       >
-        <Box
-          component="img"
-          sx={{
-            width: '100%',
-            height: 'auto',
-            maxWidth: 400,
-          }}
-          alt="Flowers"
-          src="https://via.placeholder.com/400"
-        />
-      </Box>
-    </Container>
+        {isLoggedIn === "false" && <Button variant='outlined' color="primary">Login/SignUp</Button>}
+        <Button variant='outlined' color="secondary">Start your order</Button>
+      </Container>
+    </>
   );
 }
 
 export default Homepage;
+
+

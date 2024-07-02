@@ -17,8 +17,8 @@ import ShoppingCartSharpIcon from '@mui/icons-material/ShoppingCartSharp';
 const pages = ['Funeral Stationary', 'Resources', 'About'];
 const settings = ['View Orders', 'Update Contact Info', 'Update Business Info', 'Update Payment Info', 'Change Password', 'Logout'];
 
-function NavBar() {
-  const [user, setUser] = React.useState('false');
+function NavBar({isLoggedIn}) {
+  
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -88,7 +88,7 @@ function NavBar() {
               <ShoppingCartSharpIcon />
             </IconButton>
             {
-            user === 'true' &&  
+            isLoggedIn === 'true' &&  
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -140,7 +140,7 @@ function NavBar() {
               <ShoppingCartSharpIcon />
             </IconButton>
             {
-            user === 'true' ? 
+            isLoggedIn === 'true' ? 
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Amy Sharp" src="/static/images/avatar/2.jpg" />

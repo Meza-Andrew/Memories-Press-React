@@ -1,9 +1,9 @@
 import React from 'react'
 import NavBar from './NavBar'
 
-function Header() {
+function Header({isLoggedIn}) {
   return (
-    <NavBar />
+    <NavBar isLoggedIn={isLoggedIn}/>
   )
 }
 

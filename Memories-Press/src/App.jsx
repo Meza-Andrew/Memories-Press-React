@@ -4,11 +4,12 @@ import Layout from './layouts/Layout';
 import Homepage from './components/Homepage';
 
 function App() {
+  const [user, setUser] = React.useState('true');
   return (
     <BrowserRouter>
         <Routes>
-            <Route path='/' element={<Layout />}>
-                <Route index element={<Homepage />}/>
+            <Route path='/' element={<Layout isLoggedIn={user}/>}>
+                <Route index element={<Homepage isLoggedIn={user}/>}/>
             </Route>
         </Routes>
     </BrowserRouter>
