@@ -16,7 +16,7 @@ function Products() {
         <div key={product}>
           <Typography>{product}</Typography>
           {templates.map((template) => (
-            <PrayerCard key={template} />
+            <PrayerCard key={template} listDisplay={true}/>
           ))}
         </div>
       ))}

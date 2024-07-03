@@ -22,7 +22,6 @@ function Homepage({isLoggedIn}) {
           <PrayerCard
             key={product}
             title={product}
-            listDisplay={"false"}
           />
         ))}
       </Box>

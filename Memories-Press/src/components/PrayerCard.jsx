@@ -35,7 +35,7 @@ function PrayerCard({ title, listDisplay }) {
     </Card>
   );
 
-  if (!listDisplay) {
+  if (listDisplay) {
     return cardContent;
   }
 
