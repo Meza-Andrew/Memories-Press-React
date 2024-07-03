@@ -1,7 +1,7 @@
 import React from 'react'
 import Hero from './Hero';
 import PrayerCard from './PrayerCard';
-import { Typography } from '@mui/material';
+import { Stack, Typography, Box } from '@mui/material';
 
 function Products() {
   const products = ['Funeral prayer cards', 'Funeral picture boards', 'Funeral bookmarks', 'Memorial hearts'];
@@ -13,12 +13,14 @@ function Products() {
     <>
       <Hero heading={heading} subHeading={subHeading} heroImage={heroImage} />
       {products.map((product) => (
-        <div key={product}>
+        <Box key={product}>
           <Typography>{product}</Typography>
-          {templates.map((template) => (
-            <PrayerCard key={template} listDisplay={true}/>
-          ))}
-        </div>
+          <Stack direction="row">
+            {templates.map((template) => (
+              <PrayerCard key={template} listDisplay={true}/>
+            ))}
+          </Stack>
+        </Box>
       ))}
     </>
   );

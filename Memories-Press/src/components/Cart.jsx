@@ -13,6 +13,7 @@ function Cart() {
         Creating a personalized piece of funeral stationery can be a beautiful way to honor your loved one's memory. Start designing now to create something truly special and heartfelt. We're here to guide you every step of the way.
         </Typography>
         <CartItem/>
+        <CartItem/>
       </Box>
     </Container>
   )
