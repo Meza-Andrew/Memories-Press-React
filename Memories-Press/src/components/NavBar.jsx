@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -42,6 +43,10 @@ function NavBar({isLoggedIn, setUser}) {
     setUser((prevState) => !prevState);
   };
 
+  const formatString = (str) => {
+    return str.replace(/\s+/g, '').toLowerCase();
+  };
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -72,6 +77,8 @@ function NavBar({isLoggedIn, setUser}) {
               {pages.map((page) => (
                 <Button
                   key={page}
+                  component={RouterLink}
+                  to={`/${formatString(page)}`}
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: 'white' }}
                 >
@@ -129,7 +136,12 @@ function NavBar({isLoggedIn, setUser}) {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem 
+                  key={page} 
+                  component={RouterLink}
+                  to={`/${formatString(page)}`}
+                  onClick={handleCloseNavMenu}
+                >
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -175,7 +187,9 @@ function NavBar({isLoggedIn, setUser}) {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} component={RouterLink}
+                to={`/${formatString(setting)}`}
+                onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
