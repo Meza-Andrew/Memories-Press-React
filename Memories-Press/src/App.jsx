@@ -6,11 +6,11 @@ import Products from './components/Products';
 import Cart from './components/Cart';
 
 function App() {
-  const [user, setUser] = React.useState('true');
+  const [user, setUser] = React.useState(false);
   return (
     <BrowserRouter>
         <Routes>
-            <Route path='/' element={<Layout isLoggedIn={user} />}>
+            <Route path='/' element={<Layout isLoggedIn={user} setUser={setUser}/>}>
                 <Route index element={<Homepage isLoggedIn={user} />}/>
                 <Route path='cart' element={<Cart />}/>
                 <Route path='products'>

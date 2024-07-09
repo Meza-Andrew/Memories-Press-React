@@ -17,7 +17,7 @@ import ShoppingCartSharpIcon from '@mui/icons-material/ShoppingCartSharp';
 const pages = ['Funeral Stationary', 'Resources', 'About'];
 const settings = ['View Orders', 'Update Contact Info', 'Update Business Info', 'Update Payment Info', 'Change Password', 'Logout'];
 
-function NavBar({isLoggedIn}) {
+function NavBar({isLoggedIn, setUser}) {
   
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -38,11 +38,17 @@ function NavBar({isLoggedIn}) {
     setAnchorElUser(null);
   };
 
+  const handleUserLogin = () => {
+    setUser((prevState) => !prevState);
+  };
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <LocalFloristIcon sx={{ display: { xs: 'flex', md: 'flex' }, mr: 1 }} />
+          <IconButton onClick={handleUserLogin}>
+            <LocalFloristIcon sx={{ display: { xs: 'flex', md: 'flex' }, mr: 1 }} />
+          </IconButton>
           <Typography
             variant="h6"
             noWrap
@@ -87,7 +93,7 @@ function NavBar({isLoggedIn}) {
               <ShoppingCartSharpIcon />
             </IconButton>
             {
-            isLoggedIn === 'true' &&  
+            isLoggedIn &&  
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -139,7 +145,7 @@ function NavBar({isLoggedIn}) {
               <ShoppingCartSharpIcon />
             </IconButton>
             {
-            isLoggedIn === 'true' ? 
+            isLoggedIn ? 
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Amy Sharp" src="/static/images/avatar/2.jpg" />

@@ -33,7 +33,7 @@ function Homepage({isLoggedIn}) {
           display: { xs: 'flex', md: 'none' }
         }}
       >
-        {isLoggedIn === "false" && <Button variant='outlined' color="primary">Login/SignUp</Button>}
+        {!isLoggedIn && <Button variant='outlined' color="primary">Login/SignUp</Button>}
         <Button variant='outlined' color="secondary">Start your order</Button>
       </Container>
     </>
