@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import Link from '@mui/material/Link'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -54,6 +55,7 @@ function NavBar({isLoggedIn, setUser}) {
           <IconButton onClick={handleUserLogin}>
             <LocalFloristIcon sx={{ display: { xs: 'flex', md: 'flex' }, mr: 1 }} />
           </IconButton>
+          <Link component={RouterLink} to='/' color='inherit' underline='none'>
           <Typography
             variant="h6"
             noWrap
@@ -71,6 +73,7 @@ function NavBar({isLoggedIn, setUser}) {
           >
             Memories Press
           </Typography>
+          </Link>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
@@ -150,6 +153,8 @@ function NavBar({isLoggedIn, setUser}) {
 
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
           <IconButton
+              component={RouterLink}
+              to="/cart"
               size="large"
               aria-label="shopping cart"
               color="inherit"
