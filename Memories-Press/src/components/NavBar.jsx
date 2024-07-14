@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import Link from '@mui/material/Link'
+import Link from '@mui/material/Link';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -170,7 +170,7 @@ function NavBar({isLoggedIn, setUser}) {
             </Tooltip>
             :
             <Tooltip title="Login or signup">
-              <Button sx={{ p: 0, color: 'white' }}>
+              <Button component={RouterLink} sx={{ p: 0, color: 'white' }} to="/authinterface">
                 Login/Signup
               </Button>
             </Tooltip>

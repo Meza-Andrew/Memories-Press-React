@@ -13,6 +13,10 @@ import UpdateContactInfo from './components/UpdateContactInfo';
 import UpdateBusinessInfo from './components/UpdateBusinessInfo';
 import UpdatePaymentInfo from './components/UpdatePaymentInfo';
 import ChangePassword from './components/ChangePassword';
+import AuthInterface from './components/AuthInterface';
+import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
+import DualSignOn from './components/DualSignOn';
 
 function App() {
   const [user, setUser] = React.useState(false);
@@ -30,6 +34,10 @@ function App() {
                 <Route path='updatebusinessinfo' element={<UpdateBusinessInfo />}/>
                 <Route path='updatepaymentinfo' element={<UpdatePaymentInfo />}/>
                 <Route path='changepassword' element={<ChangePassword />}/>
+                <Route path='authinterface' element={<AuthInterface />}/>
+                <Route path='signin' element={<SignIn />}/>
+                <Route path='signup' element={<SignUp />}/>
+                <Route path='signinsignup' element={<DualSignOn />}/>
                 <Route path='products'>
                   <Route index element={<Products />}/>
                 </Route>
@@ -39,4 +47,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
