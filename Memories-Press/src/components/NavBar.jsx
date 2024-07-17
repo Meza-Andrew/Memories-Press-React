@@ -15,6 +15,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
 import ShoppingCartSharpIcon from '@mui/icons-material/ShoppingCartSharp';
+import { Divider } from '@mui/material';
 
 const pages = ['Funeral Stationary', 'Resources', 'About'];
 const settings = ['View Orders', 'Update Contact Info', 'Update Business Info', 'Update Payment Info', 'Change Password', 'Logout'];
@@ -47,6 +48,7 @@ function NavBar({isLoggedIn, setUser}) {
   const formatString = (str) => {
     return str.replace(/\s+/g, '').toLowerCase();
   };
+  
 
   return (
     <AppBar position="static">
@@ -59,7 +61,6 @@ function NavBar({isLoggedIn, setUser}) {
           <Typography
             variant="h6"
             noWrap
-            component="a"
             sx={{
               mr: 2,
               flexGrow: 1,
@@ -91,11 +92,10 @@ function NavBar({isLoggedIn, setUser}) {
               <Button variant="contained">Start your design</Button>
             </Box>
           </Box>
-
-          
-
           <Box sx={{ display: { xs: 'flex', md: 'none' }, ml: 'auto' }}>
             <IconButton
+              component={RouterLink}
+              to="/cart"
               size="large"
               aria-label="shopping cart"
               color="inherit"
@@ -138,6 +138,25 @@ function NavBar({isLoggedIn, setUser}) {
                 display: { xs: 'block', md: 'none' },
               }}
             >
+              {!isLoggedIn &&
+                <MenuItem 
+                  component={RouterLink}
+                  to={"/signin"}
+                  onClick={handleCloseNavMenu}
+                >
+                  <Typography textAlign="center">Log In</Typography>
+                </MenuItem>
+              }
+              {!isLoggedIn && 
+                <MenuItem 
+                  component={RouterLink}
+                  to={"/signup"}
+                  onClick={handleCloseNavMenu}
+                >
+                  <Typography textAlign="center">Sign Up</Typography>
+                </MenuItem>
+                }
+                {!isLoggedIn && <Divider/>}
               {pages.map((page) => (
                 <MenuItem 
                   key={page} 
@@ -169,11 +188,18 @@ function NavBar({isLoggedIn, setUser}) {
               </IconButton>
             </Tooltip>
             :
-            <Tooltip title="Login or signup">
-              <Button component={RouterLink} sx={{ p: 0, color: 'white' }} to="/authinterface">
-                Login/Signup
-              </Button>
-            </Tooltip>
+            <>
+              <Tooltip title="Login">
+                <Button component={RouterLink} sx={{ p: 0, color: 'white' }} to="/signin">
+                  <Typography>Login</Typography>
+                </Button>
+              </Tooltip>
+              <Tooltip title="Sign Up">
+                <Button component={RouterLink} sx={{ p: 0, color: 'white' }} to="/signup">
+                  <Typography>Sign Up</Typography>
+                </Button>
+              </Tooltip>
+            </>
             }
             <Menu
               sx={{ mt: '45px' }}
