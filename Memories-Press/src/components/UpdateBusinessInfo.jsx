@@ -1,11 +1,15 @@
 import { Container, Typography, TextField, Button, Box, Grid } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 function UpdateBusinessInfo() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = data => console.log(data);
-  console.log(errors);
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+  const [isEditing, setIsEditing] = useState(true);
+
+  const onSubmit = data => {
+    console.log(data);
+    setIsEditing(false);
+  };
 
   return (
     <Container
@@ -29,19 +33,22 @@ function UpdateBusinessInfo() {
             label="Business Name"
             variant="outlined"
             fullWidth
-            {...register("Business Name")}
+            disabled={!isEditing}
+            {...register("businessName")}
           />
           <TextField
             label="Business Address"
             variant="outlined"
             fullWidth
-            {...register("Business Address")}
+            disabled={!isEditing}
+            {...register("businessAddress")}
           />
           <TextField
             label="Business City"
             variant="outlined"
             fullWidth
-            {...register("Business City")}
+            disabled={!isEditing}
+            {...register("businessCity")}
           />
           <Grid container spacing={2}>
             <Grid item xs={6}>
@@ -49,7 +56,8 @@ function UpdateBusinessInfo() {
                 label="Business State"
                 variant="outlined"
                 fullWidth
-                {...register("Business State", {
+                disabled={!isEditing}
+                {...register("businessState", {
                   pattern: /\b(?:Alabama|Alaska|Arizona|Arkansas|California|Colorado|Connecticut|Delaware|Florida|Georgia|Hawaii|Idaho|Illinois|Indiana|Iowa|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Michigan|Minnesota|Mississippi|Missouri|Montana|Nevada|New\s+Hampshire|New\s+Jersey|New\s+Mexico|New\s+York|North\s+Carolina|North\s+Dakota|Ohio|Oklahoma|Oregon|Pennsylvania|Rhode\s+Island|South\s+Carolina|South\s+Dakota|Tennessee|Texas|Utah|Vermont|Virginia|Washington|West\s+Virginia|Wisconsin|Wyoming|Nebraska)/i,
                 })}
               />
@@ -59,19 +67,31 @@ function UpdateBusinessInfo() {
                 label="Business Zip"
                 variant="outlined"
                 fullWidth
-                {...register("Business Zip", { pattern: /^\d{5}(?:[-\s]\d{4})?$/i })}
+                disabled={!isEditing}
+                {...register("businessZip", { pattern: /^\d{5}(?:[-\s]\d{4})?$/i })}
               />
             </Grid>
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <Button color='secondary' variant="contained" fullWidth>
+              <Button
+                color='secondary'
+                variant="contained"
+                fullWidth
+                onClick={() => setIsEditing(true)}
+                disabled={isEditing}
+              >
                 Edit
               </Button>
             </Grid>
             <Grid item xs={6}>
-              <Button type="submit" variant="contained" fullWidth>
-                Save
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                disabled={!isEditing}
+              >
+                Update
               </Button>
             </Grid>
           </Grid>
