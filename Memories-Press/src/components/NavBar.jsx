@@ -18,7 +18,7 @@ import ShoppingCartSharpIcon from '@mui/icons-material/ShoppingCartSharp';
 import { Divider } from '@mui/material';
 
 const pages = ['Funeral Stationary', 'Resources', 'About'];
-const settings = ['View Orders', 'Update Contact Info', 'Update Business Info', 'Update Payment Info', 'Change Password', 'Logout'];
+const settings = ['View Orders', 'Update Info', 'Change Password', 'Logout'];
 
 function NavBar({isLoggedIn, setUser}) {
   

@@ -9,9 +9,7 @@ import About from './components/About';
 import Resources from './components/Resources';
 import FuneralStationary from './components/FuneralStationary';
 import ViewOrders from './components/ViewOrders';
-import UpdateContactInfo from './components/UpdateContactInfo';
-import UpdateBusinessInfo from './components/UpdateBusinessInfo';
-import UpdatePaymentInfo from './components/UpdatePaymentInfo';
+import UpdateInfo from './components/UpdateInfo';
 import ChangePassword from './components/ChangePassword';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
@@ -29,9 +27,7 @@ function App() {
                 <Route path='resources' element={<Resources />}/>
                 <Route path='funeralstationary' element={<FuneralStationary />}/>
                 <Route path='vieworders' element={<ViewOrders />}/>
-                <Route path='updatecontactinfo' element={<UpdateContactInfo />}/>
-                <Route path='updatebusinessinfo' element={<UpdateBusinessInfo />}/>
-                <Route path='updatepaymentinfo' element={<UpdatePaymentInfo />}/>
+                <Route path='updateinfo' element={<UpdateInfo />}/>
                 <Route path='changepassword' element={<ChangePassword />}/>
                 <Route path='signin' element={<SignIn />}/>
                 <Route path='signup' element={<SignUp />}/>
