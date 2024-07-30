@@ -231,7 +231,7 @@ function NavBar({isLoggedIn, setUser}) {
           </Toolbar>
         </Container>
       </AppBar>
-      <Toolbar /> {/* This Toolbar component adds padding to the main content below */}
+      <Toolbar sx={{marginBottom: 2}}/> {/* This Toolbar component adds padding to the main content below */}
     </>
   );
 }

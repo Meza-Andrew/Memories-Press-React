@@ -13,6 +13,7 @@ import UpdateInfo from './components/UpdateInfo';
 import ChangePassword from './components/ChangePassword';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
+import PrayerCardDesigner from './components/PrayerCardDesigner';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
                 <Route path='signup' element={<SignUp />}/>
                 <Route path='products'>
                   <Route index element={<Products />}/>
+                  <Route path='prayercardeditor' element={<PrayerCardDesigner />}/>
                 </Route>
             </Route>
         </Routes>
