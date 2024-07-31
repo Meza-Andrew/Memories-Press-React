@@ -19,21 +19,19 @@ import ShoppingCartSharpIcon from '@mui/icons-material/ShoppingCartSharp';
 import { Badge, Divider } from '@mui/material';
 import CartContext from './CartContext';
 
-
 const pages = ['Funeral Stationary', 'Resources', 'About'];
 const settings = ['View Orders', 'Update Info', 'Change Password', 'Logout'];
 
-function NavBar({isLoggedIn, setUser}) {
+function NavBar({ isLoggedIn, setUser }) {
+  const { cartItems } = React.useContext(CartContext);
 
-  const { cartItems, removeFromCart } = React.useContext(CartContext);
-  
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -53,18 +51,14 @@ function NavBar({isLoggedIn, setUser}) {
   const formatString = (str) => {
     return str.replace(/\s+/g, '').toLowerCase();
   };
-  
 
   return (
     <>
       <AppBar component="nav" position="fixed">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-          {/* <img src={logo} alt="Logo" style={{ display: 'flex', marginRight: 4, height: '36px', width: '36px' }} /> */}
             <Link component={RouterLink} to='/' color='inherit' underline='none'>
-  
-                <img src={logoText} alt="Logo" style={{ display: 'flex', marginRight: 4, padding: 4, height: '80px', width: '213px' }} />
-
+              <img src={logoText} alt="Logo" style={{ display: 'flex', marginRight: 4, padding: 4, height: '80px', width: '213px' }} />
             </Link>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
@@ -75,7 +69,7 @@ function NavBar({isLoggedIn, setUser}) {
                     component={RouterLink}
                     to={`/${formatString(page)}`}
                     onClick={handleCloseNavMenu}
-                    sx={{ my: 2,  color: 'inherit' }}
+                    sx={{ my: 2, color: 'inherit' }}
                   >
                     {page}
                   </Button>
@@ -83,6 +77,7 @@ function NavBar({isLoggedIn, setUser}) {
                 <Button variant="outline" component={RouterLink} to='funeralstationary/prayercardeditor'>Start your design</Button>
               </Box>
             </Box>
+
             <Box sx={{ display: { xs: 'flex', md: 'none' }, ml: 'auto' }}>
               <IconButton
                 component={RouterLink}
@@ -95,7 +90,7 @@ function NavBar({isLoggedIn, setUser}) {
                   <ShoppingCartSharpIcon />
                 </Badge>
               </IconButton>
-              {isLoggedIn &&  
+              {isLoggedIn &&
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -131,7 +126,7 @@ function NavBar({isLoggedIn, setUser}) {
                 }}
               >
                 {!isLoggedIn &&
-                  <MenuItem 
+                  <MenuItem
                     component={RouterLink}
                     to={"/signin"}
                     onClick={handleCloseNavMenu}
@@ -139,8 +134,8 @@ function NavBar({isLoggedIn, setUser}) {
                     <Typography textAlign="center">Log In</Typography>
                   </MenuItem>
                 }
-                {!isLoggedIn && 
-                  <MenuItem 
+                {!isLoggedIn &&
+                  <MenuItem
                     component={RouterLink}
                     to={"/signup"}
                     onClick={handleCloseNavMenu}
@@ -148,10 +143,10 @@ function NavBar({isLoggedIn, setUser}) {
                     <Typography textAlign="center">Sign Up</Typography>
                   </MenuItem>
                 }
-                {!isLoggedIn && <Divider/>}
+                {!isLoggedIn && <Divider />}
                 {pages.map((page) => (
-                  <MenuItem 
-                    key={page} 
+                  <MenuItem
+                    key={page}
                     component={RouterLink}
                     to={`/${formatString(page)}`}
                     onClick={handleCloseNavMenu}
@@ -159,6 +154,12 @@ function NavBar({isLoggedIn, setUser}) {
                     <Typography textAlign="center">{page}</Typography>
                   </MenuItem>
                 ))}
+                <MenuItem
+                onClick={handleUserLogin} 
+                sx={{ ml: 0, color: 'inherit' }}
+                >
+                  <Typography>{isLoggedIn ? 'Logout' : 'Login'}</Typography>
+                </MenuItem>
               </Menu>
             </Box>
 
@@ -174,26 +175,29 @@ function NavBar({isLoggedIn, setUser}) {
                   <ShoppingCartSharpIcon />
                 </Badge>
               </IconButton>
-              {isLoggedIn ? 
+              {isLoggedIn ?
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar alt="Amy Sharp" src="/static/images/avatar/2.jpg" />
                   </IconButton>
                 </Tooltip>
-              :
+                :
                 <>
                   <Tooltip title="Login">
-                    <Button component={RouterLink} sx={{ p: 0,  color: 'inherit' }} to="/signin">
+                    <Button component={RouterLink} sx={{ p: 0, color: 'inherit' }} to="/signin">
                       <Typography>Login</Typography>
                     </Button>
                   </Tooltip>
                   <Tooltip title="Sign Up">
-                    <Button component={RouterLink} sx={{ p: 0,  color: 'inherit' }} to="/signup">
+                    <Button component={RouterLink} sx={{ p: 0, color: 'inherit' }} to="/signup">
                       <Typography>Sign Up</Typography>
                     </Button>
                   </Tooltip>
                 </>
               }
+              <Button onClick={handleUserLogin} sx={{ ml: 2, color: 'inherit' }}>
+                {isLoggedIn ? 'Logout' : 'Login'}
+              </Button>
               <Menu
                 sx={{ mt: '45px' }}
                 id="menu-appbar"
@@ -211,8 +215,8 @@ function NavBar({isLoggedIn, setUser}) {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem 
-                    key={setting} 
+                  <MenuItem
+                    key={setting}
                     component={RouterLink}
                     to={`/${formatString(setting)}`}
                     onClick={handleCloseUserMenu}
@@ -225,7 +229,7 @@ function NavBar({isLoggedIn, setUser}) {
           </Toolbar>
         </Container>
       </AppBar>
-      <Toolbar sx={{marginBottom: 5}}/> {/* This Toolbar component adds padding to the main content below */}
+      <Toolbar sx={{ marginBottom: 5 }} /> {/* This Toolbar component adds padding to the main content below */}
     </>
   );
 }
