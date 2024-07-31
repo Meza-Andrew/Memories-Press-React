@@ -345,9 +345,9 @@ function PrayerCardDesigner() {
               <CompositionText top="55%" variant="h6">{name}</CompositionText>
               <CompositionText bottom="30%" variant="body1">{dob} - {dod}</CompositionText>
             </CompositionContainer>
-            <Button variant="contained" onClick={generateFinalImage} style={{ marginTop: '10px' }}>
+            {/* <Button variant="contained" onClick={generateFinalImage} style={{ marginTop: '10px' }}>
               Generate Final Image
-            </Button>
+            </Button> */}
           </FormContainer>
         );
       default:
@@ -379,8 +379,8 @@ function PrayerCardDesigner() {
               <Button disabled={activeStep === 0} onClick={handleBack}>
                 Back
               </Button>
-              <Button variant="contained" color="primary" onClick={handleNext}>
-                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+              <Button variant="contained" color="primary" onClick={activeStep === steps.length - 1 ? generateFinalImage : handleNext}>
+                {activeStep === steps.length - 1 ? 'Add to cart' : 'Next'}
               </Button>
             </Box>
           </div>

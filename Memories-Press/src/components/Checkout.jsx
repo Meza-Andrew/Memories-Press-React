@@ -119,8 +119,8 @@ export default function Checkout() {
   };
 
   return (
-    <ThemeProvider theme={showCustomTheme ? checkoutTheme : defaultTheme}>
-      <CssBaseline />
+
+
       <Grid container sx={{ height: { xs: '100%', sm: '100dvh' } }}>
         <Grid
           item
@@ -396,10 +396,5 @@ export default function Checkout() {
           </Box>
         </Grid>
       </Grid>
-      {/* <ToggleCustomTheme
-        toggleCustomTheme={toggleCustomTheme}
-        showCustomTheme={showCustomTheme}
-      /> */}
-    </ThemeProvider>
   );
 }

@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import Link from '@mui/material/Link';
 import { Container, Button, useTheme, useMediaQuery, Box } from '@mui/material';
 import Hero from './Hero';
 import PrayerCard from './PrayerCard';
@@ -11,6 +13,7 @@ function Homepage({isLoggedIn}) {
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm')); 
+  
   return (
     <>
       <Hero heading={heading} subHeading={subHeading} heroImage={heroImage}/>
@@ -25,21 +28,35 @@ function Homepage({isLoggedIn}) {
           />
         ))}
       </Box>
-      <Container
-        disableGutters
-        sx={{
-          position: "fixed",
-          bottom: "0",
-          display: { xs: 'flex', md: 'none' }
-        }}
-      >
-        {!isLoggedIn && <Button variant='outlined' color="primary">Login/SignUp</Button>}
-        <Button variant='outlined' color="secondary">Start your order</Button>
-      </Container>
+      {isMobile && (
+        <Container
+          disableGutters
+          sx={{
+            position: "fixed",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: theme.palette.background.paper,
+            padding: theme.spacing(1),
+            boxShadow: theme.shadows[3],
+            zIndex: theme.zIndex.appBar,
+            gap: 2
+          }}
+        >
+          {/* {!isLoggedIn && <Button variant='contained' color="primary">SignUp</Button>} */}
+          <Button 
+            component={RouterLink}
+            to='funeralstationary'
+            variant='contained' 
+            color="secondary" 
+            size='large'>Start your order</Button>
+        </Container>
+      )}
     </>
   );
 }
 
 export default Homepage;
-
-

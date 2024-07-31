@@ -41,9 +41,9 @@ export default function SignIn() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
+
         <Box
           sx={{
             marginTop: 8,
@@ -107,6 +107,5 @@ export default function SignIn() {
         </Box>
         {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
       </Container>
-    </ThemeProvider>
   );
 }

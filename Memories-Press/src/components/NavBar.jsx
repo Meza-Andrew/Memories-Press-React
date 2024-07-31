@@ -13,10 +13,11 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
+import logoPrinting from './assets/logoPrinting.png';
 import ShoppingCartSharpIcon from '@mui/icons-material/ShoppingCartSharp';
 import { Badge, Divider } from '@mui/material';
 import CartContext from './CartContext';
+
 
 const pages = ['Funeral Stationary', 'Resources', 'About'];
 const settings = ['View Orders', 'Update Info', 'Change Password', 'Logout'];
@@ -58,9 +59,8 @@ function NavBar({isLoggedIn, setUser}) {
       <AppBar component="nav" position="fixed">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <IconButton onClick={handleUserLogin}>
-              <LocalFloristIcon sx={{ display: { xs: 'flex', md: 'flex' }, mr: 0 }} />
-            </IconButton>
+          <img src={logoPrinting} alt="Logo" style={{ display: 'flex', marginRight: 0, height: '24px', width: '24px' }} />
+          <Logo style={{ display: 'flex', marginRight: 0, height: '24px', width: '24px' }} />
             <Link component={RouterLink} to='/' color='inherit' underline='none'>
               <Typography
                 variant="h6"
@@ -88,12 +88,12 @@ function NavBar({isLoggedIn, setUser}) {
                     component={RouterLink}
                     to={`/${formatString(page)}`}
                     onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: 'white' }}
+                    sx={{ my: 2,  color: 'inherit' }}
                   >
                     {page}
                   </Button>
                 ))}
-                <Button variant="contained" component={RouterLink} to='funeralstationary/prayercardeditor'>Start your design</Button>
+                <Button variant="outline" component={RouterLink} to='funeralstationary/prayercardeditor'>Start your design</Button>
               </Box>
             </Box>
             <Box sx={{ display: { xs: 'flex', md: 'none' }, ml: 'auto' }}>
@@ -196,12 +196,12 @@ function NavBar({isLoggedIn, setUser}) {
               :
                 <>
                   <Tooltip title="Login">
-                    <Button component={RouterLink} sx={{ p: 0, color: 'white' }} to="/signin">
+                    <Button component={RouterLink} sx={{ p: 0,  color: 'inherit' }} to="/signin">
                       <Typography>Login</Typography>
                     </Button>
                   </Tooltip>
                   <Tooltip title="Sign Up">
-                    <Button component={RouterLink} sx={{ p: 0, color: 'white' }} to="/signup">
+                    <Button component={RouterLink} sx={{ p: 0,  color: 'inherit' }} to="/signup">
                       <Typography>Sign Up</Typography>
                     </Button>
                   </Tooltip>
