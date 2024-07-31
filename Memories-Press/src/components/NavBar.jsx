@@ -13,7 +13,8 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import logoPrinting from './assets/logoPrinting.png';
+import logo from '../assets/logoPrinting.png';
+import logoText from '../assets/logo.png';
 import ShoppingCartSharpIcon from '@mui/icons-material/ShoppingCartSharp';
 import { Badge, Divider } from '@mui/material';
 import CartContext from './CartContext';
@@ -59,25 +60,11 @@ function NavBar({isLoggedIn, setUser}) {
       <AppBar component="nav" position="fixed">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-          <img src={logoPrinting} alt="Logo" style={{ display: 'flex', marginRight: 0, height: '24px', width: '24px' }} />
-          <Logo style={{ display: 'flex', marginRight: 0, height: '24px', width: '24px' }} />
+          {/* <img src={logo} alt="Logo" style={{ display: 'flex', marginRight: 4, height: '36px', width: '36px' }} /> */}
             <Link component={RouterLink} to='/' color='inherit' underline='none'>
-              <Typography
-                variant="h6"
-                noWrap
-                sx={{
-                  mr: 2,
-                  flexGrow: 1,
-                  display: { xs: 'flex', md: 'flex' },
-                  fontFamily: 'monospace',
-                  fontWeight: 700,
-                  letterSpacing: '.3rem',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                }}
-              >
-                Memories Press
-              </Typography>
+  
+                <img src={logoText} alt="Logo" style={{ display: 'flex', marginRight: 4, padding: 4, height: '80px', width: '213px' }} />
+
             </Link>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
@@ -238,7 +225,7 @@ function NavBar({isLoggedIn, setUser}) {
           </Toolbar>
         </Container>
       </AppBar>
-      <Toolbar sx={{marginBottom: 2}}/> {/* This Toolbar component adds padding to the main content below */}
+      <Toolbar sx={{marginBottom: 5}}/> {/* This Toolbar component adds padding to the main content below */}
     </>
   );
 }
