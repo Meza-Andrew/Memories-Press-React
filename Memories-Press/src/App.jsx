@@ -1,7 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './layouts/Layout';
-
 import Homepage from './components/Homepage';
 import Products from './components/Products';
 import Cart from './components/Cart';
@@ -14,6 +13,7 @@ import ChangePassword from './components/ChangePassword';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import PrayerCardDesigner from './components/PrayerCardDesigner';
+import Checkout from './components/Checkout';
 
 
 function App() {
@@ -26,13 +26,14 @@ function App() {
                 <Route path='cart' element={<Cart />}/>
                 <Route path='about' element={<About />}/>
                 <Route path='resources' element={<Resources />}/>
-                <Route path='funeralstationary' element={<FuneralStationary />}/>
+                {/* <Route path='funeralstationary' element={<FuneralStationary />}/> */}
                 <Route path='vieworders' element={<ViewOrders />}/>
                 <Route path='updateinfo' element={<UpdateInfo />}/>
                 <Route path='changepassword' element={<ChangePassword />}/>
                 <Route path='signin' element={<SignIn />}/>
                 <Route path='signup' element={<SignUp />}/>
-                <Route path='products'>
+                <Route path='checkout' element={<Checkout/>}/>
+                <Route path='funeralstationary'>
                   <Route index element={<Products />}/>
                   <Route path='prayercardeditor' element={<PrayerCardDesigner />}/>
                 </Route>

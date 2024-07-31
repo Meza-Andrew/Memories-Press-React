@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import {
   Container,
   Stepper,
@@ -16,6 +16,7 @@ import SwipeableViews from 'react-swipeable-views';
 import { useMedia } from 'react-use';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import { styled } from '@mui/system';
+import CartContext from './CartContext';
 
 const FormContainer = styled('div')({
   display: 'flex',
@@ -99,6 +100,8 @@ function PrayerCardDesigner() {
   const [smallScaleImage, setSmallScaleImage] = useState(null); // New state for small-scale image
   const [currentColorIndex, setCurrentColorIndex] = useState(0);
 
+  const { addToCart } = useContext(CartContext);
+
   const handleNext = () => setActiveStep((prevActiveStep) => prevActiveStep + 1);
   const handleBack = () => setActiveStep((prevActiveStep) => prevActiveStep - 1);
   const handleReset = () => {
@@ -142,7 +145,7 @@ function PrayerCardDesigner() {
     try {
       // Generate high-resolution image
       const highResCanvas = await html2canvas(element, {
-        scale: 2, // Increase the scale to get higher resolution
+        scale: 3, // Increase the scale to get higher resolution
         useCORS: true,
         backgroundColor: null, // Ensures background is transparent if needed
       });
@@ -153,7 +156,7 @@ function PrayerCardDesigner() {
 
       // Generate small-scale image
       const smallScaleCanvas = await html2canvas(element, {
-        scale: 0.6, // Decrease the scale for a very small image
+        scale: 0.9, // Decrease the scale for a very small image
         useCORS: true,
         backgroundColor: null,
       });
@@ -162,16 +165,17 @@ function PrayerCardDesigner() {
       smallScaleImg.src = smallScaleCanvas.toDataURL("image/png");
       setSmallScaleImage(smallScaleImg.src);
 
-      // Optionally, create download links
-      // const highResLink = document.createElement('a');
-      // highResLink.href = highResImg.src;
-      // highResLink.download = 'final_composition_high_res.png';
-      // highResLink.click();
+      // Add the item to the cart
+      addToCart({
+        name,
+        dob,
+        dod,
+        backgroundColor,
+        finalImage: highResImg.src,
+        smallScaleImage: smallScaleImg.src
+      });
 
-      // const smallScaleLink = document.createElement('a');
-      // smallScaleLink.href = smallScaleImg.src;
-      // smallScaleLink.download = 'final_composition_small_scale.png';
-      // smallScaleLink.click();
+      handleReset(); // Reset the designer after adding to cart
     } catch (error) {
       console.error('Error generating final images:', error);
     }
@@ -344,8 +348,6 @@ function PrayerCardDesigner() {
             <Button variant="contained" onClick={generateFinalImage} style={{ marginTop: '10px' }}>
               Generate Final Image
             </Button>
-            {finalImage && <img src={finalImage} alt="Final Composition" style={{ marginTop: '10px' }} />}
-            {smallScaleImage && <img src={smallScaleImage} alt="Small Scale Composition" style={{ marginTop: '10px' }} />}
           </FormContainer>
         );
       default:

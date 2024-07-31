@@ -8,7 +8,7 @@ function Layout({isLoggedIn, setUser}) {
     <>
       <Header isLoggedIn={isLoggedIn} setUser={setUser}/>
       <Outlet />
-      <Footer/>
+      {/* <Footer/> */}
     </>
   )
 }

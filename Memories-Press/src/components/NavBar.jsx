@@ -15,12 +15,15 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
 import ShoppingCartSharpIcon from '@mui/icons-material/ShoppingCartSharp';
-import { Divider } from '@mui/material';
+import { Badge, Divider } from '@mui/material';
+import CartContext from './CartContext';
 
 const pages = ['Funeral Stationary', 'Resources', 'About'];
 const settings = ['View Orders', 'Update Info', 'Change Password', 'Logout'];
 
 function NavBar({isLoggedIn, setUser}) {
+
+  const { cartItems, removeFromCart } = React.useContext(CartContext);
   
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -90,7 +93,7 @@ function NavBar({isLoggedIn, setUser}) {
                     {page}
                   </Button>
                 ))}
-                <Button variant="contained">Start your design</Button>
+                <Button variant="contained" component={RouterLink} to='funeralstationary/prayercardeditor'>Start your design</Button>
               </Box>
             </Box>
             <Box sx={{ display: { xs: 'flex', md: 'none' }, ml: 'auto' }}>
@@ -101,7 +104,9 @@ function NavBar({isLoggedIn, setUser}) {
                 aria-label="shopping cart"
                 color="inherit"
               >
-                <ShoppingCartSharpIcon />
+                <Badge badgeContent={cartItems.length} color="error">
+                  <ShoppingCartSharpIcon />
+                </Badge>
               </IconButton>
               {isLoggedIn &&  
                 <Tooltip title="Open settings">
@@ -178,7 +183,9 @@ function NavBar({isLoggedIn, setUser}) {
                 aria-label="shopping cart"
                 color="inherit"
               >
-                <ShoppingCartSharpIcon />
+                <Badge badgeContent={cartItems.length} color="error">
+                  <ShoppingCartSharpIcon />
+                </Badge>
               </IconButton>
               {isLoggedIn ? 
                 <Tooltip title="Open settings">
