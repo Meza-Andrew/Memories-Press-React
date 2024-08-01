@@ -83,7 +83,7 @@ const ArrowContainer = styled('div')({
 
 const steps = ['Select Background', 'Enter Name', 'Upload Photo', 'Crop Photo', 'Provide Lifespan', 'Generate Final Image'];
 
-const backgroundColors = ['#ffebcd', '#ffe4e1', '#fafad2', '#992D48', '#FFA0F7'];
+const backgroundColors = ['#A9D27D', '#689834', '#4A6222', '#EFC8D5', '#D3648B', '#653948'];
 
 function PrayerCardDesigner() {
   const isMobile = useMedia('(max-width: 600px)');

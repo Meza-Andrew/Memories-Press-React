@@ -85,14 +85,21 @@ function NavBar({ isLoggedIn, setUser }) {
                 size="large"
                 aria-label="shopping cart"
                 color="inherit"
+                sx={{marginRight: 0.5}}
               >
-                <Badge badgeContent={cartItems.length} color="error">
+                <Badge badgeContent={cartItems.length} color="primary">
                   <ShoppingCartSharpIcon />
                 </Badge>
               </IconButton>
               {isLoggedIn &&
                 <Tooltip title="Open settings">
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <IconButton 
+                    onClick={handleOpenUserMenu} 
+                    sx={{ 
+                      p: 0,
+                      marginRight: 0.5 
+                    }}
+                  >
                     <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                   </IconButton>
                 </Tooltip>
@@ -170,14 +177,21 @@ function NavBar({ isLoggedIn, setUser }) {
                 size="large"
                 aria-label="shopping cart"
                 color="inherit"
+                sx={{marginRight: 0.5}}
               >
-                <Badge badgeContent={cartItems.length} color="error">
+                <Badge badgeContent={cartItems.length} color="primary">
                   <ShoppingCartSharpIcon />
                 </Badge>
               </IconButton>
               {isLoggedIn ?
                 <Tooltip title="Open settings">
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <IconButton 
+                    onClick={handleOpenUserMenu} 
+                    sx={{ 
+                      p: 0, 
+                      marginRight: 0.5 
+                    }}
+                  >
                     <Avatar alt="Amy Sharp" src="/static/images/avatar/2.jpg" />
                   </IconButton>
                 </Tooltip>
