@@ -66,7 +66,7 @@ function FuneralStationary() {
                   transition: 'transform 0.3s ease',
                 }}
               />
-              {/* <Typography variant="h5" mt={isDesktop ? 2 : 1}>
+              {/* <Typography variant="h5" mt={isDesktop ? 0 : 1} marginLeft={isDesktop ? 2 : 2}>
                 {product.label}
               </Typography> */}
             </Box>
