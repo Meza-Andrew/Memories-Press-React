@@ -4,6 +4,7 @@ import Link from '@mui/material/Link';
 import { Container, Button, useTheme, useMediaQuery, Box } from '@mui/material';
 import Hero from './Hero';
 import PrayerCard from './PrayerCard';
+import FuneralStationary from './FuneralStationary';
 
 function Homepage({isLoggedIn}) {
   const products = ['Funeral prayer cards', 'Funeral picture boards', 'Funeral bookmarks', 'Memorial hearts'];
@@ -17,17 +18,7 @@ function Homepage({isLoggedIn}) {
   return (
     <>
       <Hero heading={heading} subHeading={subHeading} heroImage={heroImage}/>
-      <Box sx={{
-        display: 'flex', 
-        flexDirection: isMobile ? 'column' : 'row',
-      }}>
-        {products.map((product) => (
-          <PrayerCard
-            key={product}
-            title={product}
-          />
-        ))}
-      </Box>
+      <FuneralStationary />
       {isMobile && (
         <Container
           disableGutters

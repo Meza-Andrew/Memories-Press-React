@@ -12,7 +12,6 @@ import {
 } from '@mui/material';
 import html2canvas from 'html2canvas';
 import Cropper from 'react-easy-crop';
-import SwipeableViews from 'react-swipeable-views';
 import { useMedia } from 'react-use';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import { styled } from '@mui/system';
@@ -36,11 +35,11 @@ const BackgroundCard = styled('div')(({ backgroundColor }) => ({
 }));
 
 const ImagePreview = styled('img')({
-  width: '180px',
-  height: '180px',
+  width: '160px',
+  height: '160px',
   borderRadius: '50%',
   objectFit: 'cover',
-  marginTop: '30px',
+  marginTop: '35px',
 });
 
 const CompositionContainer = styled('div')(({ backgroundColor }) => ({
@@ -62,7 +61,7 @@ const CompositionText = styled(Typography)(({ top, left, right, bottom }) => ({
   width: '100%',
   textAlign: 'center',
   zIndex: 2,
-  pointerEvents: 'none', // Prevent text from blocking mouse events on the image
+  pointerEvents: 'none',
 }));
 
 const CropContainer = styled('div')({
@@ -75,15 +74,23 @@ const CropContainer = styled('div')({
 const ArrowContainer = styled('div')({
   display: 'flex',
   justifyContent: 'space-between',
-  width: '300px',
+  width: '100%',
   position: 'absolute',
   top: '50%',
   transform: 'translateY(-50%)',
+  zIndex: 1,
 });
 
-const steps = ['Select Background', 'Enter Name', 'Upload Photo', 'Crop Photo', 'Provide Lifespan', 'Generate Final Image'];
+const steps = ['Select Background', 'Enter Name', 'Upload Photo', 'Crop Photo', 'Provide Lifespan', 'Select Proverb', 'Generate Final Image'];
 
 const backgroundColors = ['#A9D27D', '#689834', '#4A6222', '#EFC8D5', '#D3648B', '#653948'];
+const proverbs = [
+  'Life is what happens when you’re busy making other plans.',
+  'The purpose of our lives is to be happy.',
+  'Get busy living or get busy dying.',
+  'You only live once, but if you do it right, once is enough.',
+  'Many of life’s failures are people who did not realize how close they were to success when they gave up.',
+];
 
 function PrayerCardDesigner() {
   const isMobile = useMedia('(max-width: 600px)');
@@ -97,8 +104,9 @@ function PrayerCardDesigner() {
   const [dob, setDob] = useState('');
   const [dod, setDod] = useState('');
   const [finalImage, setFinalImage] = useState(null);
-  const [smallScaleImage, setSmallScaleImage] = useState(null); // New state for small-scale image
+  const [smallScaleImage, setSmallScaleImage] = useState(null);
   const [currentColorIndex, setCurrentColorIndex] = useState(0);
+  const [currentProverbIndex, setCurrentProverbIndex] = useState(0);
 
   const { addToCart } = useContext(CartContext);
 
@@ -114,8 +122,9 @@ function PrayerCardDesigner() {
     setDob('');
     setDod('');
     setFinalImage(null);
-    setSmallScaleImage(null); // Reset small-scale image
+    setSmallScaleImage(null);
     setCurrentColorIndex(0);
+    setCurrentProverbIndex(0);
   };
 
   const handleBackgroundColorChange = (index) => {
@@ -128,7 +137,7 @@ function PrayerCardDesigner() {
     const file = e.target.files[0];
     if (file) {
       setPhoto(URL.createObjectURL(file));
-      handleNext(); // Automatically proceed to the cropping step
+      handleNext();
     }
   };
 
@@ -143,20 +152,19 @@ function PrayerCardDesigner() {
     const element = document.querySelector("#final-composition");
 
     try {
-      // Generate high-resolution image
       const highResCanvas = await html2canvas(element, {
-        scale: 3, // Increase the scale to get higher resolution
+        scale: 3,
         useCORS: true,
-        backgroundColor: null, // Ensures background is transparent if needed
+        backgroundColor: null,
       });
 
       const highResImg = new Image();
       highResImg.src = highResCanvas.toDataURL("image/png");
       setFinalImage(highResImg.src);
 
-      // Generate small-scale image
+
       const smallScaleCanvas = await html2canvas(element, {
-        scale: 0.9, // Decrease the scale for a very small image
+        scale: 0.9,
         useCORS: true,
         backgroundColor: null,
       });
@@ -165,7 +173,6 @@ function PrayerCardDesigner() {
       smallScaleImg.src = smallScaleCanvas.toDataURL("image/png");
       setSmallScaleImage(smallScaleImg.src);
 
-      // Add the item to the cart
       addToCart({
         name,
         dob,
@@ -175,7 +182,7 @@ function PrayerCardDesigner() {
         smallScaleImage: smallScaleImg.src
       });
 
-      handleReset(); // Reset the designer after adding to cart
+      handleReset();
     } catch (error) {
       console.error('Error generating final images:', error);
     }
@@ -229,35 +236,50 @@ function PrayerCardDesigner() {
     handleBackgroundColorChange(newIndex);
   };
 
+  const goToNextProverb = () => {
+    const newIndex = (currentProverbIndex + 1) % proverbs.length;
+    setCurrentProverbIndex(newIndex);
+  };
+
+  const goToPreviousProverb = () => {
+    const newIndex = (currentProverbIndex - 1 + proverbs.length) % proverbs.length;
+    setCurrentProverbIndex(newIndex);
+  };
+
   const getStepContent = (step) => {
     switch (step) {
       case 0:
         return (
           <FormContainer>
-            {isMobile ? (
-              <SwipeableViews
-                index={currentColorIndex}
-                onChangeIndex={handleBackgroundColorChange}
-                enableMouseEvents
-                style={{ width: '300px', height: '400px' }}
-              >
-                {backgroundColors.map((color, index) => (
-                  <BackgroundCard key={index} backgroundColor={color} />
-                ))}
-              </SwipeableViews>
-            ) : (
-              <div style={{ position: 'relative', width: '300px', height: '400px' }}>
-                <BackgroundCard backgroundColor={backgroundColor} />
-                <ArrowContainer>
-                  <IconButton onClick={goToPreviousColor}>
-                    <ArrowBack />
-                  </IconButton>
-                  <IconButton onClick={goToNextColor}>
-                    <ArrowForward />
-                  </IconButton>
-                </ArrowContainer>
-              </div>
-            )}
+            <div style={{ position: 'relative', width: '300px', height: '400px' }}>
+              {isMobile ? (
+                <>
+                  <div style={{ position: 'relative', width: '300px', height: '400px' }}>
+                    <BackgroundCard backgroundColor={backgroundColors[currentColorIndex]} />
+                    <ArrowContainer>
+                      <IconButton onClick={goToPreviousColor}>
+                        <ArrowBack />
+                      </IconButton>
+                      <IconButton onClick={goToNextColor}>
+                        <ArrowForward />
+                      </IconButton>
+                    </ArrowContainer>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <BackgroundCard backgroundColor={backgroundColor} />
+                  <ArrowContainer>
+                    <IconButton onClick={goToPreviousColor}>
+                      <ArrowBack />
+                    </IconButton>
+                    <IconButton onClick={goToNextColor}>
+                      <ArrowForward />
+                    </IconButton>
+                  </ArrowContainer>
+                </>
+              )}
+            </div>
           </FormContainer>
         );
       case 1:
@@ -265,8 +287,8 @@ function PrayerCardDesigner() {
           <FormContainer>
             <CompositionContainer backgroundColor={backgroundColor}>
               {photo && <ImagePreview src={photo} alt="Cropped" />}
-              {name && <CompositionText top="55%" variant="h6">{name}</CompositionText>}
-              {dob && <CompositionText bottom="30%" variant="body1">{dob} - {dod}</CompositionText>}
+              {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
+              {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
             </CompositionContainer>
             <TextField
               label="Enter your loved one's name"
@@ -281,8 +303,8 @@ function PrayerCardDesigner() {
           <FormContainer>
             <CompositionContainer backgroundColor={backgroundColor}>
               {photo && <ImagePreview src={photo} alt="Cropped" />}
-              {name && <CompositionText top="55%" variant="h6">{name}</CompositionText>}
-              {dob && <CompositionText bottom="30%" variant="body1">{dob} - {dod}</CompositionText>}
+              {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
+              {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
             </CompositionContainer>
             <Button variant="contained" component="label" style={{ marginTop: '20px' }}>
               Upload Photo
@@ -316,8 +338,8 @@ function PrayerCardDesigner() {
           <FormContainer>
             <CompositionContainer backgroundColor={backgroundColor}>
               {photo && <ImagePreview src={photo} alt="Cropped" />}
-              {name && <CompositionText top="55%" variant="h6">{name}</CompositionText>}
-              {dob && <CompositionText bottom="30%" variant="body1">{dob} - {dod}</CompositionText>}
+              {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
+              {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
             </CompositionContainer>
             <TextField
               label="Date of Birth"
@@ -340,14 +362,37 @@ function PrayerCardDesigner() {
       case 5:
         return (
           <FormContainer>
+            <CompositionContainer backgroundColor={backgroundColor}>
+              {photo && <ImagePreview src={photo} alt="Cropped" />}
+              <CompositionText top="50%" variant="h6">{name}</CompositionText>
+              <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>
+              <div style={{ position: 'relative', width: '300px', height: '300px' }}>
+                <Box
+                  sx={{ position: 'absolute', top: '29%', left: 0, right: 0}}
+                >
+                  <Typography variant="body2" style={{ textAlign: 'center' }}>{proverbs[currentProverbIndex]}</Typography>
+                </Box>
+                <ArrowContainer>
+                  <IconButton onClick={goToPreviousProverb}>
+                    <ArrowBack />
+                  </IconButton>
+                  <IconButton onClick={goToNextProverb}>
+                    <ArrowForward />
+                  </IconButton>
+                </ArrowContainer>
+              </div>
+            </CompositionContainer>
+          </FormContainer>
+        );
+      case 6:
+        return (
+          <FormContainer>
             <CompositionContainer id="final-composition" backgroundColor={backgroundColor}>
               {photo && <ImagePreview src={photo} alt="Cropped" />}
-              <CompositionText top="55%" variant="h6">{name}</CompositionText>
-              <CompositionText bottom="30%" variant="body1">{dob} - {dod}</CompositionText>
+              <CompositionText top="50%" variant="h6">{name}</CompositionText>
+              <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>
+              <CompositionText top="69%" variant="body2">{proverbs[currentProverbIndex]}</CompositionText>
             </CompositionContainer>
-            {/* <Button variant="contained" onClick={generateFinalImage} style={{ marginTop: '10px' }}>
-              Generate Final Image
-            </Button> */}
           </FormContainer>
         );
       default:

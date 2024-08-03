@@ -8,10 +8,10 @@ function Cart() {
   const { cartItems, removeFromCart } = useContext(CartContext);
 
   return (
-    <Box>
+    <Box display="flex" flexDirection="column" alignItems="center">
       {/* <Typography variant="h4" gutterBottom>Cart</Typography> */}
       {cartItems.map((item, index) => (
-        <Card key={index} sx={{ display: 'flex', mb: 2 }}>
+        <Card key={index} sx={{ display: 'flex', mb: 2, maxWidth: "70%", width: "90%", maxWidth: "600px", padding: 1 }}>
           <CardMedia component="img" image={item.smallScaleImage} alt="Small scale" sx={{ width: 150 }} />
           <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', p: 2 }}>
             <CardContent>
@@ -24,7 +24,7 @@ function Cart() {
           </Box>
         </Card>
       ))}
-      <Box>
+      <Box mt={4}>
         <Tooltip title="Checkout">
           <Button component={RouterLink} variant='contained' color='primary' to="/checkout">
             <Typography>Checkout</Typography>

@@ -58,7 +58,7 @@ function NavBar({ isLoggedIn, setUser }) {
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Link component={RouterLink} to='/' color='inherit' underline='none'>
-              <img src={logoText} alt="Logo" style={{ display: 'flex', marginRight: 4, padding: 4, height: '80px', width: '213px' }} />
+              <img src={logoText} alt="Logo" style={{ display: 'flex', marginRight: 4, padding: 6, height: '73px', width: '194px' }} />
             </Link>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
@@ -74,7 +74,7 @@ function NavBar({ isLoggedIn, setUser }) {
                     {page}
                   </Button>
                 ))}
-                <Button variant="outline" component={RouterLink} to='funeralstationary/prayercardeditor'>Start your design</Button>
+                {/* <Button variant="outline" component={RouterLink} to='funeralstationary/prayercardeditor'>Start your design</Button> */}
               </Box>
             </Box>
 

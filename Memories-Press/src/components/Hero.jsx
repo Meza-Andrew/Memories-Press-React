@@ -16,12 +16,16 @@ function Hero({heading, subHeading, heroImage}) {
         justifyContent: 'space-between', 
         textAlign: isMobile ? 'center' : 'left', 
         gap: 0,
+        marginBottom: isMobile ? -25 : -20,
+        marginTop: isMobile ? 10 : -25
       }}
     >
       <Box 
         sx={{ 
           flex: 1, 
           order: isMobile ? 2 : 1,
+          marginTop: isMobile ? 0 : 0,
+          marginLeft: isMobile ? 0 : 0
           // p: isMobile ? 2 : 4 
         }}
       >
