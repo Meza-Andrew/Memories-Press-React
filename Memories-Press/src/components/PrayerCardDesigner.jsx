@@ -28,7 +28,7 @@ const BackgroundCard = styled('div')(({ backgroundColor }) => ({
   width: '300px',
   height: '420px',
   backgroundColor,
-  borderRadius: '0px',
+  borderRadius: '2px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center'
@@ -46,6 +46,7 @@ const CompositionContainer = styled('div')(({ backgroundColor }) => ({
   width: '300px',
   height: '420px',
   padding: '0px',
+  borderRadius: '2px',
   textAlign: 'center',
   position: 'relative',
   overflow: 'hidden',
@@ -67,7 +68,8 @@ const CompositionText = styled(Typography)(({ top, left, right, bottom }) => ({
 const CropContainer = styled('div')({
   position: 'relative',
   width: '300px',
-  height: '400px',
+  height: '420px',
+  borderRadius: '2px',
   background: '#333',
 });
 
@@ -341,22 +343,24 @@ function PrayerCardDesigner() {
               {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
             </CompositionContainer>
-            <TextField
-              label="Date of Birth"
-              type="date"
-              InputLabelProps={{ shrink: true }}
-              value={dob}
-              onChange={handleDobChange}
-              style={{ marginTop: '20px' }}
-            />
-            <TextField
-              label="Date of Death"
-              type="date"
-              InputLabelProps={{ shrink: true }}
-              value={dod}
-              onChange={handleDodChange}
-              style={{ marginTop: '10px' }}
-            />
+            <Box sx={{ display: 'flex', gap: 2 }}>
+      <TextField
+        label="Date of Birth"
+        type="date"
+        InputLabelProps={{ shrink: true }}
+        value={dob}
+        onChange={handleDobChange}
+        sx={{ marginTop: '20px' }}
+      />
+      <TextField
+        label="Date of Death"
+        type="date"
+        InputLabelProps={{ shrink: true }}
+        value={dod}
+        onChange={handleDodChange}
+        sx={{ marginTop: '20px' }}
+      />
+    </Box>
           </FormContainer>
         );
       case 5:
@@ -401,7 +405,7 @@ function PrayerCardDesigner() {
   };
 
   return (
-    <Container>
+    <Container sx={{marginTop: 6}}>
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label) => (
           <Step key={label}>

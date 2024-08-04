@@ -12,7 +12,7 @@ function Products() {
   return (
     <>
       <Hero heading={heading} subHeading={subHeading} heroImage={heroImage} />
-      {products.map((product) => (
+      {/* {products.map((product) => (
         <Box key={product}>
           <Typography>{product}</Typography>
           <Stack direction="row">
@@ -21,7 +21,7 @@ function Products() {
             ))}
           </Stack>
         </Box>
-      ))}
+      ))} */}
     </>
   );
 }

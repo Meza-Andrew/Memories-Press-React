@@ -8,7 +8,7 @@ function Cart() {
   const { cartItems, removeFromCart } = useContext(CartContext);
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center">
+    <Box display="flex" flexDirection="column" alignItems="center" sx={{marginTop: 6}}>
       {/* <Typography variant="h4" gutterBottom>Cart</Typography> */}
       {cartItems.map((item, index) => (
         <Card key={index} sx={{ display: 'flex', mb: 2, maxWidth: "70%", width: "90%", maxWidth: "600px", padding: 1 }}>

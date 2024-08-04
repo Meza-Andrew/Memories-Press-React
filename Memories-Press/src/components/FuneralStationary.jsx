@@ -14,14 +14,14 @@ function FuneralStationary() {
   const desktopImageVerticalShift = '-105px'; // shift desktop image up or down
 
   const products = [
-    { src: prayerCardExample, alt: 'Funeral Prayer Cards', label: 'Funeral Prayer Cards', navigation: '/funeralstationary/prayercardeditor' },
-    { src: funeralPictureBoardExample, alt: 'Funeral Picture Board', label: 'Funeral Picture Board' },
-    { src: funeralBookmarkExample, alt: 'Funeral Bookmarks', label: 'Funeral Bookmarks' },
+    { src: prayerCardExample, alt: 'Funeral Prayer Cards', label: 'Prayer Cards', navigation: '/funeralstationary/prayercardeditor' },
+    { src: funeralPictureBoardExample, alt: 'Funeral Picture Boards', label: 'Picture Boards' },
+    { src: funeralBookmarkExample, alt: 'Funeral Bookmarks', label: 'Bookmarks' },
     { src: memorialHeartExample, alt: 'Memorial Hearts', label: 'Memorial Hearts' },
   ];
 
   return (
-    <Box sx={{ padding: 2, backgroundColor: '#f5f5f5' }}>
+    <Box sx={{ marginTop: {xs: 0, sm: -10}, padding: 2, backgroundColor: '#f5f5f5' }}>
       <Grid container spacing={isDesktop ? 6 : 2} padding={isDesktop ? 4 : 2} justifyContent="center">
         {products.map((product, index) => (
           <Grid item xs={12} sm={12} md={6} lg={3} key={index}>
@@ -34,15 +34,18 @@ function FuneralStationary() {
                 textAlign: 'center',
                 position: 'relative',
                 overflow: 'visible',
-                width: { lg: "290px" , xl: '360px'},
-                height: { lg: '355px', xl: '400px' },
+                width: { lg: "280px" , xl: '360px'},
+                height: { lg: '340px', xl: '400px' },
                 marginBottom: isDesktop ? '120px' : { xs: '10px', sm: '10px', md: '20px' },
                 padding: isDesktop ? '10px' : { xs: '10px', sm: '10px', md: '20px' },
                 display: 'flex',
-                flexDirection: isDesktop ? 'column' : 'row',
+                flexDirection: {xs: 'row', sm: 'column'},
+                justifyContent: 'space-between',
                 alignItems: 'center',
                 cursor: 'pointer',
                 transition: 'background-color 0.3s ease, transform 0.3s ease',
+                textDecoration: 'none',
+                border: '1px solid #edd9d9',
                 '&:hover': {
                   backgroundColor: '#f1c1c1',
                 },
@@ -56,7 +59,6 @@ function FuneralStationary() {
                 src={product.src}
                 alt={product.alt}
                 sx={{
-                  
                   maxWidth: isDesktop ? '100%' : '120px',
                   maxHeight: isDesktop ? '320px' : '150px',
                   position: isDesktop ? 'relative' : 'relative',
@@ -66,9 +68,17 @@ function FuneralStationary() {
                   transition: 'transform 0.3s ease',
                 }}
               />
-              {/* <Typography variant="h5" mt={isDesktop ? 0 : 1} marginLeft={isDesktop ? 2 : 2}>
+              <Typography
+                variant="h4"
+                mt={isDesktop ? -11 : 1}
+                marginLeft={isDesktop ? 5 : 2}
+                marginBottom={{ xs: '10px', sm: '20px', md: '10px' }}
+                marginRight={{ xs: '50px'}}
+                sx={{ textDecoration: 'none', fontWeight: '700' }}
+                color='primary'
+              >
                 {product.label}
-              </Typography> */}
+              </Typography>
             </Box>
           </Grid>
         ))}

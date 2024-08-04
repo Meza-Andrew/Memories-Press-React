@@ -35,14 +35,14 @@ function UpdateInfo() {
   }
 
   return (
-    <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: isMobile ? 'column' : 'row', height: '80vh' }}>
+    <Box sx={{ marginTop: {xs: 3, sm: 2}, flexGrow: 1, display: 'flex', flexDirection: isMobile ? 'column' : 'row', height: '90vh' }}>
       <Tabs
         orientation={isMobile ? 'horizontal' : 'vertical'}
         variant="fullWidth"
         value={value}
         onChange={handleChange}
         aria-label="Tabs"
-        sx={{ borderRight: isMobile ? 0 : 2, borderBottom: isMobile ? 2 : 0, borderColor: 'divider', width: isMobile ? '100%' : 'auto'}}
+        sx={{ borderRight: isMobile ? 0 : 1, borderBottom: isMobile ? 2 : 0, borderColor: 'divider', width: isMobile ? '100%' : 'auto'}}
         centered={isMobile}
       >
         <Tab label="Business Info" />
