@@ -18,7 +18,8 @@ function Hero({ heading, subHeading, heroImage = stockheroimage }) {
         justifyContent: 'center',
         overflow: 'hidden',
         padding: 0,
-        marginTop: { xs: '10px', sm: '0px' }
+        marginTop: { xs: '10px', sm: '0px' },
+        marginBottom: { xs: '0px', sm: '30px', md: '35px', lg: '10px' }
       }}
     >
       <Box
