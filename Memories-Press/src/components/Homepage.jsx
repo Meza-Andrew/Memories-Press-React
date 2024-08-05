@@ -5,6 +5,7 @@ import { Container, Button, useTheme, useMediaQuery, Box } from '@mui/material';
 import Hero from './Hero';
 import PrayerCard from './PrayerCard';
 import FuneralStationary from './FuneralStationary';
+import FuneralStationaryMUI from './FuneralStationaryMUI';
 
 function Homepage({isLoggedIn}) {
   const products = ['Funeral prayer cards', 'Funeral picture boards', 'Funeral bookmarks', 'Memorial hearts'];
@@ -18,7 +19,7 @@ function Homepage({isLoggedIn}) {
   return (
     <>
       <Hero heading={heading} subHeading={subHeading} heroImage={heroImage}/>
-      <FuneralStationary />
+      <FuneralStationaryMUI />
       {isMobile && (
         <Container
           disableGutters
