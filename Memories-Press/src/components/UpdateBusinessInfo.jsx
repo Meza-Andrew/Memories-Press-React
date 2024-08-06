@@ -1,4 +1,3 @@
-// UpdateBusinessInfo.js
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Container, Typography, TextField, Button, Box, Grid } from '@mui/material';

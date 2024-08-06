@@ -55,7 +55,7 @@ function NavBar({ isLoggedIn, setUser }) {
   return (
     <>
       <AppBar component="nav" position="fixed">
-        <Container maxWidth="xl">
+        <Container maxWidth="100%">
           <Toolbar disableGutters>
             <Link component={RouterLink} to='/' color='inherit' underline='none'>
               <img src={logoText} alt="Logo" style={{ display: 'flex', marginRight: 4, padding: 6, height: '73px', width: '194px' }} />
