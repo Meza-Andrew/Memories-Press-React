@@ -20,7 +20,7 @@ export default function FuneralStationaryMUI() {
   ];
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} padding={2}>
       {products.map((product, index) => (
         <Grid item key={index} xs={12} sm={6} md={3}>
           <Box sx={{
@@ -30,10 +30,12 @@ export default function FuneralStationaryMUI() {
             <Card 
               sx={{
                 width: "100%",
-                maxWidth: 400
+                maxWidth: 400,
+                overflow: "initial",
+                borderRadius: 2,
               }}
             >
-              <CardActionArea>
+              
                 <Box 
                   component={RouterLink} 
                   to={product.navigation}
@@ -42,6 +44,8 @@ export default function FuneralStationaryMUI() {
                     component="img"
                     image={product.src}
                     alt={product.alt}
+                    sx={{marginTop: '-20px'}}
+                    
                   />
                   <CardContent>
                     <Typography variant="h5" component="div" color="primary">
@@ -49,7 +53,7 @@ export default function FuneralStationaryMUI() {
                     </Typography>
                   </CardContent>
                 </Box>
-              </CardActionArea>
+              
             </Card>
             </Box>
         </Grid>

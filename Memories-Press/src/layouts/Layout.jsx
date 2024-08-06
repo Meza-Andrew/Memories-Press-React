@@ -9,7 +9,7 @@ function Layout({isLoggedIn, setUser}) {
     <>
       <Header isLoggedIn={isLoggedIn} setUser={setUser}/>
       <Box sx={{
-        maxWidth: 2200, display: 'flex', justifyContent: 'center', flexDirection: 'column', margin: 'auto'
+        maxWidth: 'xl', display: 'flex', justifyContent: 'center', flexDirection: 'column', margin: 'auto'
       }}>
       <Outlet />
       </Box>
