@@ -1,4 +1,3 @@
-// theme.js
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
@@ -21,8 +20,8 @@ const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: '#FFFFFF', // Set AppBar background to white
-          color: '#000000', // Set AppBar text color to black (or any other color you prefer)
+          backgroundColor: '#FFFFFF',
+          color: '#000000', 
         },
       },
     },

@@ -19,7 +19,7 @@ function Homepage({isLoggedIn}) {
   return (
     <>
       <Hero heading={heading} subHeading={subHeading} heroImage={heroImage}/>
-      <FuneralStationaryMUI />
+      <FuneralStationary />
       {isMobile && (
         <Container
           disableGutters

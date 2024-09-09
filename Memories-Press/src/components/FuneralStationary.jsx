@@ -36,7 +36,7 @@ function FuneralStationary() {
                 overflow: 'visible',
                 width: { lg: "280px" , xl: '360px'},
                 height: { lg: '340px', xl: '400px' },
-                marginBottom: isDesktop ? '120px' : { xs: '10px', sm: '10px', md: '20px' },
+                marginBottom: { xs: '10px', sm: '55px', md: '20px' },
                 padding: isDesktop ? '10px' : { xs: '10px', sm: '10px', md: '20px' },
                 display: 'flex',
                 flexDirection: {xs: 'row', sm: 'column'},
@@ -61,7 +61,7 @@ function FuneralStationary() {
                 sx={{
                   maxWidth: isDesktop ? '100%' : '120px',
                   maxHeight: isDesktop ? '320px' : '150px',
-                  position: isDesktop ? 'relative' : 'relative',
+                  position: 'relative',
                   top: isDesktop ? desktopImageVerticalShift : { xs: '0px', sm: '-20px' },
                   left: { xs: '20px', sm: '0px' },
                   marginRight: isDesktop ? '0' : '10px',
