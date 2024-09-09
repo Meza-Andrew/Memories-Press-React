@@ -7,6 +7,7 @@ import memorialHeartExample from '../assets/memorialHeartExample.png';
 import prayerCardExample from '../assets/prayerCardExample.png';
 import funeralPictureBoardExample from '../assets/funeralPictureBoardExample.png';
 
+
 function FuneralStationary() {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
@@ -21,7 +22,7 @@ function FuneralStationary() {
   ];
 
   return (
-    <Box sx={{ marginTop: {xs: 0, sm: -10}, padding: 2, backgroundColor: '#f5f5f5' }}>
+    <Box sx={{ marginTop: {xs: 0, sm: -10}, padding: 2, backgroundColor: '#f5f5f5', marginBottom: 10 }}>
       <Grid container spacing={isDesktop ? 6 : 2} padding={isDesktop ? 4 : 2} justifyContent="center">
         {products.map((product, index) => (
           <Grid item xs={12} sm={12} md={6} lg={3} key={index}>
@@ -30,7 +31,7 @@ function FuneralStationary() {
               to={product.navigation}
               sx={{
                 backgroundColor: '#f8e1e1',
-                borderRadius: 6,
+                borderRadius: 2,
                 textAlign: 'center',
                 position: 'relative',
                 overflow: 'visible',
@@ -45,6 +46,7 @@ function FuneralStationary() {
                 cursor: 'pointer',
                 transition: 'background-color 0.3s ease, transform 0.3s ease',
                 textDecoration: 'none',
+                boxShadow: '5px 15px 20px -25px black',
                 border: '1px solid #edd9d9',
                 '&:hover': {
                   backgroundColor: '#f1c1c1',

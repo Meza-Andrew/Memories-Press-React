@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useContext } from 'react';
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Stepper,
@@ -9,11 +10,14 @@ import {
   Typography,
   Box,
   IconButton,
+  Paper,
+  Stack
 } from '@mui/material';
 import html2canvas from 'html2canvas';
 import Cropper from 'react-easy-crop';
 import { useMedia } from 'react-use';
-import { ArrowBack, ArrowForward } from '@mui/icons-material';
+import { ArrowBack, ArrowForward, FileUpload } from '@mui/icons-material';
+import LoopIcon from '@mui/icons-material/Loop';
 import { styled } from '@mui/system';
 import CartContext from './CartContext';
 
@@ -83,7 +87,7 @@ const ArrowContainer = styled('div')({
   zIndex: 1,
 });
 
-const steps = ['Select Background', 'Enter Name', 'Upload Photo', 'Crop Photo', 'Provide Lifespan', 'Select Proverb', 'Generate Final Image'];
+const steps = ['Select Template', 'Enter Name', 'Upload Photo', 'Crop Photo', 'Provide Years', 'Select Proverb', 'Finish'];
 
 const backgroundColors = ['#A9D27D', '#689834', '#4A6222', '#EFC8D5', '#D3648B', '#653948'];
 const proverbs = [
@@ -96,6 +100,7 @@ const proverbs = [
 
 function PrayerCardDesigner() {
   const isMobile = useMedia('(max-width: 600px)');
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
   const [backgroundColor, setBackgroundColor] = useState(backgroundColors[0]);
   const [name, setName] = useState('');
@@ -127,6 +132,7 @@ function PrayerCardDesigner() {
     setSmallScaleImage(null);
     setCurrentColorIndex(0);
     setCurrentProverbIndex(0);
+    navigate('/');
   };
 
   const handleBackgroundColorChange = (index) => {
@@ -137,9 +143,12 @@ function PrayerCardDesigner() {
   const handleNameChange = (e) => setName(e.target.value);
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
+    if (file && isMobile) {
       setPhoto(URL.createObjectURL(file));
       handleNext();
+    } else if (file && !isMobile) {
+      setPhoto(URL.createObjectURL(file));
+      setActiveStep(3);
     }
   };
 
@@ -253,11 +262,15 @@ function PrayerCardDesigner() {
       case 0:
         return (
           <FormContainer>
-            <div style={{ position: 'relative', width: '300px', height: '400px' }}>
+            <div style={{ position: 'relative', width: '300px', height: '420px' }}>
               {isMobile ? (
                 <>
                   <div style={{ position: 'relative', width: '300px', height: '400px' }}>
-                    <BackgroundCard backgroundColor={backgroundColors[currentColorIndex]} />
+                  <CompositionContainer backgroundColor={backgroundColor}>
+              {photo && <ImagePreview src={photo} alt="Cropped" />}
+              {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
+              {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
+            </CompositionContainer>
                     <ArrowContainer>
                       <IconButton onClick={goToPreviousColor}>
                         <ArrowBack />
@@ -267,18 +280,16 @@ function PrayerCardDesigner() {
                       </IconButton>
                     </ArrowContainer>
                   </div>
+                  
                 </>
               ) : (
                 <>
-                  <BackgroundCard backgroundColor={backgroundColor} />
-                  <ArrowContainer>
-                    <IconButton onClick={goToPreviousColor}>
-                      <ArrowBack />
-                    </IconButton>
-                    <IconButton onClick={goToNextColor}>
-                      <ArrowForward />
-                    </IconButton>
-                  </ArrowContainer>
+                  <CompositionContainer backgroundColor={backgroundColor}>
+              {photo && <ImagePreview src={photo} alt="Cropped" />}
+              {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
+              {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
+            </CompositionContainer>
+                  
                 </>
               )}
             </div>
@@ -292,12 +303,12 @@ function PrayerCardDesigner() {
               {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
             </CompositionContainer>
-            <TextField
+            {isMobile && <TextField
               label="Enter your loved one's name"
               value={name}
               onChange={handleNameChange}
               style={{ marginTop: '20px' }}
-            />
+            />}
           </FormContainer>
         );
       case 2:
@@ -308,10 +319,10 @@ function PrayerCardDesigner() {
               {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
             </CompositionContainer>
-            <Button variant="contained" component="label" style={{ marginTop: '20px' }}>
-              Upload Photo
+            {isMobile && <Button variant="contained" size='large' component="label" style={{ marginTop: '25px' }}>
+              Upload Photo <FileUpload/>
               <input type="file" hidden onChange={handlePhotoChange} />
-            </Button>
+            </Button>}
           </FormContainer>
         );
       case 3:
@@ -330,9 +341,9 @@ function PrayerCardDesigner() {
                 />
               )}
             </CropContainer>
-            <Button variant="contained" onClick={showCroppedImage} style={{ marginTop: '10px' }}>
+            {isMobile && <Button variant="contained" size='large' onClick={showCroppedImage} style={{ marginTop: '25px' }}>
               Save Crop
-            </Button>
+            </Button>}
           </FormContainer>
         );
       case 4:
@@ -343,7 +354,7 @@ function PrayerCardDesigner() {
               {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
             </CompositionContainer>
-            <Box sx={{ display: 'flex', gap: 2 }}>
+            {isMobile && <Box sx={{ display: 'flex', gap: 2 }}>
       <TextField
         label="Date of Birth"
         type="date"
@@ -360,7 +371,7 @@ function PrayerCardDesigner() {
         onChange={handleDodChange}
         sx={{ marginTop: '20px' }}
       />
-    </Box>
+    </Box>}
           </FormContainer>
         );
       case 5:
@@ -405,14 +416,18 @@ function PrayerCardDesigner() {
   };
 
   return (
-    <Container sx={{marginTop: 6}}>
-      <Stepper activeStep={activeStep} alternativeLabel>
+    <Container sx={{marginTop: 7}}>
+      {isMobile && <Paper sx={{
+        padding: 2, marginBottom: 2
+      }}>
+        <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label) => (
           <Step key={label}>
-            <StepLabel>{label}</StepLabel>
+            <StepLabel>{!isMobile && label}</StepLabel>
           </Step>
         ))}
-      </Stepper>
+        </Stepper>
+      </Paper>}
       <div>
         {activeStep === steps.length ? (
           <FormContainer>
@@ -423,15 +438,106 @@ function PrayerCardDesigner() {
           </FormContainer>
         ) : (
           <div>
-            {getStepContent(activeStep)}
-            <Box display="flex" justifyContent="space-between" marginTop={2}>
-              <Button disabled={activeStep === 0} onClick={handleBack}>
+            {!isMobile ? <Stack direction='row' columnGap={2}>
+            <Paper sx={{height: '520px'}}>
+              {getStepContent(activeStep)}
+              
+             
+              <Box display="flex" justifyContent="center" margin='auto' >
+              {activeStep === steps.length - 1 ?
+                <Button 
+                  variant="contained" 
+                  color="primary" 
+                  size='large' 
+                  margin='auto' 
+                  onClick={generateFinalImage}
+                >
+                  Add to cart
+                </Button> : activeStep === 3 ?
+                <Button variant="contained" size='large' onClick={showCroppedImage} >
+                Save Crop
+              </Button>
+                 :
+                 <>
+                 <Button variant="contained" component="label" size='large' >
+                 <Typography variant="p" padding={.1}>
+                  Upload Image
+                 </Typography>
+                 <FileUpload/>
+                <input type="file" hidden onChange={handlePhotoChange} />
+              </Button>
+              {/* <IconButton onClick={()=> setPhoto(null)}>
+                <LoopIcon/>
+              </IconButton> */}
+              </>
+
+              }
+              </Box>
+              
+            </Paper>
+            <Box>
+        <TextField
+          label="Enter your loved one's name"
+          value={name}
+          onChange={handleNameChange}
+          style={{ marginTop: '20px' }}
+        />
+        
+        
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <TextField
+            label="Date of Birth"
+            type="date"
+            InputLabelProps={{ shrink: true }}
+            value={dob}
+            onChange={handleDobChange}
+            sx={{ marginTop: '20px' }}
+          />
+          <TextField
+            label="Date of Death"
+            type="date"
+            InputLabelProps={{ shrink: true }}
+            value={dod}
+            onChange={handleDodChange}
+            sx={{ marginTop: '20px' }}
+          />
+        </Box>
+      </Box>
+      </Stack> : 
+      <Paper sx={{height: '540px'}}>
+      {getStepContent(activeStep)}
+      {activeStep === 0 && 
+      <Box display="flex" justifyContent="center" margin='auto'>
+        <Typography>Choose a template color</Typography>
+      </Box>
+      }
+    {activeStep === steps.length - 1 && 
+      <Box display="flex" justifyContent="center" margin='auto'>
+        <Button 
+          variant="contained" 
+          color="primary" 
+          size='large' 
+          margin='auto' 
+          onClick={generateFinalImage}
+        >
+          Add to cart
+        </Button>
+      </Box>
+      }
+    </Paper>}
+            {isMobile && <Paper sx={{
+              padding: 1,
+              marginTop: 2
+            }}>
+            <Box display="flex" justifyContent='space-evenly'  maxWidth={300} margin='auto' gap={2}>
+              <Button variant='outlined' size='large'  disabled={activeStep === 0} onClick={handleBack}>
                 Back
               </Button>
-              <Button variant="contained" color="primary" onClick={activeStep === steps.length - 1 ? generateFinalImage : handleNext}>
-                {activeStep === steps.length - 1 ? 'Add to cart' : 'Next'}
+              <Button variant="contained" size='large'  color="primary" disabled={activeStep === steps.length - 1} onClick={handleNext}>
+                Next
               </Button>
             </Box>
+            </Paper>}
           </div>
         )}
       </div>
