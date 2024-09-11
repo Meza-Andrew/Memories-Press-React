@@ -10,7 +10,7 @@ function Cart() {
   return (
     <Box display="flex" flexDirection="column" alignItems="center" sx={{marginTop: 6}}>
       {cartItems.map((item, index) => (
-        <Card key={index} sx={{ display: 'flex', mb: 2, maxWidth: "70%", width: "90%", maxWidth: "600px", padding: 1 }}>
+        <Card key={index} sx={{ display: 'flex', mb: 2, width: "90%", maxWidth: "600px", padding: 1 }}>
           <CardMedia component="img" image={item.smallScaleImage} alt="Small scale" sx={{ width: 150 }} />
           <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', p: 2 }}>
             <CardContent>
