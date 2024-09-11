@@ -12,7 +12,7 @@ function FuneralStationary() {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
-  const desktopImageVerticalShift = '-105px'; // shift desktop image up or down
+  const desktopImageVerticalShift = '-105px';
 
   const products = [
     { src: prayerCardExample, alt: 'Funeral Prayer Cards', label: 'Prayer Cards', navigation: '/funeralstationary/prayercardeditor' },
@@ -23,7 +23,7 @@ function FuneralStationary() {
 
   return (
     <Box sx={{ marginTop: {xs: 0, sm: -10}, padding: 2, backgroundColor: '#f5f5f5', marginBottom: 10 }}>
-      <Grid container spacing={isDesktop ? 6 : 2} padding={isDesktop ? 4 : 2} justifyContent="center">
+      <Grid container spacing={isDesktop ? 10 : 2} padding={isDesktop ? 4 : 2} justifyContent="center">
         {products.map((product, index) => (
           <Grid item xs={12} sm={12} md={6} lg={3} key={index}>
             <Box

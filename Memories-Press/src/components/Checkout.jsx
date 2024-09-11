@@ -224,7 +224,7 @@ export default function Checkout() {
                 height: 150,
               }}
             >
-              <Toolbar sx={{marginBottom: 2}}/> {/* This Toolbar component adds padding to the main content below */}
+              <Toolbar sx={{marginBottom: 2}}/>
               <Stepper
                 id="desktop-stepper"
                 activeStep={activeStep}

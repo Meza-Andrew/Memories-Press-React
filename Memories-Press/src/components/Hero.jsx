@@ -12,7 +12,7 @@ function Hero({ heading, subHeading, heroImage = stockheroimage }) {
       disableGutters
       sx={{
         position: 'relative',
-        height: { xs: 'auto', sm: '50vh' },
+        height: { xs: 'auto', sm: '600px' },
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',

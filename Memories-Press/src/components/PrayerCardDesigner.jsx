@@ -11,6 +11,7 @@ import {
   Box,
   IconButton,
   Paper,
+  Grid,
   Stack
 } from '@mui/material';
 import html2canvas from 'html2canvas';
@@ -20,6 +21,9 @@ import { ArrowBack, ArrowForward, FileUpload } from '@mui/icons-material';
 import LoopIcon from '@mui/icons-material/Loop';
 import { styled } from '@mui/system';
 import CartContext from './CartContext';
+import TemplateGrid from './TemplateGrid';
+import ProverbSelector from './ProverbSelector';
+import PrayerHero from './PrayerHero';
 
 const FormContainer = styled('div')({
   display: 'flex',
@@ -89,7 +93,10 @@ const ArrowContainer = styled('div')({
 
 const steps = ['Select Template', 'Enter Name', 'Upload Photo', 'Crop Photo', 'Provide Years', 'Select Proverb', 'Finish'];
 
-const backgroundColors = ['#A9D27D', '#689834', '#4A6222', '#EFC8D5', '#D3648B', '#653948'];
+const backgroundColors = ['#B2DA8E', '#91C774', '#78B05F', '#98B983', '#79A156', '#5D7F3B', '#6E9648', '#4D7530', '#466324', '#375020', 
+  '#96B480', '#84A872', '#AFC396', '#DAB9C7', '#F1D8E2', '#C19BAE', '#D8A4B9', '#C5859A', '#B06484', '#A04669', 
+  '#924158', '#794350', '#8A6B78', '#6D4B5B', '#533A46', '#573548', '#4E293B', '#AB8A9B', '#C07BA4', '#DEB3C2']
+  ;
 const proverbs = [
   'Life is what happens when you’re busy making other plans.',
   'The purpose of our lives is to be happy.',
@@ -113,7 +120,11 @@ function PrayerCardDesigner() {
   const [finalImage, setFinalImage] = useState(null);
   const [smallScaleImage, setSmallScaleImage] = useState(null);
   const [currentColorIndex, setCurrentColorIndex] = useState(0);
-  const [currentProverbIndex, setCurrentProverbIndex] = useState(0);
+  const [currentProverbIndex, setCurrentProverbIndex] = useState();
+  const currentProverb = proverbs[currentProverbIndex];
+  const [showUpload, setShowUpload] = useState(true);
+  const [step, setStep] = useState(6);
+  const isDisabled = !name || !photo || !dob || !dod || currentProverbIndex === null;
 
   const { addToCart } = useContext(CartContext);
 
@@ -132,7 +143,7 @@ function PrayerCardDesigner() {
     setSmallScaleImage(null);
     setCurrentColorIndex(0);
     setCurrentProverbIndex(0);
-    navigate('/');
+    navigate('/cart');
   };
 
   const handleBackgroundColorChange = (index) => {
@@ -149,6 +160,8 @@ function PrayerCardDesigner() {
     } else if (file && !isMobile) {
       setPhoto(URL.createObjectURL(file));
       setActiveStep(3);
+      setStep(3);
+      setShowUpload(false);
     }
   };
 
@@ -190,7 +203,8 @@ function PrayerCardDesigner() {
         dod,
         backgroundColor,
         finalImage: highResImg.src,
-        smallScaleImage: smallScaleImg.src
+        smallScaleImage: smallScaleImg.src,
+        currentProverb
       });
 
       handleReset();
@@ -231,7 +245,10 @@ function PrayerCardDesigner() {
     try {
       const croppedImage = await getCroppedImg(photo, croppedAreaPixels);
       setPhoto(croppedImage);
+      setShowUpload(true);
       handleNext();
+      setStep(6);
+
     } catch (e) {
       console.error(e);
     }
@@ -262,6 +279,11 @@ function PrayerCardDesigner() {
       case 0:
         return (
           <FormContainer>
+            <Box sx={{
+              border: '1px solid grey',
+              borderRadius: 1,
+              boxShadow: '5px 5px 5px grey'
+            }}>
             <div style={{ position: 'relative', width: '300px', height: '420px' }}>
               {isMobile ? (
                 <>
@@ -293,16 +315,23 @@ function PrayerCardDesigner() {
                 </>
               )}
             </div>
+            </Box>
           </FormContainer>
         );
       case 1:
         return (
           <FormContainer>
+            <Box sx={{
+              border: '1px solid grey',
+              borderRadius: 1,
+              boxShadow: '5px 5px 5px grey'
+            }}>
             <CompositionContainer backgroundColor={backgroundColor}>
               {photo && <ImagePreview src={photo} alt="Cropped" />}
               {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
             </CompositionContainer>
+            </Box>
             {isMobile && <TextField
               label="Enter your loved one's name"
               value={name}
@@ -314,11 +343,17 @@ function PrayerCardDesigner() {
       case 2:
         return (
           <FormContainer>
+            <Box sx={{
+              border: '1px solid grey',
+              borderRadius: 1,
+              boxShadow: '5px 5px 5px grey'
+            }}>
             <CompositionContainer backgroundColor={backgroundColor}>
               {photo && <ImagePreview src={photo} alt="Cropped" />}
               {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
             </CompositionContainer>
+            </Box>
             {isMobile && <Button variant="contained" size='large' component="label" style={{ marginTop: '25px' }}>
               Upload Photo <FileUpload/>
               <input type="file" hidden onChange={handlePhotoChange} />
@@ -328,6 +363,11 @@ function PrayerCardDesigner() {
       case 3:
         return (
           <FormContainer>
+            <Box sx={{
+              border: '1px solid grey',
+              borderRadius: 1,
+              boxShadow: '5px 5px 5px grey'
+            }}>
             <CropContainer>
               {photo && (
                 <Cropper
@@ -341,6 +381,7 @@ function PrayerCardDesigner() {
                 />
               )}
             </CropContainer>
+            </Box>
             {isMobile && <Button variant="contained" size='large' onClick={showCroppedImage} style={{ marginTop: '25px' }}>
               Save Crop
             </Button>}
@@ -349,19 +390,25 @@ function PrayerCardDesigner() {
       case 4:
         return (
           <FormContainer>
+            <Box sx={{
+              border: '1px solid grey',
+              borderRadius: 1,
+              boxShadow: '5px 5px 5px grey'
+            }}>
             <CompositionContainer backgroundColor={backgroundColor}>
               {photo && <ImagePreview src={photo} alt="Cropped" />}
               {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
             </CompositionContainer>
-            {isMobile && <Box sx={{ display: 'flex', gap: 2 }}>
+            </Box>
+            {isMobile && <Box sx={{ display: 'flex', gap: 1.5 }}>
       <TextField
         label="Date of Birth"
         type="date"
         InputLabelProps={{ shrink: true }}
         value={dob}
         onChange={handleDobChange}
-        sx={{ marginTop: '20px' }}
+        sx={{ marginTop: '25px' }}
       />
       <TextField
         label="Date of Death"
@@ -369,45 +416,53 @@ function PrayerCardDesigner() {
         InputLabelProps={{ shrink: true }}
         value={dod}
         onChange={handleDodChange}
-        sx={{ marginTop: '20px' }}
+        sx={{ marginTop: '25px' }}
       />
     </Box>}
           </FormContainer>
         );
       case 5:
         return (
+          <>
           <FormContainer>
+          <Box sx={{
+              border: '1px solid grey',
+              borderRadius: 1,
+              boxShadow: '5px 5px 5px grey'
+            }}>
             <CompositionContainer backgroundColor={backgroundColor}>
               {photo && <ImagePreview src={photo} alt="Cropped" />}
               <CompositionText top="50%" variant="h6">{name}</CompositionText>
-              <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>
-              <div style={{ position: 'relative', width: '300px', height: '300px' }}>
-                <Box
-                  sx={{ position: 'absolute', top: '29%', left: 0, right: 0}}
-                >
-                  <Typography variant="body2" style={{ textAlign: 'center' }}>{proverbs[currentProverbIndex]}</Typography>
-                </Box>
-                <ArrowContainer>
-                  <IconButton onClick={goToPreviousProverb}>
-                    <ArrowBack />
-                  </IconButton>
-                  <IconButton onClick={goToNextProverb}>
-                    <ArrowForward />
-                  </IconButton>
-                </ArrowContainer>
-              </div>
+              {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
+              <CompositionText top="69%" variant="body2">{currentProverb}</CompositionText>
             </CompositionContainer>
+            </Box>
           </FormContainer>
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            width: '70%',
+            margin: 'auto'
+          }}>
+            <ProverbSelector proverbs={proverbs} currentProverbIndex={currentProverbIndex} setCurrentProverbIndex={setCurrentProverbIndex}/>
+          </Box>
+          </>
         );
       case 6:
         return (
           <FormContainer>
+            <Box sx={{
+              border: '1px solid grey',
+              borderRadius: 1,
+              boxShadow: '5px 5px 5px grey'
+            }}>
             <CompositionContainer id="final-composition" backgroundColor={backgroundColor}>
               {photo && <ImagePreview src={photo} alt="Cropped" />}
               <CompositionText top="50%" variant="h6">{name}</CompositionText>
-              <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>
-              <CompositionText top="69%" variant="body2">{proverbs[currentProverbIndex]}</CompositionText>
+              {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
+              <CompositionText top="69%" variant="body2">{currentProverb}</CompositionText>
             </CompositionContainer>
+            </Box>
           </FormContainer>
         );
       default:
@@ -417,6 +472,7 @@ function PrayerCardDesigner() {
 
   return (
     <Container sx={{marginTop: 7}}>
+      <PrayerHero/>
       {isMobile && <Paper sx={{
         padding: 2, marginBottom: 2
       }}>
@@ -438,72 +494,65 @@ function PrayerCardDesigner() {
           </FormContainer>
         ) : (
           <div>
-            {!isMobile ? <Stack direction='row' columnGap={2}>
-            <Paper sx={{height: '520px'}}>
-              {getStepContent(activeStep)}
-              
-             
-              <Box display="flex" justifyContent="center" margin='auto' >
-              {activeStep === steps.length - 1 ?
-                <Button 
-                  variant="contained" 
-                  color="primary" 
-                  size='large' 
-                  margin='auto' 
-                  onClick={generateFinalImage}
-                >
-                  Add to cart
-                </Button> : activeStep === 3 ?
-                <Button variant="contained" size='large' onClick={showCroppedImage} >
+            {!isMobile ? <Grid container spacing={4}>
+      <Grid item sm={4} md={5} lg={5}>
+        <TemplateGrid setBackgroundColor={setBackgroundColor} backgroundColors={backgroundColors} />
+      </Grid>
+      <Grid item sm={8} md={7} lg={7}>
+        <Paper sx={{ height: '520px', padding: 0 }}>
+          {getStepContent(step)}
+          <Box display="flex" justifyContent="center" margin="auto" >
+            {!showUpload ? (
+              <Button variant="contained" size="large" onClick={showCroppedImage}>
                 Save Crop
               </Button>
-                 :
-                 <>
-                 <Button variant="contained" component="label" size='large' >
-                 <Typography variant="p" padding={.1}>
-                  Upload Image
-                 </Typography>
-                 <FileUpload/>
-                <input type="file" hidden onChange={handlePhotoChange} />
-              </Button>
-              {/* <IconButton onClick={()=> setPhoto(null)}>
-                <LoopIcon/>
-              </IconButton> */}
+            ) : (
+              <>
+                <Button variant="contained" component="label" size="large">
+                  <Typography variant="p" padding={0.1}>
+                    Upload Image
+                  </Typography>
+                  <FileUpload />
+                  <input type="file" hidden onChange={handlePhotoChange} />
+                </Button>
               </>
-
-              }
-              </Box>
+            )}
+          </Box>
+        </Paper>
+      </Grid>
+      <Grid item sm={12} md={12} lg={12}>
+        <Paper sx={{ padding: 3 }}>
+          <Stack rowGap={3}>
+            <TextField
+              label="Enter your loved one's name"
+              value={name}
+              onChange={handleNameChange}
               
-            </Paper>
-            <Box>
-        <TextField
-          label="Enter your loved one's name"
-          value={name}
-          onChange={handleNameChange}
-          style={{ marginTop: '20px' }}
-        />
-        
-        
-        <Box sx={{ display: 'flex', gap: 2 }}>
-          <TextField
-            label="Date of Birth"
-            type="date"
-            InputLabelProps={{ shrink: true }}
-            value={dob}
-            onChange={handleDobChange}
-            sx={{ marginTop: '20px' }}
-          />
-          <TextField
-            label="Date of Death"
-            type="date"
-            InputLabelProps={{ shrink: true }}
-            value={dod}
-            onChange={handleDodChange}
-            sx={{ marginTop: '20px' }}
-          />
-        </Box>
-      </Box>
-      </Stack> : 
+              fullWidth
+            />
+            <Box sx={{ display: 'flex', gap: 2}}>
+              <TextField
+                label="Date of Birth"
+                type="date"
+                InputLabelProps={{ shrink: true }}
+                value={dob}
+                onChange={handleDobChange}
+                fullWidth
+              />
+              <TextField
+                label="Date of Death"
+                type="date"
+                InputLabelProps={{ shrink: true }}
+                value={dod}
+                onChange={handleDodChange}
+                fullWidth
+              />
+            </Box>
+            <ProverbSelector proverbs={proverbs} currentProverbIndex={currentProverbIndex} setCurrentProverbIndex={setCurrentProverbIndex}/>
+          </Stack>
+        </Paper>
+      </Grid>
+    </Grid> : 
       <Paper sx={{height: '540px'}}>
       {getStepContent(activeStep)}
       {activeStep === 0 && 
@@ -541,6 +590,25 @@ function PrayerCardDesigner() {
           </div>
         )}
       </div>
+      {!isMobile &&
+      <Box
+      sx={{
+        display: 'flex',
+        margin: 'auto',
+        justifyContent: 'center',
+        marginTop: 2
+      }}
+      ><Button
+      variant="contained"
+      color="primary"
+      size="large"
+      margin='auto'
+      onClick={generateFinalImage}
+      disabled={isDisabled}
+    >
+      Add to cart
+    </Button>
+    </Box>}
     </Container>
   );
 }

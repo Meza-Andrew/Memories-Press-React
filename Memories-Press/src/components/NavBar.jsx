@@ -1,23 +1,27 @@
 import * as React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import Link from '@mui/material/Link';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  Container,
+  Avatar,
+  Button,
+  Tooltip,
+  MenuItem,
+  Badge,
+  Divider,
+  Link,
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
+import ShoppingCartSharpIcon from '@mui/icons-material/ShoppingCartSharp';
 import logo from '../assets/logoPrinting.png';
 import logoText from '../assets/logo.png';
-import ShoppingCartSharpIcon from '@mui/icons-material/ShoppingCartSharp';
-import { Badge, Divider } from '@mui/material';
 import CartContext from './CartContext';
+
 
 const pages = ['Funeral Stationary', 'Resources', 'About'];
 const settings = ['View Orders', 'Update Info', 'Change Password', 'Logout'];
@@ -64,6 +68,7 @@ function NavBar({ isLoggedIn, setUser }) {
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
                 {pages.map((page) => (
+                  <>
                   <Button
                     key={page}
                     component={RouterLink}
@@ -73,7 +78,11 @@ function NavBar({ isLoggedIn, setUser }) {
                   >
                     {page}
                   </Button>
+                  <Divider orientation='vertical' flexItem variant="middle"/>
+                  </>
                 ))}
+                
+                
                 {/* <Button variant="outline" component={RouterLink} to='funeralstationary/prayercardeditor'>Start your design</Button> */}
               </Box>
             </Box>
@@ -199,12 +208,12 @@ function NavBar({ isLoggedIn, setUser }) {
                 <>
                   <Tooltip title="Login">
                     <Button component={RouterLink} sx={{ p: 0, color: 'inherit' }} to="/signin">
-                      <Typography>Login</Typography>
+                      Login
                     </Button>
                   </Tooltip>
                   <Tooltip title="Sign Up">
                     <Button component={RouterLink} sx={{ p: 0, color: 'inherit' }} to="/signup">
-                      <Typography>Sign Up</Typography>
+                      Sign Up
                     </Button>
                   </Tooltip>
                 </>
@@ -243,7 +252,7 @@ function NavBar({ isLoggedIn, setUser }) {
           </Toolbar>
         </Container>
       </AppBar>
-      <Toolbar sx={{ marginBottom: 0 }} /> {/* This Toolbar component adds padding to the main content below */}
+      <Toolbar sx={{ marginBottom: 0 }} />
     </>
   );
 }
