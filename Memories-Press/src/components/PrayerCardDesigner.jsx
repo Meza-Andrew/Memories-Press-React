@@ -474,7 +474,7 @@ function PrayerCardDesigner() {
     <Container sx={{marginTop: 7}}>
       <PrayerHero/>
       {isMobile && <Paper sx={{
-        padding: 2, marginBottom: 2
+        padding: 2, marginBottom: 1
       }}>
         <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label) => (
@@ -576,13 +576,18 @@ function PrayerCardDesigner() {
     </Paper>}
             {isMobile && <Paper sx={{
               padding: 1,
-              marginTop: 2
+              marginTop: 1,
+              marginBottom: 4
             }}>
             <Box display="flex" justifyContent='space-evenly'  maxWidth={300} margin='auto' gap={2}>
-              <Button variant='outlined' size='large'  disabled={activeStep === 0} onClick={handleBack}>
+              <Button variant='outlined' size='large' sx={{
+                    borderRadius: .5
+                  }} disabled={activeStep === 0} onClick={handleBack}>
                 Back
               </Button>
-              <Button variant="contained" size='large'  color="primary" disabled={activeStep === steps.length - 1} onClick={handleNext}>
+              <Button variant="contained" size='large' sx={{
+                    borderRadius: .5
+                  }} color="primary" disabled={activeStep === steps.length - 1} onClick={handleNext}>
                 Next
               </Button>
             </Box>

@@ -1,5 +1,5 @@
-import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { HashRouter, Routes, Route } from 'react-router-dom'; // Use HashRouter
 import Layout from './layouts/Layout';
 import Homepage from './components/Homepage';
 import Products from './components/Products';
@@ -15,32 +15,32 @@ import SignUp from './components/SignUp';
 import PrayerCardDesigner from './components/PrayerCardDesigner';
 import Checkout from './components/Checkout';
 
-
 function App() {
   const [user, setUser] = React.useState(false);
+
   return (
-    <BrowserRouter>
-        <Routes>
-            <Route path='/' element={<Layout isLoggedIn={user} setUser={setUser}/>}>
-                <Route index element={<Homepage isLoggedIn={user} />}/>
-                <Route path='cart' element={<Cart />}/>
-                <Route path='about' element={<About />}/>
-                <Route path='resources' element={<Resources />}/>
-                {/* <Route path='funeralstationary' element={<FuneralStationary />}/> */}
-                <Route path='vieworders' element={<ViewOrders />}/>
-                <Route path='updateinfo' element={<UpdateInfo />}/>
-                <Route path='changepassword' element={<ChangePassword />}/>
-                <Route path='signin' element={<SignIn />}/>
-                <Route path='signup' element={<SignUp />}/>
-                <Route path='checkout' element={<Checkout/>}/>
-                <Route path='funeralstationary'>
-                  <Route index element={<Products />}/>
-                  <Route path='prayercardeditor' element={<PrayerCardDesigner />}/>
-                </Route>
-            </Route>
-        </Routes>
-    </BrowserRouter>
-  )
+    <HashRouter> {/* Replace BrowserRouter with HashRouter */}
+      <Routes>
+        <Route path='/' element={<Layout isLoggedIn={user} setUser={setUser} />}>
+          <Route index element={<Homepage isLoggedIn={user} />} />
+          <Route path='cart' element={<Cart />} />
+          <Route path='about' element={<About />} />
+          <Route path='resources' element={<Resources />} />
+          <Route path='vieworders' element={<ViewOrders />} />
+          <Route path='updateinfo' element={<UpdateInfo />} />
+          <Route path='changepassword' element={<ChangePassword />} />
+          <Route path='signin' element={<SignIn />} />
+          <Route path='signup' element={<SignUp />} />
+          <Route path='checkout' element={<Checkout />} />
+          <Route path='funeralstationary'>
+            <Route index element={<Products />} />
+            <Route path='prayercardeditor' element={<PrayerCardDesigner />} />
+          </Route>
+        </Route>
+      </Routes>
+    </HashRouter>
+  );
 }
 
 export default App;
+

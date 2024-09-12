@@ -44,7 +44,7 @@ const PrayerHero = () => {
       justifyContent: 'center'
     }}>
       <Divider sx={{
-        marginBottom: 8,
+        marginBottom: 6,
         width: '60%'
       }}/>
     </Box>
