@@ -35,7 +35,7 @@ function UpdateInfo() {
   }
 
   return (
-    <Box sx={{ marginTop: {xs: 3, sm: 2}, flexGrow: 1, display: 'flex', flexDirection: isMobile ? 'column' : 'row', height: '90vh' }}>
+    <Box sx={{ marginTop: {xs: 1, sm: .5}, flexGrow: 1, display: 'flex', flexDirection: isMobile ? 'column' : 'row', height: '90vh' }}>
       <Tabs
         orientation={isMobile ? 'horizontal' : 'vertical'}
         variant="fullWidth"

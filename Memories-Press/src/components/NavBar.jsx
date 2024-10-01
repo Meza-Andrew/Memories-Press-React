@@ -62,7 +62,7 @@ function NavBar({ isLoggedIn, setUser }) {
         <Container maxWidth="100%">
           <Toolbar disableGutters>
             <Link component={RouterLink} to='/' color='inherit' underline='none'>
-              <img src={logoText} alt="Logo" style={{ display: 'flex', marginRight: 4, padding: 6, height: 'auto', width: '194px' }} />
+              <img src={logoText} alt="Logo" style={{ display: 'flex', marginRight: 4, padding: 6, height: 'auto', width: '155px' }} />
             </Link>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
