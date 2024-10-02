@@ -17,7 +17,10 @@ import {
   CardContent,
   Avatar,
   CardHeader,
-  Divider
+  Divider,
+  ButtonGroup,
+  ToggleButton,
+  ToggleButtonGroup
 } from '@mui/material';
 import html2canvas from 'html2canvas';
 import Cropper from 'react-easy-crop';
@@ -110,6 +113,11 @@ const proverbs = [
   'Many of life’s failures are people who did not realize how close they were to success when they gave up.',
 ];
 
+const quantities = [25, 50, 75, 100, 125];
+
+const finishes = ['Matte', 'Gloss', 'Soft'];
+
+
 function PrayerCardDesigner() {
   const { state } = useLocation();
   const isMobile = useMedia('(max-width: 600px)');
@@ -130,7 +138,9 @@ function PrayerCardDesigner() {
   const currentProverb = proverbs[currentProverbIndex];
   const [showUpload, setShowUpload] = useState(true);
   const [step, setStep] = useState(6);
-  const isDisabled = !name || !photo || !dob || !dod || currentProverbIndex === null;
+  const [quantity, setQuantity] = useState(state?.item?.quantity || null);
+  const [finish, setFinish] = useState(state?.item?.finish || null);
+  const isDisabled = !name || !photo || !dob || !dod || !quantity || !finish || currentProverbIndex === null;
 
   const { addToCart, updateCartItem } = useContext(CartContext);
   
@@ -156,6 +166,18 @@ function PrayerCardDesigner() {
   const handleBackgroundColorChange = (index) => {
     setCurrentColorIndex(index);
     setBackgroundColor(backgroundColors[index]);
+  };
+
+  const handleQuantityChange = (event, newQuantity) => {
+    if (newQuantity !== null) {
+      setQuantity(newQuantity);
+    }
+  };
+
+  const handleFinishChange = (event, newFinish) => {
+    if (newFinish !== null) {
+      setFinish(newFinish);
+    }
   };
 
   const handleNameChange = (e) => setName(e.target.value);
@@ -211,6 +233,8 @@ function PrayerCardDesigner() {
           dod,
           backgroundColor,
           photo,
+          finish,
+          quantity,
           finalImage: highResImg.src,
           smallScaleImage: smallScaleImg.src,
           currentProverb, currentProverbIndex
@@ -222,6 +246,8 @@ function PrayerCardDesigner() {
           dod,
           backgroundColor,
           photo,
+          finish,
+          quantity,
           finalImage: highResImg.src,
           smallScaleImage: smallScaleImg.src,
           currentProverb, currentProverbIndex
@@ -654,7 +680,9 @@ function PrayerCardDesigner() {
         </Card>
       </Grid>
       <Grid item sm={12} md={5} lg={5}>
-        <Card>
+        <Card sx={{
+          padding: 2
+        }}>
         <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: 'pink', color: 'black', fontStyle: 'italic', fontWeight: 'bold' }} aria-label="step">
@@ -677,7 +705,33 @@ function PrayerCardDesigner() {
       }}/>
       </Box>
           <CardContent>
-
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+              <Typography variant="h6">Select Quantity</Typography>
+              <ToggleButtonGroup
+                value={quantity}
+                exclusive
+                onChange={handleQuantityChange}
+                color="primary"
+                sx={{ marginBottom: .7  }}
+              >
+                <ToggleButton value={25}>25</ToggleButton>
+                <ToggleButton value={50}>50</ToggleButton>
+                <ToggleButton value={75}>75</ToggleButton>
+                <ToggleButton value={100}>100</ToggleButton>
+                <ToggleButton value={125}>125</ToggleButton>
+              </ToggleButtonGroup>
+              <Typography variant="h6">Select Finish</Typography>
+              <ToggleButtonGroup
+                value={finish}
+                exclusive
+                onChange={handleFinishChange}
+                color="primary"
+              >
+                <ToggleButton value="Matte">Matte</ToggleButton>
+                <ToggleButton value="Gloss">Gloss</ToggleButton>
+                <ToggleButton value="Soft">Soft</ToggleButton>
+              </ToggleButtonGroup>
+            </Box>
           </CardContent>
         </Card>
 
