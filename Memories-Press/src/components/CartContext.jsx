@@ -9,12 +9,21 @@ export const CartProvider = ({ children }) => {
     setCartItems((prevItems) => [...prevItems, item]);
   };
 
+  const updateCartItem = (index, updatedProperties) => {
+    setCartItems((prevItems) =>
+      prevItems.map((item, i) => 
+        i === index ? { ...item, ...updatedProperties } : item
+      )
+    );
+  };
+  
+
   const removeFromCart = (index) => {
     setCartItems((prevItems) => prevItems.filter((_, i) => i !== index));
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart }}>
+    <CartContext.Provider value={{ cartItems, addToCart, updateCartItem, removeFromCart }}>
       {children}
     </CartContext.Provider>
   );

@@ -2,12 +2,17 @@ import React, { useContext } from 'react';
 import { Box, Button, Typography, Card, CardContent, CardMedia, Tooltip, Stack, Grid } from '@mui/material';
 import CartContext from './CartContext';
 import { useMedia } from 'react-use';
-import { Link as RouterLink } from 'react-router-dom';
-import Link from '@mui/material/Link';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 function Cart() {
   const { cartItems, removeFromCart } = useContext(CartContext);
   const isMobile = useMedia('(max-width: 600px)');
+  const navigate = useNavigate();
+
+  const handleEdit = (index) => {
+    const selectedItem = cartItems[index];
+    navigate('/funeralstationary/prayercardeditor', { state: { item: selectedItem, index } });
+  };
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" sx={{ marginTop: 6 }}>
@@ -47,6 +52,7 @@ function Cart() {
                   <Button variant="outlined" color="error" sx={{
                     borderRadius: .1
                   }} onClick={() => removeFromCart(index)}>Remove</Button>
+                  <Button variant="outlined" sx={{ borderRadius: .1, marginLeft: 1 }} onClick={() => handleEdit(index)}>Edit</Button>
                 </Box>
               </Box>
             </Grid>

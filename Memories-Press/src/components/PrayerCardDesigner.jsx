@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useContext } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Container,
   Stepper,
@@ -106,27 +106,29 @@ const proverbs = [
 ];
 
 function PrayerCardDesigner() {
+  const { state } = useLocation();
   const isMobile = useMedia('(max-width: 600px)');
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
-  const [backgroundColor, setBackgroundColor] = useState(backgroundColors[0]);
-  const [name, setName] = useState('');
-  const [photo, setPhoto] = useState(null);
+  const [backgroundColor, setBackgroundColor] = useState(state?.item?.backgroundColor || backgroundColors[0]);
+  const [name, setName] = useState(state?.item?.name || '');
+  const [photo, setPhoto] = useState(state?.item?.photo || null);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [dob, setDob] = useState('');
-  const [dod, setDod] = useState('');
+  const [dob, setDob] = useState(state?.item?.dob || '');
+  const [dod, setDod] = useState(state?.item?.dod || '');
   const [finalImage, setFinalImage] = useState(null);
   const [smallScaleImage, setSmallScaleImage] = useState(null);
   const [currentColorIndex, setCurrentColorIndex] = useState(0);
-  const [currentProverbIndex, setCurrentProverbIndex] = useState();
+  const [currentProverbIndex, setCurrentProverbIndex] = useState(state?.item?.currentProverbIndex || null);
   const currentProverb = proverbs[currentProverbIndex];
   const [showUpload, setShowUpload] = useState(true);
   const [step, setStep] = useState(6);
   const isDisabled = !name || !photo || !dob || !dod || currentProverbIndex === null;
 
-  const { addToCart } = useContext(CartContext);
+  const { addToCart, updateCartItem } = useContext(CartContext);
+  
 
   const handleNext = () => setActiveStep((prevActiveStep) => prevActiveStep + 1);
   const handleBack = () => setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -197,15 +199,30 @@ function PrayerCardDesigner() {
       smallScaleImg.src = smallScaleCanvas.toDataURL("image/png");
       setSmallScaleImage(smallScaleImg.src);
 
-      addToCart({
-        name,
-        dob,
-        dod,
-        backgroundColor,
-        finalImage: highResImg.src,
-        smallScaleImage: smallScaleImg.src,
-        currentProverb
-      });
+      if (state?.index !== undefined) {
+        updateCartItem(state.index, {
+          name,
+          dob,
+          dod,
+          backgroundColor,
+          photo,
+          finalImage: highResImg.src,
+          smallScaleImage: smallScaleImg.src,
+          currentProverb, currentProverbIndex
+        });
+      } else {
+        addToCart({
+          name,
+          dob,
+          dod,
+          backgroundColor,
+          photo,
+          finalImage: highResImg.src,
+          smallScaleImage: smallScaleImg.src,
+          currentProverb, currentProverbIndex
+        });
+      }
+      
 
       handleReset();
     } catch (error) {
