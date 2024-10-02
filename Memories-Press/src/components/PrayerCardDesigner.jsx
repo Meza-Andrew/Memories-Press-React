@@ -12,7 +12,12 @@ import {
   IconButton,
   Paper,
   Grid,
-  Stack
+  Stack,
+  Card,
+  CardContent,
+  Avatar,
+  CardHeader,
+  Divider
 } from '@mui/material';
 import html2canvas from 'html2canvas';
 import Cropper from 'react-easy-crop';
@@ -513,11 +518,65 @@ function PrayerCardDesigner() {
           <div>
             {!isMobile ? <Grid container spacing={4}>
       <Grid item sm={4} md={5} lg={5}>
+        <Card>
+        <CardHeader
+        sx={{
+          backgroundColor: 'pink'
+        }}
+        avatar={
+          <Avatar sx={{ bgcolor: 'white', color: 'black', fontStyle: 'italic', fontWeight: 'bold' }} aria-label="step">
+            1
+          </Avatar>
+        }
+        
+        title={
+          <Typography variant='h5' fontStyle='italic'>
+            Select a template
+          </Typography>
+        }
+      />
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center'
+      }}>
+      <Divider sx={{
+        width: '100%'
+      }}/>
+      </Box>
+      <CardContent>
         <TemplateGrid setBackgroundColor={setBackgroundColor} backgroundColors={backgroundColors} />
+        </CardContent>
+        </Card>
       </Grid>
       <Grid item sm={8} md={7} lg={7}>
-        <Paper sx={{ height: '520px', padding: 0 }}>
+        
+          <Card sx={{
+            height: '632px'
+          }}>
+            <CardHeader
+        avatar={
+          <Avatar sx={{ bgcolor: 'pink', color: 'black', fontStyle: 'italic', fontWeight: 'bold' }} aria-label="step">
+            2
+          </Avatar>
+        }
+        
+        title={
+          <Typography variant='h5' fontStyle='italic'>
+            Upload your image
+          </Typography>
+        }
+      />
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center'
+      }}>
+      <Divider sx={{
+        width: '70%'
+      }}/>
+      </Box>
+      <CardContent>
           {getStepContent(step)}
+          
           <Box display="flex" justifyContent="center" margin="auto" >
             {!showUpload ? (
               <Button variant="contained" size="large" onClick={showCroppedImage}>
@@ -535,10 +594,34 @@ function PrayerCardDesigner() {
               </>
             )}
           </Box>
-        </Paper>
+          </CardContent>
+          </Card>
+        
       </Grid>
-      <Grid item sm={12} md={12} lg={12}>
-        <Paper sx={{ padding: 3 }}>
+      <Grid item sm={12} md={7} lg={7}>
+        <Card sx={{ padding: 2 }}>
+        <CardHeader
+        avatar={
+          <Avatar sx={{ bgcolor: 'pink', color: 'black', fontStyle: 'italic', fontWeight: 'bold' }} aria-label="step">
+            3
+          </Avatar>
+        }
+        
+        title={
+          <Typography variant='h5' fontStyle='italic'>
+            Enter details
+          </Typography>
+        }
+      />
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center'
+      }}>
+      <Divider sx={{
+        width: '90%'
+      }}/>
+      </Box>
+      <CardContent>
           <Stack rowGap={3}>
             <TextField
               label="Enter your loved one's name"
@@ -567,14 +650,44 @@ function PrayerCardDesigner() {
             </Box>
             <ProverbSelector proverbs={proverbs} currentProverbIndex={currentProverbIndex} setCurrentProverbIndex={setCurrentProverbIndex}/>
           </Stack>
-        </Paper>
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item sm={12} md={5} lg={5}>
+        <Card>
+        <CardHeader
+        avatar={
+          <Avatar sx={{ bgcolor: 'pink', color: 'black', fontStyle: 'italic', fontWeight: 'bold' }} aria-label="step">
+            4
+          </Avatar>
+        }
+        
+        title={
+          <Typography variant='h5' fontStyle='italic'>
+            Wrapping Up
+          </Typography>
+        }
+      />
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center'
+      }}>
+      <Divider sx={{
+        width: '80%'
+      }}/>
+      </Box>
+          <CardContent>
+
+          </CardContent>
+        </Card>
+
       </Grid>
     </Grid> : 
       <Paper sx={{height: '540px'}}>
       {getStepContent(activeStep)}
       {activeStep === 0 && 
       <Box display="flex" justifyContent="center" margin='auto'>
-        <Typography>Choose a template color</Typography>
+        <Typography>Choose a template</Typography>
       </Box>
       }
     {activeStep === steps.length - 1 && 
