@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
-import { Box, Button, Typography, Card, CardContent, CardMedia, Tooltip, Stack, Grid } from '@mui/material';
+import { Box, Button, Typography, Card, CardContent, CardMedia, Tooltip, Stack, Grid, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import CartContext from './CartContext';
 import { useMedia } from 'react-use';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 function Cart() {
-  const { cartItems, removeFromCart } = useContext(CartContext);
+  const { cartItems, removeFromCart, updateCartItem } = useContext(CartContext);
   const isMobile = useMedia('(max-width: 600px)');
   const navigate = useNavigate();
 
@@ -13,6 +13,17 @@ function Cart() {
     const selectedItem = cartItems[index];
     navigate('/funeralstationary/prayercardeditor', { state: { item: selectedItem, index } });
   };
+
+  const handleQuantityEdit = (event, index) => {
+    const value = event.target.value;
+    updateCartItem(index, { quantity: value });
+  };
+
+  const handleFinishEdit = (event, index) => {
+    const value = event.target.value;
+    updateCartItem(index, { finish: value });
+  };
+  
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" sx={{ marginTop: 6 }}>
@@ -46,6 +57,45 @@ function Cart() {
                         {item.currentProverb}
                       </Typography>
                     )}
+                    <Box sx={{
+                      display: 'flex',
+                      gap: 1
+                    }}>
+                      <Box sx={{ width: 80 }}>
+                        <FormControl fullWidth>
+                          <InputLabel id="quantity-select-label">Quantity</InputLabel>
+                          <Select
+                            labelId="quantity-select-label"
+                            id="quantity-select"
+                            value={item.quantity}
+                            label="quantity"
+                            onChange={(event) => handleQuantityEdit(event, index)}
+                          >
+                            <MenuItem value={25}>25</MenuItem>
+                            <MenuItem value={50}>50</MenuItem>
+                            <MenuItem value={75}>75</MenuItem>
+                            <MenuItem value={100}>100</MenuItem>
+                            <MenuItem value={125}>125</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Box>
+                      <Box sx={{ width: 120 }}>
+                        <FormControl fullWidth>
+                          <InputLabel id="finish-select-label">Finish</InputLabel>
+                          <Select
+                            labelId="finish-select-label"
+                            id="finish-select"
+                            value={item.finish}
+                            label="finish"
+                            onChange={(event) => handleFinishEdit(event, index)}
+                          >
+                            <MenuItem value={'Matte'}>Matte</MenuItem>
+                            <MenuItem value={'Gloss'}>Gloss</MenuItem>
+                            <MenuItem value={'Soft'}>Soft</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Box>
+                    </Box>
                   </Stack>
                 </CardContent>
                 <Box sx={{ textAlign: 'right' }}>
