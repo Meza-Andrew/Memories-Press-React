@@ -59,7 +59,8 @@ function Cart() {
                     )}
                     <Box sx={{
                       display: 'flex',
-                      gap: 1
+                      gap: 1,
+                      marginTop: 2
                     }}>
                       <Box sx={{ width: 80 }}>
                         <FormControl fullWidth>
@@ -70,6 +71,9 @@ function Cart() {
                             value={item.quantity}
                             label="quantity"
                             onChange={(event) => handleQuantityEdit(event, index)}
+                            sx={{
+                              height: 40
+                            }}
                           >
                             <MenuItem value={25}>25</MenuItem>
                             <MenuItem value={50}>50</MenuItem>
@@ -88,6 +92,9 @@ function Cart() {
                             value={item.finish}
                             label="finish"
                             onChange={(event) => handleFinishEdit(event, index)}
+                            sx={{
+                              height: 40
+                            }}
                           >
                             <MenuItem value={'Matte'}>Matte</MenuItem>
                             <MenuItem value={'Gloss'}>Gloss</MenuItem>

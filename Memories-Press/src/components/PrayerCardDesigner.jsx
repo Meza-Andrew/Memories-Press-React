@@ -20,7 +20,8 @@ import {
   Divider,
   ButtonGroup,
   ToggleButton,
-  ToggleButtonGroup
+  ToggleButtonGroup,
+  Chip
 } from '@mui/material';
 import html2canvas from 'html2canvas';
 import Cropper from 'react-easy-crop';
@@ -37,7 +38,7 @@ const FormContainer = styled('div')({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  padding: '20px',
+  padding: '5px',
 });
 
 const BackgroundCard = styled('div')(({ backgroundColor }) => ({
@@ -380,12 +381,6 @@ function PrayerCardDesigner() {
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
             </CompositionContainer>
             </Box>
-            {isMobile && <TextField
-              label="Enter your loved one's name"
-              value={name}
-              onChange={handleNameChange}
-              style={{ marginTop: '20px' }}
-            />}
           </FormContainer>
         );
       case 2:
@@ -402,10 +397,6 @@ function PrayerCardDesigner() {
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
             </CompositionContainer>
             </Box>
-            {isMobile && <Button variant="contained" size='large' component="label" style={{ marginTop: '25px' }}>
-              Upload Photo <FileUpload/>
-              <input type="file" hidden onChange={handlePhotoChange} />
-            </Button>}
           </FormContainer>
         );
       case 3:
@@ -430,9 +421,6 @@ function PrayerCardDesigner() {
               )}
             </CropContainer>
             </Box>
-            {isMobile && <Button variant="contained" size='large' onClick={showCroppedImage} style={{ marginTop: '25px' }}>
-              Save Crop
-            </Button>}
           </FormContainer>
         );
       case 4:
@@ -449,24 +437,6 @@ function PrayerCardDesigner() {
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
             </CompositionContainer>
             </Box>
-            {isMobile && <Box sx={{ display: 'flex', gap: 1.5 }}>
-      <TextField
-        label="Date of Birth"
-        type="date"
-        InputLabelProps={{ shrink: true }}
-        value={dob}
-        onChange={handleDobChange}
-        sx={{ marginTop: '25px' }}
-      />
-      <TextField
-        label="Date of Death"
-        type="date"
-        InputLabelProps={{ shrink: true }}
-        value={dod}
-        onChange={handleDodChange}
-        sx={{ marginTop: '25px' }}
-      />
-    </Box>}
           </FormContainer>
         );
       case 5:
@@ -486,14 +456,6 @@ function PrayerCardDesigner() {
             </CompositionContainer>
             </Box>
           </FormContainer>
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            width: '70%',
-            margin: 'auto'
-          }}>
-            <ProverbSelector proverbs={proverbs} currentProverbIndex={currentProverbIndex} setCurrentProverbIndex={setCurrentProverbIndex}/>
-          </Box>
           </>
         );
       case 6:
@@ -517,6 +479,37 @@ function PrayerCardDesigner() {
         return 'Unknown step';
     }
   };
+
+  const featureSelection = (
+    <>
+      <Typography variant={{sm: "h6", xs: 'body2'}}>Select Quantity</Typography>
+      <ToggleButtonGroup
+        value={quantity}
+        exclusive
+        onChange={handleQuantityChange}
+        color="primary"
+        sx={{ marginBottom: {xs: .2, sm: .7}, height: {xs:'20px', sm: '46px'} }}
+      >
+        <ToggleButton value={25}>25</ToggleButton>
+        <ToggleButton value={50}>50</ToggleButton>
+        <ToggleButton value={75}>75</ToggleButton>
+        <ToggleButton value={100}>100</ToggleButton>
+        <ToggleButton value={125}>125</ToggleButton>
+      </ToggleButtonGroup>
+      <Typography variant={{sm: "h6", xs: 'body2'}}>Select Finish</Typography>
+      <ToggleButtonGroup
+        value={finish}
+        exclusive
+        onChange={handleFinishChange}
+        color="primary"
+        sx={{ height: {xs:'20px', sm: '46px'} }}
+      >
+        <ToggleButton value="Matte">Matte</ToggleButton>
+        <ToggleButton value="Gloss">Gloss</ToggleButton>
+        <ToggleButton value="Soft">Soft</ToggleButton>
+      </ToggleButtonGroup>
+    </>   
+  )
 
   return (
     <Container sx={{marginTop: 7}}>
@@ -705,58 +698,86 @@ function PrayerCardDesigner() {
       }}/>
       </Box>
           <CardContent>
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-              <Typography variant="h6">Select Quantity</Typography>
-              <ToggleButtonGroup
-                value={quantity}
-                exclusive
-                onChange={handleQuantityChange}
-                color="primary"
-                sx={{ marginBottom: .7  }}
-              >
-                <ToggleButton value={25}>25</ToggleButton>
-                <ToggleButton value={50}>50</ToggleButton>
-                <ToggleButton value={75}>75</ToggleButton>
-                <ToggleButton value={100}>100</ToggleButton>
-                <ToggleButton value={125}>125</ToggleButton>
-              </ToggleButtonGroup>
-              <Typography variant="h6">Select Finish</Typography>
-              <ToggleButtonGroup
-                value={finish}
-                exclusive
-                onChange={handleFinishChange}
-                color="primary"
-              >
-                <ToggleButton value="Matte">Matte</ToggleButton>
-                <ToggleButton value="Gloss">Gloss</ToggleButton>
-                <ToggleButton value="Soft">Soft</ToggleButton>
-              </ToggleButtonGroup>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'left', gap: 2 }}>
+              {featureSelection}
             </Box>
           </CardContent>
         </Card>
 
       </Grid>
     </Grid> : 
-      <Paper sx={{height: '540px'}}>
+      <Paper sx={{height: '565px'}}>
       {getStepContent(activeStep)}
+      <Divider sx={{
+        marginTop: 1
+      }} variant='middle'>
+        {/* <Chip label='details'/> */}
+      </Divider>
+      <Box display="flex" flexDirection='column' justifyContent="center" alignItems='center' margin={3}>
       {activeStep === 0 && 
-      <Box display="flex" justifyContent="center" margin='auto'>
         <Typography>Choose a template</Typography>
-      </Box>
+      }
+      {activeStep === 1 && 
+        <TextField
+          label="Enter your loved one's name"
+          value={name}
+          onChange={handleNameChange}
+        />
+      }
+      {activeStep === 2 && 
+        <Button variant="contained" size='large' component="label" >
+          Upload Photo <FileUpload/>
+          <input type="file" hidden onChange={handlePhotoChange} />
+        </Button>
+      }
+      {activeStep === 3 && 
+        <Button variant="contained" size='large' onClick={showCroppedImage} >
+          Save Crop
+        </Button>
+      }
+       {activeStep === 4 && 
+        <Box sx={{ display: 'flex', gap: 1.5 }}>
+          <TextField
+            label="Date of Birth"
+            type="date"
+            InputLabelProps={{ shrink: true }}
+            value={dob}
+            onChange={handleDobChange}
+            sx={{
+              width: '120px'
+            }}
+          />
+          <TextField
+            label="Date of Death"
+            type="date"
+            InputLabelProps={{ shrink: true }}
+            value={dod}
+            onChange={handleDodChange}
+            sx={{
+              width: '120px'
+            }}
+          />
+        </Box>
+      }
+      {activeStep === 5 &&
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          width: '70%',
+          margin: 'auto'
+        }}>
+          <ProverbSelector proverbs={proverbs} currentProverbIndex={currentProverbIndex} setCurrentProverbIndex={setCurrentProverbIndex}/>
+        </Box>
       }
     {activeStep === steps.length - 1 && 
-      <Box display="flex" justifyContent="center" margin='auto'>
-        <Button 
-          variant="contained" 
-          color="primary" 
-          size='large' 
-          margin='auto' 
-          onClick={generateFinalImage}
-        >
-          Add to cart
-        </Button>
-      </Box>
+        <Box>
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'left', gap: .5, marginTop: -2 }}>
+          {featureSelection}
+          </Box>
+        </Box>
+        
       }
+      </Box>
     </Paper>}
             {isMobile && <Paper sx={{
               padding: 1,
@@ -764,16 +785,27 @@ function PrayerCardDesigner() {
               marginBottom: 4
             }}>
             <Box display="flex" justifyContent='space-evenly'  maxWidth={300} margin='auto' gap={2}>
-              <Button variant='outlined' size='large' sx={{
+              <Button variant='text' size='large' sx={{
                     borderRadius: .5
                   }} disabled={activeStep === 0} onClick={handleBack}>
                 Back
               </Button>
-              <Button variant="contained" size='large' sx={{
-                    borderRadius: .5
-                  }} color="primary" disabled={activeStep === steps.length - 1} onClick={handleNext}>
-                Next
-              </Button>
+              {(activeStep === steps.length - 1) ?
+              <Button 
+              variant="contained" 
+              color="primary" 
+              size='large' 
+              margin='auto' 
+              onClick={generateFinalImage}
+              disabled={isDisabled}
+            >
+              Add to cart
+            </Button> : 
+            <Button variant="contained" size='large' sx={{
+              borderRadius: .5
+            }} color="primary" disabled={activeStep === steps.length - 1} onClick={handleNext}>
+          Next
+        </Button>}
             </Box>
             </Paper>}
           </div>
