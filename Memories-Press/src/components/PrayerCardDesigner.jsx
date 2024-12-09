@@ -33,6 +33,9 @@ import CartContext from './CartContext';
 import TemplateGrid from './TemplateGrid';
 import ProverbSelector from './ProverbSelector';
 import PrayerHero from './PrayerHero';
+import { motion, useMotionValue, useDragControls } from 'framer-motion';
+
+
 
 const FormContainer = styled('div')({
   display: 'flex',
@@ -51,13 +54,19 @@ const BackgroundCard = styled('div')(({ backgroundColor }) => ({
   justifyContent: 'center'
 }));
 
-const ImagePreview = styled('img')({
+// Existing ImagePreview styled component
+const ImagePreview = styled('img')(({ isDragging }) => ({
   width: '160px',
   height: '160px',
   borderRadius: '50%',
   objectFit: 'cover',
   marginTop: '35px',
-});
+  cursor: isDragging ? 'grabbing' : 'grab',
+  userSelect: 'none',
+}));
+
+// Create a Motion-enhanced ImagePreview
+const MotionImagePreview = motion.create(ImagePreview);
 
 const CompositionContainer = styled('div')(({ backgroundColor }) => ({
   width: '300px',
@@ -135,13 +144,16 @@ function PrayerCardDesigner() {
   const [finalImage, setFinalImage] = useState(null);
   const [smallScaleImage, setSmallScaleImage] = useState(null);
   const [currentColorIndex, setCurrentColorIndex] = useState(0);
-  const [currentProverbIndex, setCurrentProverbIndex] = useState(state?.item?.currentProverbIndex || null);
+  const [currentProverbIndex, setCurrentProverbIndex] = useState(state?.item?.currentProverbIndex || '');
   const currentProverb = proverbs[currentProverbIndex];
   const [showUpload, setShowUpload] = useState(true);
   const [step, setStep] = useState(6);
-  const [quantity, setQuantity] = useState(state?.item?.quantity || null);
-  const [finish, setFinish] = useState(state?.item?.finish || null);
+  const [quantity, setQuantity] = useState(state?.item?.quantity || '');
+  const [finish, setFinish] = useState(state?.item?.finish || '');
   const isDisabled = !name || !photo || !dob || !dod || !quantity || !finish || currentProverbIndex === null;
+  const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+
 
   const { addToCart, updateCartItem } = useContext(CartContext);
   
@@ -323,6 +335,79 @@ function PrayerCardDesigner() {
     setCurrentProverbIndex(newIndex);
   };
 
+  const gridSize = 40; // Move in increments of 15 pixels
+const constraints = {
+  left: -40,
+  top: -20,
+  right: 40,
+  bottom: 20,
+};
+
+// Initialize motion values for x and y
+const x = useMotionValue(0);
+const y = useMotionValue(0);
+const dragControls = useDragControls();
+
+const imagePreviewDraggable = (
+  <MotionImagePreview
+    src={photo}
+    alt="Cropped"
+    draggable={false}
+    drag
+    dragControls={dragControls}
+    dragListener={false} // Disable automatic drag listening
+    dragMomentum={false}
+    onPointerDown={(event) => {
+      dragControls.start(event); // Manually start the drag
+      setIsDragging(true);
+    }}
+    onPointerUp={() => setIsDragging(false)}
+    onDrag={(event, info) => {
+      // Calculate new position
+      const newX = x.get() + info.delta.x;
+      const newY = y.get() + info.delta.y;
+
+      // Snap to grid
+      const snappedX = Math.round(newX / gridSize) * gridSize;
+      const snappedY = Math.round(newY / gridSize) * gridSize;
+
+      // Ensure within constraints
+      const boundedX = Math.max(constraints.left, Math.min(snappedX, constraints.right));
+      const boundedY = Math.max(constraints.top, Math.min(snappedY, constraints.bottom));
+
+      // Update motion values
+      x.set(boundedX);
+      y.set(boundedY);
+    }}
+    style={{
+      x,
+      y,
+      cursor: isDragging ? 'grabbing' : 'grab',
+    }}
+    whileHover={{
+      scale: 1.02,
+      boxShadow: '0 6px 12px rgba(0,0,0,0.7)',
+    }}
+    animate={{
+      scale: isDragging ? 1.02 : 1,
+      boxShadow: isDragging ? '0 4px 8px rgba(0,0,0,0.4)' : 'none',
+    }}
+    transition={{
+      type: 'spring',
+      stiffness: 300,
+      damping: 30,
+    }}
+    role="button"
+    aria-label="Draggable Image Preview"
+    tabIndex={0}
+  />
+);
+
+  
+
+  
+
+
   const getStepContent = (step) => {
     switch (step) {
       case 0:
@@ -338,7 +423,7 @@ function PrayerCardDesigner() {
                 <>
                   <div style={{ position: 'relative', width: '300px', height: '400px' }}>
                   <CompositionContainer backgroundColor={backgroundColor}>
-              {photo && <ImagePreview src={photo} alt="Cropped" />}
+              {photo && imagePreviewDraggable}
               {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
             </CompositionContainer>
@@ -356,7 +441,7 @@ function PrayerCardDesigner() {
               ) : (
                 <>
                   <CompositionContainer backgroundColor={backgroundColor}>
-              {photo && <ImagePreview src={photo} alt="Cropped" />}
+              {photo && imagePreviewDraggable}
               {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
             </CompositionContainer>
@@ -376,7 +461,7 @@ function PrayerCardDesigner() {
               boxShadow: '5px 5px 5px grey'
             }}>
             <CompositionContainer backgroundColor={backgroundColor}>
-              {photo && <ImagePreview src={photo} alt="Cropped" />}
+              {photo && imagePreviewDraggable}
               {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
             </CompositionContainer>
@@ -392,7 +477,7 @@ function PrayerCardDesigner() {
               boxShadow: '5px 5px 5px grey'
             }}>
             <CompositionContainer backgroundColor={backgroundColor}>
-              {photo && <ImagePreview src={photo} alt="Cropped" />}
+              {photo && imagePreviewDraggable}
               {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
             </CompositionContainer>
@@ -432,7 +517,7 @@ function PrayerCardDesigner() {
               boxShadow: '5px 5px 5px grey'
             }}>
             <CompositionContainer backgroundColor={backgroundColor}>
-              {photo && <ImagePreview src={photo} alt="Cropped" />}
+              {photo && imagePreviewDraggable}
               {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
             </CompositionContainer>
@@ -449,7 +534,7 @@ function PrayerCardDesigner() {
               boxShadow: '5px 5px 5px grey'
             }}>
             <CompositionContainer backgroundColor={backgroundColor}>
-              {photo && <ImagePreview src={photo} alt="Cropped" />}
+              {photo && imagePreviewDraggable}
               <CompositionText top="50%" variant="h6">{name}</CompositionText>
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
               <CompositionText top="69%" variant="body2">{currentProverb}</CompositionText>
@@ -467,7 +552,7 @@ function PrayerCardDesigner() {
               boxShadow: '5px 5px 5px grey'
             }}>
             <CompositionContainer id="final-composition" backgroundColor={backgroundColor}>
-              {photo && <ImagePreview src={photo} alt="Cropped" />}
+              {photo && imagePreviewDraggable}
               <CompositionText top="50%" variant="h6">{name}</CompositionText>
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
               <CompositionText top="69%" variant="body2">{currentProverb}</CompositionText>
@@ -482,7 +567,7 @@ function PrayerCardDesigner() {
 
   const featureSelection = (
     <>
-      <Typography variant={{sm: "h6", xs: 'body2'}}>Select Quantity</Typography>
+      <Typography variant={isMobile ? 'body2' : 'h6'}>Select Quantity</Typography>
       <ToggleButtonGroup
         value={quantity}
         exclusive
@@ -496,7 +581,7 @@ function PrayerCardDesigner() {
         <ToggleButton value={100}>100</ToggleButton>
         <ToggleButton value={125}>125</ToggleButton>
       </ToggleButtonGroup>
-      <Typography variant={{sm: "h6", xs: 'body2'}}>Select Finish</Typography>
+      <Typography variant={isMobile ? 'body2' : 'h6'}>Select Finish</Typography>
       <ToggleButtonGroup
         value={finish}
         exclusive
