@@ -34,8 +34,9 @@ import TemplateGrid from './TemplateGrid';
 import ProverbSelector from './ProverbSelector';
 import PrayerHero from './PrayerHero';
 import { motion, useMotionValue, useDragControls } from 'framer-motion';
+import templates from './template';
 
-
+//elias container 2 width
 
 const FormContainer = styled('div')({
   display: 'flex',
@@ -68,16 +69,33 @@ const ImagePreview = styled('img')(({ isDragging }) => ({
 // Create a Motion-enhanced ImagePreview
 const MotionImagePreview = motion.create(ImagePreview);
 
-const CompositionContainer = styled('div')(({ backgroundColor }) => ({
-  width: '300px',
-  height: '420px',
+// const CompositionContainer = styled('div')(({ backgroundColor }) => ({
+//   width: '300px',
+//   height: '420px',
+//   padding: '0px',
+//   borderRadius: '2px',
+//   textAlign: 'center',
+//   position: 'relative',
+//   overflow: 'hidden',
+//   backgroundColor,
+// }));
+  const templateWidth = 787
+  const templateHeight = 1237
+
+const CompositionContainer = styled('div')(({ backgroundImage, isMobile }) => ({
+
+  width: `${isMobile ? templateWidth * 0.5 : templateWidth * 0.5}px`,
+  height: `${isMobile ? templateHeight * 0.5 : templateHeight * 0.5}px`,  
   padding: '0px',
   borderRadius: '2px',
   textAlign: 'center',
   position: 'relative',
   overflow: 'hidden',
-  backgroundColor,
+  backgroundImage: `url(${backgroundImage})`,
+  backgroundSize: 'cover', // Ensures the image covers the container
+  backgroundPosition: 'center', // Centers the image
 }));
+
 
 const CompositionText = styled(Typography)(({ top, left, right, bottom }) => ({
   position: 'absolute',
@@ -105,7 +123,7 @@ const ArrowContainer = styled('div')({
   width: '100%',
   position: 'absolute',
   top: '50%',
-  transform: 'translateY(-50%)',
+  transform: 'translateY(-500%)',
   zIndex: 1,
 });
 
@@ -133,7 +151,7 @@ function PrayerCardDesigner() {
   const isMobile = useMedia('(max-width: 600px)');
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
-  const [backgroundColor, setBackgroundColor] = useState(state?.item?.backgroundColor || backgroundColors[0]);
+  const [template, setTemplate] = useState(state?.item?.template || templates[0]);
   const [name, setName] = useState(state?.item?.name || '');
   const [photo, setPhoto] = useState(state?.item?.photo || null);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
@@ -143,7 +161,7 @@ function PrayerCardDesigner() {
   const [dod, setDod] = useState(state?.item?.dod || '');
   const [finalImage, setFinalImage] = useState(null);
   const [smallScaleImage, setSmallScaleImage] = useState(null);
-  const [currentColorIndex, setCurrentColorIndex] = useState(0);
+  const [currentTemplateIndex, setCurrentTemplateIndex] = useState(0);
   const [currentProverbIndex, setCurrentProverbIndex] = useState(state?.item?.currentProverbIndex || '');
   const currentProverb = proverbs[currentProverbIndex];
   const [showUpload, setShowUpload] = useState(true);
@@ -162,7 +180,7 @@ function PrayerCardDesigner() {
   const handleBack = () => setActiveStep((prevActiveStep) => prevActiveStep - 1);
   const handleReset = () => {
     setActiveStep(0);
-    setBackgroundColor(backgroundColors[0]);
+    setTemplate(templates[0]);
     setName('');
     setPhoto(null);
     setCrop({ x: 0, y: 0 });
@@ -171,14 +189,14 @@ function PrayerCardDesigner() {
     setDod('');
     setFinalImage(null);
     setSmallScaleImage(null);
-    setCurrentColorIndex(0);
+    setCurrentTemplateIndex(0);
     setCurrentProverbIndex(0);
     navigate('/cart');
   };
 
   const handleBackgroundColorChange = (index) => {
-    setCurrentColorIndex(index);
-    setBackgroundColor(backgroundColors[index]);
+    setCurrentTemplateIndex(index);
+    setTemplate(templates[index]);
   };
 
   const handleQuantityChange = (event, newQuantity) => {
@@ -221,7 +239,7 @@ function PrayerCardDesigner() {
       const highResCanvas = await html2canvas(element, {
         scale: 3,
         useCORS: true,
-        backgroundColor: null,
+        template: null,
       });
 
       const highResImg = new Image();
@@ -232,7 +250,7 @@ function PrayerCardDesigner() {
       const smallScaleCanvas = await html2canvas(element, {
         scale: 0.9,
         useCORS: true,
-        backgroundColor: null,
+        template: null,
       });
 
       const smallScaleImg = new Image();
@@ -244,7 +262,7 @@ function PrayerCardDesigner() {
           name,
           dob,
           dod,
-          backgroundColor,
+          template,
           photo,
           finish,
           quantity,
@@ -257,7 +275,7 @@ function PrayerCardDesigner() {
           name,
           dob,
           dod,
-          backgroundColor,
+          template,
           photo,
           finish,
           quantity,
@@ -316,12 +334,12 @@ function PrayerCardDesigner() {
   };
 
   const goToNextColor = () => {
-    const newIndex = (currentColorIndex + 1) % backgroundColors.length;
+    const newIndex = (currentTemplateIndex + 1) % templates.length;
     handleBackgroundColorChange(newIndex);
   };
 
   const goToPreviousColor = () => {
-    const newIndex = (currentColorIndex - 1 + backgroundColors.length) % backgroundColors.length;
+    const newIndex = (currentTemplateIndex - 1 + templates.length) % templates.length;
     handleBackgroundColorChange(newIndex);
   };
 
@@ -418,15 +436,17 @@ const imagePreviewDraggable = (
               borderRadius: 1,
               boxShadow: '5px 5px 5px grey'
             }}>
-            <div style={{ position: 'relative', width: '300px', height: '420px' }}>
+            
               {isMobile ? (
                 <>
-                  <div style={{ position: 'relative', width: '300px', height: '400px' }}>
-                  <CompositionContainer backgroundColor={backgroundColor}>
+                  
+                  <CompositionContainer backgroundImage={template.front} isMobile={isMobile}>
               {photo && imagePreviewDraggable}
               {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
+              {currentProverb && <CompositionText top="69%" variant="body2">{currentProverb}</CompositionText>}
             </CompositionContainer>
+            <div style={{ position: 'relative', width: '100%'}}>
                     <ArrowContainer>
                       <IconButton onClick={goToPreviousColor}>
                         <ArrowBack />
@@ -440,15 +460,16 @@ const imagePreviewDraggable = (
                 </>
               ) : (
                 <>
-                  <CompositionContainer backgroundColor={backgroundColor}>
+                  <CompositionContainer backgroundImage={template.front} isMobile={isMobile}>
               {photo && imagePreviewDraggable}
               {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
+              {currentProverb && <CompositionText top="69%" variant="body2">{currentProverb}</CompositionText>}
             </CompositionContainer>
                   
                 </>
               )}
-            </div>
+            
             </Box>
           </FormContainer>
         );
@@ -460,10 +481,11 @@ const imagePreviewDraggable = (
               borderRadius: 1,
               boxShadow: '5px 5px 5px grey'
             }}>
-            <CompositionContainer backgroundColor={backgroundColor}>
+            <CompositionContainer backgroundImage={template.front} isMobile={isMobile}>
               {photo && imagePreviewDraggable}
               {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
+              {currentProverb && <CompositionText top="69%" variant="body2">{currentProverb}</CompositionText>}
             </CompositionContainer>
             </Box>
           </FormContainer>
@@ -476,10 +498,11 @@ const imagePreviewDraggable = (
               borderRadius: 1,
               boxShadow: '5px 5px 5px grey'
             }}>
-            <CompositionContainer backgroundColor={backgroundColor}>
+            <CompositionContainer backgroundImage={template.front} isMobile={isMobile}>
               {photo && imagePreviewDraggable}
               {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
+              {currentProverb && <CompositionText top="69%" variant="body2">{currentProverb}</CompositionText>}
             </CompositionContainer>
             </Box>
           </FormContainer>
@@ -516,10 +539,11 @@ const imagePreviewDraggable = (
               borderRadius: 1,
               boxShadow: '5px 5px 5px grey'
             }}>
-            <CompositionContainer backgroundColor={backgroundColor}>
+            <CompositionContainer backgroundImage={template.front} isMobile={isMobile}>
               {photo && imagePreviewDraggable}
               {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
+              {currentProverb && <CompositionText top="69%" variant="body2">{currentProverb}</CompositionText>}
             </CompositionContainer>
             </Box>
           </FormContainer>
@@ -533,11 +557,11 @@ const imagePreviewDraggable = (
               borderRadius: 1,
               boxShadow: '5px 5px 5px grey'
             }}>
-            <CompositionContainer backgroundColor={backgroundColor}>
+            <CompositionContainer backgroundImage={template.front} isMobile={isMobile}>
               {photo && imagePreviewDraggable}
               <CompositionText top="50%" variant="h6">{name}</CompositionText>
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
-              <CompositionText top="69%" variant="body2">{currentProverb}</CompositionText>
+              {currentProverb && <CompositionText top="69%" variant="body2">{currentProverb}</CompositionText>}
             </CompositionContainer>
             </Box>
           </FormContainer>
@@ -551,11 +575,11 @@ const imagePreviewDraggable = (
               borderRadius: 1,
               boxShadow: '5px 5px 5px grey'
             }}>
-            <CompositionContainer id="final-composition" backgroundColor={backgroundColor}>
+            <CompositionContainer id="final-composition" backgroundImage={template.front} isMobile={isMobile}>
               {photo && imagePreviewDraggable}
               <CompositionText top="50%" variant="h6">{name}</CompositionText>
               {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
-              <CompositionText top="69%" variant="body2">{currentProverb}</CompositionText>
+              {currentProverb && <CompositionText top="69%" variant="body2">{currentProverb}</CompositionText>}
             </CompositionContainer>
             </Box>
           </FormContainer>
@@ -622,7 +646,10 @@ const imagePreviewDraggable = (
           <div>
             {!isMobile ? <Grid container spacing={4}>
       <Grid item sm={4} md={5} lg={5}>
-        <Card>
+        <Card sx={{
+          height: "100%",
+          
+        }}>
         <CardHeader
         sx={{
           backgroundColor: 'pink'
@@ -647,15 +674,18 @@ const imagePreviewDraggable = (
         width: '100%'
       }}/>
       </Box>
-      <CardContent>
-        <TemplateGrid setBackgroundColor={setBackgroundColor} backgroundColors={backgroundColors} />
+      <CardContent sx={{
+        height: "700px", 
+      }}>
+        <TemplateGrid setBackgroundColor={setTemplate} backgroundColors={templates} />
         </CardContent>
         </Card>
       </Grid>
       <Grid item sm={8} md={7} lg={7}>
         
           <Card sx={{
-            height: '632px'
+            height: '800px',
+            maxWidth: '800px' //elias
           }}>
             <CardHeader
         avatar={
@@ -681,7 +711,9 @@ const imagePreviewDraggable = (
       <CardContent>
           {getStepContent(step)}
           
-          <Box display="flex" justifyContent="center" margin="auto" >
+          <Box display="flex" justifyContent="center" margin="auto" sx={{
+            padding: 2
+          }}>
             {!showUpload ? (
               <Button variant="contained" size="large" onClick={showCroppedImage}>
                 Save Crop
@@ -791,7 +823,7 @@ const imagePreviewDraggable = (
 
       </Grid>
     </Grid> : 
-      <Paper sx={{height: '565px'}}>
+      <Paper sx={{height: '100%', paddingBottom: 1}}>
       {getStepContent(activeStep)}
       <Divider sx={{
         marginTop: 1
@@ -800,7 +832,10 @@ const imagePreviewDraggable = (
       </Divider>
       <Box display="flex" flexDirection='column' justifyContent="center" alignItems='center' margin={3}>
       {activeStep === 0 && 
+      <>
         <Typography>Choose a template</Typography>
+        <TemplateGrid setBackgroundColor={setTemplate} backgroundColors={templates} isMobile={isMobile}/>
+        </>
       }
       {activeStep === 1 && 
         <TextField
