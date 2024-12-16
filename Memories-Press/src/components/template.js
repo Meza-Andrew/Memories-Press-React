@@ -1,4 +1,5 @@
-const BASE_URL = "/Memories-Press-React";
+// const BASE_URL = "/Memories-Press-React";
+const BASE_URL = "/staging/6590/memories-press";
 
 const templates = [
   {
