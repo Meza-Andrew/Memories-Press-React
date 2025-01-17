@@ -148,7 +148,7 @@ const finishes = ['Matte', 'Gloss', 'Soft'];
 
 function PrayerCardDesigner() {
   const { state } = useLocation();
-  const isMobile = useMedia('(max-width: 600px)');
+  const isMobile = useMedia('(max-width: 768px)');
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
   const [template, setTemplate] = useState(state?.item?.template || templates[0]);

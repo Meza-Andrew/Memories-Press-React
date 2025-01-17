@@ -11,17 +11,6 @@ function Products() {
   const heroImage = "https://via.placeholder.com/400";
   return (
     <>
-      <Hero heading={heading} subHeading={subHeading} heroImage={heroImage} />
-      {/* {products.map((product) => (
-        <Box key={product}>
-          <Typography>{product}</Typography>
-          <Stack direction="row">
-            {templates.map((template) => (
-              <PrayerCard key={template} listDisplay={true}/>
-            ))}
-          </Stack>
-        </Box>
-      ))} */}
     </>
   );
 }

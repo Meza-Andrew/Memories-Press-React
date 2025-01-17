@@ -1,43 +1,24 @@
 import React from 'react';
-import { Container, Typography, Box, useMediaQuery, useTheme } from '@mui/material';
-import stockheroimage from '../assets/stockheroimage.png';
+import { Box, Typography } from '@mui/material';
+import StyledButton from './StyledButton';
 
-function Hero({ heading, subHeading, heroImage = stockheroimage }) {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
+function Hero() {
   return (
-    <Container
-      maxWidth={false}
-      disableGutters
+    <Box
       sx={{
         position: 'relative',
-        height: { xs: 'auto', sm: '600px' },
+        width: '100%',
+        height: { xs: '400px', md: '600px' },
         display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
+        alignItems: 'center',
+        justifyContent: 'left',
         overflow: 'hidden',
-        padding: 0,
-        marginTop: { xs: '10px', sm: '0px' },
-        marginBottom: { xs: '0px', sm: '30px', md: '35px', lg: '10px' }
       }}
     >
       <Box
         component="img"
-        src={stockheroimage}
-        alt="Flowers"
-        sx={{
-          width: '100%',
-          height: { xs: '300px', sm: '100%' },
-          objectFit: 'cover',
-          zIndex: -1,
-          display: { xs: 'block', sm: 'none' }
-        }}
-      />
-      <Box
-        component="img"
-        src={stockheroimage}
-        alt="Flowers"
+        src="./memories_press-homepage_hero.png"
+        alt="Flower"
         sx={{
           position: 'absolute',
           top: 0,
@@ -45,40 +26,45 @@ function Hero({ heading, subHeading, heroImage = stockheroimage }) {
           width: '100%',
           height: '100%',
           objectFit: 'cover',
-          zIndex: -1,
-          display: { xs: 'none', sm: 'block' },
-          maskImage: 'linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%)'
+          zIndex: 0,
         }}
       />
       <Box
         sx={{
           position: 'relative',
-          zIndex: 2,
-          padding: isMobile ? 2 : 4,
-          textAlign: isMobile ? 'center' : 'left',
-          color: 'white',
-          width: { xs: '100%', sm: '80%', md: '50%', lg: '40%' },
-          marginTop: isMobile ? 0 : -5
+          zIndex: 1,
+          textAlign: { xs: 'center', md: 'left' },
+          padding: { xs: 2, md: 4 },
+          maxWidth: { xs: '90%', md: '60%' },
+          color: 'maroon',
         }}
       >
         <Typography
-          variant={isMobile ? 'h4' : 'h2'}
-          sx={{ fontWeight: '700' }}
+          variant="h3"
           component="h1"
-          color='primary'
+          sx={{
+            fontWeight: 600,
+            marginBottom: 2,
+            fontSize: { xs: '2.8rem', md: '3.5rem' },
+          }}
         >
-          {heading}
+          Celebrate life.
         </Typography>
         <Typography
-          variant={isMobile ? 'h6' : 'h5'}
-          sx={{ fontWeight: '400' }}
-          component="h2"
-          color='#653948'
+          variant="body1"
+          sx={{
+            fontSize: { xs: '2rem', md: '2.2rem' },
+            marginBottom: 3,
+            lineHeight: 1.6,
+          }}
         >
-          {subHeading}
+          Create funeral stationery that honors your loved one’s unique journey.
         </Typography>
+        <StyledButton >
+          Commemorate your loved one
+        </StyledButton>
       </Box>
-    </Container>
+    </Box>
   );
 }
 
