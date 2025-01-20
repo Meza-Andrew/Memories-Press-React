@@ -2,23 +2,24 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import StyledButton from './StyledButton';
 
-function CTA() {
+function CTA({showBackground = true}) {
   return (
     <Box
       sx={{
-        backgroundColor: '#ffe4e1',
+        backgroundColor: showBackground ? '#ffe4e1' : 'transparent',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         padding: 4,
+        width: 'auto'
       }}
     >
       <Box
         sx={{
-          backgroundColor: '#ffffff',
-          borderRadius: 2,
+          backgroundColor: showBackground ? '#ffffff' : 'transparent',
+          borderRadius: showBackground ? 2 : 0,
           padding: 6,
-          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+          boxShadow: showBackground ? '0px 4px 10px rgba(0, 0, 0, 0.1)': 'none',
           textAlign: 'center',
           maxWidth: 'auto',
           width: '100%',
@@ -36,7 +37,6 @@ function CTA() {
         <Typography variant="h4" fontSize={32} sx={{ fontWeight: 600, color: 'maroon' }}>
           Let us help you create a lasting memory.
         </Typography>
-        {/* DESKTOP */}
         <Typography
           variant="body1"
           fontSize={18}
@@ -45,7 +45,7 @@ function CTA() {
             display: { xs: 'none', sm: 'block' },
             color: 'black',
             marginY: 3,
-            width: '80%',
+            maxWidth: '800px',
             justifySelf: 'center'
           }}
         >
@@ -53,7 +53,6 @@ function CTA() {
           loved one's life. Our heartfelt approach and simple process allow you to focus on celebrating
           cherished memories with family, while we handle the details with care.
         </Typography>
-        {/* MOBILE */}
         <Typography
           variant="body1"
           fontSize={18}
@@ -68,7 +67,7 @@ function CTA() {
           loved one's life. Our heartfelt approach and simple process allow you to focus on celebrating
           cherished memories with family, while we handle the details with care.
         </Typography>
-        <StyledButton>Begin your tribute now</StyledButton>
+        <StyledButton small>Begin your tribute now</StyledButton>
       </Box>
     </Box>
   );

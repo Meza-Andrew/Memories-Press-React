@@ -1,9 +1,9 @@
 import React from 'react';
-import { Box } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import ReviewCard from './ReviewCard';
 
-export default function ReviewCardList() {
-  let reviews = [
+export default function ReviewCardList({ showBackground = true }) {
+  const reviews = [
     {
       stars: 5,
       title: 'Such fast service!',
@@ -33,44 +33,55 @@ export default function ReviewCardList() {
   return (
     <Box
       sx={{
-        backgroundColor: '#ffe4e1',
-        padding: 4,
-        borderRadius: 2,
-        overflowX: 'auto',
-        display: 'flex',
-        flexDirection: 'row',
-        gap: 4,
-        flexWrap: 'nowrap',
-        scrollbarWidth: 'thin',
-        '&::-webkit-scrollbar': {
-          height: '6px',
-        },
-        '&::-webkit-scrollbar-thumb': {
-          backgroundColor: '#c95d64',
-          borderRadius: '10px',
-        },
+        width: '100%',
+        backgroundColor: showBackground ? '#ffe4e1' : 'transparent',
+        paddingY: 4,
+        boxSizing: 'border-box',
+        boxShadow: 'inset 0px 1px 10px rgba(0, 0, 0, 0.1), inset 0px -1px 1px rgba(0, 0, 0, 0.1)',
+
       }}
     >
-      {reviews.map((review, index) => (
-        <Box
-          key={index}
-          sx={{
-            flex: '0 0 auto',
-            width: '410px',
-          }}
-        >
-          <ReviewCard
-            stars={review.stars}
-            reviewTitle={review.title}
-            reviewText={review.text}
-            reviewerName={review.reviewerName}
-            reviewDate={review.date}
-            reviewerImage={review.image}
-            backgroundColor="#f7fbe8"
-            starColor="#ffd700"
-          />
-        </Box>
-      ))}
+      <Container
+        maxWidth="xl"
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: 4,
+          padding: 2,
+          overflowX: 'auto',
+          flexWrap: 'nowrap',
+          justifyItems: { xs: 'flex-start', md: 'center' },
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          paddingX: { xs: 2, md: 4 },
+          overflowY: 'visible',
+          scrollbarWidth: 'none',
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+        }}
+      >
+        {reviews.map((review, index) => (
+          <Box
+            key={index}
+            sx={{
+              flex: '0 0 auto',
+              width: '410px',
+            }}
+          >
+            <ReviewCard
+              stars={review.stars}
+              reviewTitle={review.title}
+              reviewText={review.text}
+              reviewerName={review.reviewerName}
+              reviewDate={review.date}
+              reviewerImage={review.image}
+              backgroundColor="#f7fbe8"
+              starColor="#ffd700"
+            />
+          </Box>
+        ))}
+      </Container>
     </Box>
   );
 }

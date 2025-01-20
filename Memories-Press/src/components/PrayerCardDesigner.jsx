@@ -84,8 +84,8 @@ const MotionImagePreview = motion.create(ImagePreview);
 
 const CompositionContainer = styled('div')(({ backgroundImage, isMobile }) => ({
 
-  width: `${isMobile ? templateWidth * 0.5 : templateWidth * 0.5}px`,
-  height: `${isMobile ? templateHeight * 0.5 : templateHeight * 0.5}px`,  
+  width: `${isMobile ? templateWidth * 0.4 : templateWidth * 0.5}px`,
+  height: `${isMobile ? templateHeight * 0.4 : templateHeight * 0.5}px`,  
   padding: '0px',
   borderRadius: '2px',
   textAlign: 'center',

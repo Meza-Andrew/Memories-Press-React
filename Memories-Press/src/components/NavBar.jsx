@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 import {
   AppBar,
   Box,
@@ -21,16 +21,18 @@ import ShoppingCartSharpIcon from '@mui/icons-material/ShoppingCartSharp';
 import logo from '../assets/logoPrinting.png';
 import logoText from '../assets/logo.png';
 import CartContext from './CartContext';
+import StyledButton from './StyledButton';
 
 
-const pages = ['Funeral Stationary', 'Resources', 'About'];
+const pages = [];
 const settings = ['View Orders', 'Update Info', 'Change Password', 'Logout'];
 
 function NavBar({ isLoggedIn, setUser }) {
   const { cartItems } = React.useContext(CartContext);
-
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const location = useLocation();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -56,6 +58,13 @@ function NavBar({ isLoggedIn, setUser }) {
     return str.replace(/\s+/g, '').toLowerCase();
   };
 
+  const handleScroll = () => {
+    const element = document.getElementById('funeral_Stationary');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <>
       <AppBar component="nav" position="fixed">
@@ -74,16 +83,19 @@ function NavBar({ isLoggedIn, setUser }) {
                     component={RouterLink}
                     to={`/${formatString(page)}`}
                     onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: 'inherit' }}
+                    sx={{ py: 2, color: 'inherit' }}
                   >
                     {page}
                   </Button>
                   <Divider orientation='vertical' flexItem variant="middle"/>
                   </>
                 ))}
-                
-                
-                {/* <Button variant="outline" component={RouterLink} to='funeralstationary/prayercardeditor'>Start your design</Button> */}
+                <Box sx={{
+                  p:2,
+                  display: location.pathname === '/' ? 'block' : 'none'
+                }}>
+                  <StyledButton component={RouterLink} onClick={handleScroll} small={true}>Start your design</StyledButton>
+                </Box>
               </Box>
             </Box>
 

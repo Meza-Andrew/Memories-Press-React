@@ -4,7 +4,7 @@ import { Box, Grid, Typography } from '@mui/material';
 import StyledButton from './StyledButton';
 
 const StyledContainer = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(4),
+  padding: theme.spacing(0),
   maxWidth: '1200px',
   margin: '0 auto',
 }));
@@ -22,7 +22,9 @@ export default function SplitContent({
   subheadingAlign = 'left',
   buttonAlign = 'left',
   imageAlign = { xs: 'center', md: 'left' },
-  path
+  path,
+  small,
+  reduceImg
 }) {
   return (
     <StyledContainer>
@@ -30,8 +32,8 @@ export default function SplitContent({
         {imageSrc && (
           <Grid
             item
-            sm={stacked ? 12 : 6}
-            md={6}
+            xs={stacked ? 12 : 6}
+            md={4}
             sx={{
               textAlign: imageAlign,
             }}
@@ -41,14 +43,14 @@ export default function SplitContent({
               src={imageSrc}
               alt="Optional Image"
               sx={{
-                maxWidth: '100%',
+                maxWidth: reduceImg ? reduceImg : '100%',
                 height: 'auto',
                 pl: leftPadding,
               }}
             />
           </Grid>
         )}
-        <Grid item sm={stacked ? 12 : 6} md={imageSrc ? 6 : 12}>
+        <Grid item xs={stacked ? 12 : 6} md={imageSrc ? 8 : 12}>
           <Typography
             variant="h4"
             sx={{
@@ -78,6 +80,7 @@ export default function SplitContent({
               }}
               onClick={onButtonClick}
               path={path}
+              small={small}
             >
               {buttonText}
             </StyledButton>

@@ -10,17 +10,20 @@ export default function ProductsList() {
         alignItems: 'left',
         justifyContent: 'center',
         textAlign: 'left',
-        padding: {xs: 2, md: 8},
+        padding: {xs: 2, md: 6},
+        marginTop: {xs: 3, md: 2},
         gap: 4,
-        width: {xs: "100%", md: '900px'}
+        width: {xs: "100%", md: 'auto'}
      }}>
       <Box>
         <Typography
           variant="h3"
           sx={{
             fontWeight: 600,
+            fontSize: 'clamp(2rem, 2vw, 2.6rem)',
             color: 'maroon',
-            marginBottom: 4,
+            marginBottom: 3,
+            maxWidth: '80%',
           }}
         >
           Explore our funeral stationery options
@@ -29,8 +32,11 @@ export default function ProductsList() {
           variant="body1"
           sx={{
             color: 'black',
+            display: {xs: 'none', md: 'block'},
+            fontSize: 'clamp(1.2rem, 1vw, 1.8rem)',
+            lineHeight: 1.8,
             marginBottom: 4,
-            maxWidth: '800px',
+            maxWidth: '70%',
           }}
         >
           Discover our range of customized funeral stationery products designed to provide a heartfelt
@@ -39,7 +45,10 @@ export default function ProductsList() {
         </Typography>
       </Box>
       <Box sx={{
-        width: {xs: "80%", md: '900px'}
+        width: {xs: "80%", md: '70%'},
+        display: 'flex',
+        flexDirection: 'column',
+        rowGap: 10
       }}>
       <SplitContent
         imageSrc="./PrayerCard.png"
@@ -47,9 +56,9 @@ export default function ProductsList() {
         subheading="Offer guests a lasting memory with custom funeral prayer cards, personalized with beautiful imagery, text, and prayers."
         buttonText="Design your prayer cards"
         buttonWidthMobile='auto'
-        stacked={true}
-        imageAlign={{ sm: 'left', md: 'center' }}
-        path="/funeralstationary/prayercardeditor/"
+        imageAlign={{ xs: 'left', md: 'left' }}
+        path="/prayercards/"
+        small
       />
       <SplitContent
         imageSrc="./Bookmark.png"
@@ -59,8 +68,10 @@ export default function ProductsList() {
         buttonWidthMobile='auto'
         onButtonClick={() => alert('Bookmarks Clicked')}
         stacked={true}
-        imageAlign={{ sm: 'left', md: 'center' }}
-        leftPadding={{ xs: 6, md: 0 }}
+        imageAlign={{ xs: 'left', md: 'center' }}
+        leftPadding={{ xs: 3, md: 0 }}
+        small
+        reduceImg={{xs: '100%', md: '80%'}}
       />
       <SplitContent
         imageSrc="./MemorialHeart.png"
@@ -70,7 +81,8 @@ export default function ProductsList() {
         buttonWidthMobile='auto'
         onButtonClick={() => alert('Memorial Hearts Clicked')}
         stacked={true}
-        imageAlign={{ sm: 'left', md: 'center' }}
+        imageAlign={{ xs: 'left', md: 'left' }}
+        small
       />
       </Box>
     </Box>

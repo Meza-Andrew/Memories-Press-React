@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
 const ProverbSelector = ({ proverbs, currentProverbIndex, setCurrentProverbIndex }) => {

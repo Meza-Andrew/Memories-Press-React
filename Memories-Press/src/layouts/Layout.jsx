@@ -8,10 +8,8 @@ function Layout({isLoggedIn, setUser}) {
   return (
     <>
       <Header isLoggedIn={isLoggedIn} setUser={setUser}/>
-      <Box sx={{
-        maxWidth: 'xl', display: 'flex', justifyContent: 'center', flexDirection: 'column', margin: 'auto'
-      }}>
-      <Outlet />
+      <Box sx={{ width: '100%' }}>
+        <Outlet />
       </Box>
       {/* <Footer/> */}
     </>

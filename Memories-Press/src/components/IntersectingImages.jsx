@@ -14,8 +14,8 @@ const StyledImage = styled(Box)(({ xAxis, yAxis, isOdd }) => ({
   position: 'absolute',
   transform: `translate(${isOdd ? -xAxis : xAxis}px, ${isOdd ? -yAxis : yAxis}px)`,
   transition: 'transform 0.3s ease',
-  width: '250px',
-  height: 'auto',
+  width: 'auto',
+  height: '260px',
   zIndex: isOdd ? 1 : 2,
 }));
 

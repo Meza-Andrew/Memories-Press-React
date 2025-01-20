@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import StyledButton from './StyledButton';
 
-function ResourceSection({ heading, subheading, buttonText, onClick, buttonColor, buttonBgColor }) {
+function ResourceSection({ heading, subheading, buttonText, onClick }) {
   return (
     <Box sx={{ marginBottom: 6 }}>
       <Typography
@@ -26,9 +26,8 @@ function ResourceSection({ heading, subheading, buttonText, onClick, buttonColor
         {subheading}
       </Typography>
       <StyledButton
-        backgroundColor={buttonBgColor || '#c95d64'}
-        color={buttonColor || 'white'}
         onClick={onClick}
+        small
       >
         {buttonText}
       </StyledButton>
@@ -66,16 +65,16 @@ export default function ResourcesList() {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'left',
-      justifyContent: 'right',
+      justifyContent: 'right', //well this obv isnt going right, homepage, fix this section
       textAlign: 'left',
-      padding: {xs: 2, md: 8},
+      padding: {xs: 2, md: 6},
       gap: 4,
-      width: {xs: "100%", md: '900px'} }}>
+      width: {xs: "80%", md: '65%'} }}>
       <Typography
         variant="h4"
         sx={{
           fontWeight: 700,
-          textAlign: 'center',
+          textAlign: 'left',
           color: 'maroon',
           marginBottom: 6,
         }}

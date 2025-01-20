@@ -50,7 +50,7 @@ export default function ReviewCard({
         </Star>
         ))}
       </StarsRow>
-      <Typography variant="h5" sx={{ fontWeight: 600, color: '#6c2e44' }}>
+      <Typography variant="h5" sx={{ fontSize: '1.2rem', fontWeight: 600, color: '#6c2e44' }}>
         {reviewTitle}
       </Typography>
       <Typography variant="body1" sx={{ color: '#6c2e44' }}>

@@ -7,20 +7,19 @@ const ColorGrid = ({ setBackgroundColor, backgroundColors, isMobile }) => {
       sx={{
         width: '100%',
         height: '100%',
-        overflowX: isMobile ? 'scroll' : 'hidden', // Horizontal scrolling on mobile
-        overflowY: isMobile ? 'hidden' : 'scroll', // Vertical scrolling on desktop
-        whiteSpace: isMobile ? 'nowrap' : 'normal', // Prevent wrapping on mobile
+        overflowX: isMobile ? 'scroll' : 'hidden',
+        overflowY: isMobile ? 'hidden' : 'scroll',
+        whiteSpace: isMobile ? 'nowrap' : 'normal',
         padding: '10px',
         border: '2px solid #ddd',
         ...(isMobile && {
           display: 'flex',
           flexDirection: 'row',
-          gap: '34px', // Adjust gap for better spacing on mobile
+          gap: '34px',
         }),
       }}
     >
       {isMobile ? (
-        // Mobile layout with flexbox
         backgroundColors.map((color, index) => (
           <Paper
             key={index}
@@ -49,7 +48,6 @@ const ColorGrid = ({ setBackgroundColor, backgroundColors, isMobile }) => {
           </Paper>
         ))
       ) : (
-        // Desktop layout with grid
         <Grid container spacing={3} >
           {backgroundColors.map((color, index) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
@@ -58,7 +56,7 @@ const ColorGrid = ({ setBackgroundColor, backgroundColors, isMobile }) => {
                   onClick={() => setBackgroundColor(color)}
                   sx={{
                     width: '100%',
-                    paddingTop: '158%', // Maintain aspect ratio
+                    paddingTop: '158%',
                     backgroundImage: `url(${color.front})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',

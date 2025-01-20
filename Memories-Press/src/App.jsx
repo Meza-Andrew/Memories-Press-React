@@ -1,8 +1,8 @@
 import React from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom'; // Use HashRouter
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import Layout from './layouts/Layout';
 import Homepage from './components/Homepage';
-import Products from './components/Products';
+import PrayerCards from './components/PrayerCards';
 import Cart from './components/Cart';
 import About from './components/About';
 import Resources from './components/Resources';
@@ -18,7 +18,7 @@ function App() {
   const [user, setUser] = React.useState(false);
 
   return (
-    <HashRouter> {/* Replace BrowserRouter with HashRouter */}
+    <HashRouter>
       <Routes>
         <Route path='/' element={<Layout isLoggedIn={user} setUser={setUser} />}>
           <Route index element={<Homepage isLoggedIn={user} />} />
@@ -31,8 +31,8 @@ function App() {
           <Route path='signin' element={<SignIn />} />
           <Route path='signup' element={<SignUp />} />
           <Route path='checkout' element={<Checkout />} />
-          <Route path='funeralstationary'>
-            <Route index element={<Products />} />
+          <Route path='prayercards'>
+            <Route index element={<PrayerCards />}/>
             <Route path='prayercardeditor' element={<PrayerCardDesigner />} />
           </Route>
         </Route>
@@ -42,4 +42,3 @@ function App() {
 }
 
 export default App;
-

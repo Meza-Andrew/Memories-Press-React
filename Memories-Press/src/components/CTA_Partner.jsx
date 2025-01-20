@@ -11,6 +11,7 @@ function CTA_Partner() {
       onButtonClick={() => alert('Message Sent.')}
       stacked={true}
       buttonWidthMobile="auto"
+      small
     />
   );
 }
