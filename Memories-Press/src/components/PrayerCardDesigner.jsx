@@ -146,6 +146,7 @@ const quantities = [25, 50, 75, 100, 125];
 const finishes = ['Matte', 'Gloss', 'Soft'];
 
 
+
 function PrayerCardDesigner() {
   const { state } = useLocation();
   const isMobile = useMedia('(max-width: 768px)');
@@ -223,6 +224,12 @@ function PrayerCardDesigner() {
       setStep(3);
       setShowUpload(false);
     }
+  };
+
+  const formatDate = (date) => {
+    if (!date) return '';
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(date).toLocaleDateString(undefined, options);
   };
 
   const handleDobChange = (e) => setDob(e.target.value);
@@ -443,7 +450,7 @@ const imagePreviewDraggable = (
                   <CompositionContainer backgroundImage={template.front} isMobile={isMobile}>
               {photo && imagePreviewDraggable}
               {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
-              {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
+              {dob && <CompositionText bottom="36%" variant="body1">{formatDate(dob)} - {formatDate(dod)}</CompositionText>}
               {currentProverb && <CompositionText top="69%" variant="body2">{currentProverb}</CompositionText>}
             </CompositionContainer>
             <div style={{ position: 'relative', width: '100%'}}>
@@ -463,7 +470,7 @@ const imagePreviewDraggable = (
                   <CompositionContainer backgroundImage={template.front} isMobile={isMobile}>
               {photo && imagePreviewDraggable}
               {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
-              {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
+              {dob && <CompositionText bottom="36%" variant="body1">{formatDate(dob)} - {formatDate(dod)}</CompositionText>}
               {currentProverb && <CompositionText top="69%" variant="body2">{currentProverb}</CompositionText>}
             </CompositionContainer>
                   
@@ -484,7 +491,7 @@ const imagePreviewDraggable = (
             <CompositionContainer backgroundImage={template.front} isMobile={isMobile}>
               {photo && imagePreviewDraggable}
               {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
-              {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
+              {dob && <CompositionText bottom="36%" variant="body1">{formatDate(dob)} - {formatDate(dod)}</CompositionText>}
               {currentProverb && <CompositionText top="69%" variant="body2">{currentProverb}</CompositionText>}
             </CompositionContainer>
             </Box>
@@ -501,7 +508,7 @@ const imagePreviewDraggable = (
             <CompositionContainer backgroundImage={template.front} isMobile={isMobile}>
               {photo && imagePreviewDraggable}
               {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
-              {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
+              {dob && <CompositionText bottom="36%" variant="body1">{formatDate(dob)} - {formatDate(dod)}</CompositionText>}
               {currentProverb && <CompositionText top="69%" variant="body2">{currentProverb}</CompositionText>}
             </CompositionContainer>
             </Box>
@@ -542,7 +549,7 @@ const imagePreviewDraggable = (
             <CompositionContainer backgroundImage={template.front} isMobile={isMobile}>
               {photo && imagePreviewDraggable}
               {name && <CompositionText top="50%" variant="h6">{name}</CompositionText>}
-              {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
+              {dob && <CompositionText bottom="36%" variant="body1">{formatDate(dob)} - {formatDate(dod)}</CompositionText>}
               {currentProverb && <CompositionText top="69%" variant="body2">{currentProverb}</CompositionText>}
             </CompositionContainer>
             </Box>
@@ -560,7 +567,7 @@ const imagePreviewDraggable = (
             <CompositionContainer backgroundImage={template.front} isMobile={isMobile}>
               {photo && imagePreviewDraggable}
               <CompositionText top="50%" variant="h6">{name}</CompositionText>
-              {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
+              {dob && <CompositionText bottom="36%" variant="body1">{formatDate(dob)} - {formatDate(dod)}</CompositionText>}
               {currentProverb && <CompositionText top="69%" variant="body2">{currentProverb}</CompositionText>}
             </CompositionContainer>
             </Box>
@@ -578,7 +585,7 @@ const imagePreviewDraggable = (
             <CompositionContainer id="final-composition" backgroundImage={template.front} isMobile={isMobile}>
               {photo && imagePreviewDraggable}
               <CompositionText top="50%" variant="h6">{name}</CompositionText>
-              {dob && <CompositionText bottom="36%" variant="body1">{dob} - {dod}</CompositionText>}
+              {dob && <CompositionText bottom="36%" variant="body1">{formatDate(dob)} - {formatDate(dod)}</CompositionText>}
               {currentProverb && <CompositionText top="69%" variant="body2">{currentProverb}</CompositionText>}
             </CompositionContainer>
             </Box>
