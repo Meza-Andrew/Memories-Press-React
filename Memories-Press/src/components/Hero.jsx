@@ -40,7 +40,7 @@ function Hero() {
           filter: 'brightness(102%) blur(0px)'
         }}
       >
-        <source src="./videos/background_flowers.webm" type="video/webm" />
+        <source src="./videos/background_flower.webm" type="video/webm" />
         Your browser does not support the video tag.
       </Box>
       <Container
