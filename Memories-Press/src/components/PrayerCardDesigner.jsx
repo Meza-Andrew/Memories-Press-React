@@ -598,13 +598,14 @@ const imagePreviewDraggable = (
 
   const featureSelection = (
     <>
+      <Container disableGutters>
       <Typography variant={isMobile ? 'body2' : 'h6'}>Select Quantity</Typography>
       <ToggleButtonGroup
         value={quantity}
         exclusive
         onChange={handleQuantityChange}
         color="primary"
-        sx={{ marginBottom: {xs: .2, sm: .7}, height: {xs:'20px', sm: '46px'} }}
+        sx={{ marginBottom: {xs: .5, md: .6}, height: {xs:'20px', md: '40px'} }}
       >
         <ToggleButton value={25}>25</ToggleButton>
         <ToggleButton value={50}>50</ToggleButton>
@@ -612,18 +613,35 @@ const imagePreviewDraggable = (
         <ToggleButton value={100}>100</ToggleButton>
         <ToggleButton value={125}>125</ToggleButton>
       </ToggleButtonGroup>
+      </Container>
+      <Container disableGutters>
       <Typography variant={isMobile ? 'body2' : 'h6'}>Select Finish</Typography>
       <ToggleButtonGroup
         value={finish}
         exclusive
         onChange={handleFinishChange}
         color="primary"
-        sx={{ height: {xs:'20px', sm: '46px'} }}
+        sx={{ marginBottom: {xs: .5, md: .6}, height: {xs:'20px', md: '40px'} }}
       >
         <ToggleButton value="Matte">Matte</ToggleButton>
         <ToggleButton value="Gloss">Gloss</ToggleButton>
         <ToggleButton value="Soft">Soft</ToggleButton>
       </ToggleButtonGroup>
+      </Container>
+      <Box sx={{
+        display: 'flex',
+        flexDirection: {xs: 'column', md: 'row'},
+        justifyContent: 'space-between',
+        alignItems: {xs: 'flex-start', md: 'center'},
+        maxWidth: '200px'
+      }}>
+        <Typography variant={isMobile ? 'body2' : 'h6'}>Sub-total</Typography>
+        <Typography variant={isMobile ? 'body2' : 'h6'} sx={{
+          color: '#D3648B',
+          fontStyle: 'italic',
+          fontWeight: 400
+        }}>$108.35</Typography>
+      </Box>
     </>   
   )
 
