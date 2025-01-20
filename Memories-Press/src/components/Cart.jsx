@@ -11,7 +11,7 @@ function Cart() {
 
   const handleEdit = (index) => {
     const selectedItem = cartItems[index];
-    navigate('/funeralstationary/prayercardeditor', { state: { item: selectedItem, index } });
+    navigate('/prayercards/prayercardeditor', { state: { item: selectedItem, index } });
   };
 
   const handleQuantityEdit = (event, index) => {
