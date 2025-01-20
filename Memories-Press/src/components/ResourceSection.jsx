@@ -9,8 +9,6 @@ const ResourceSection = () => {
       subtitle: 'Subtitle',
       cardColor: '#ffffff',
       buttonText: 'Enabled',
-      buttonBgColor: '#c95d64',
-      buttonTextColor: '#ffffff',
       onClick: () => alert('Card 1 clicked'),
     },
     {
@@ -18,8 +16,6 @@ const ResourceSection = () => {
       subtitle: 'Subtitle',
       cardColor: '#ffffff',
       buttonText: 'Enabled',
-      buttonBgColor: '#c95d64',
-      buttonTextColor: '#ffffff',
       onClick: () => alert('Card 2 clicked'),
     },
     {
@@ -27,8 +23,6 @@ const ResourceSection = () => {
       subtitle: 'Subtitle',
       cardColor: '#ffffff',
       buttonText: 'Enabled',
-      buttonBgColor: '#c95d64',
-      buttonTextColor: '#ffffff',
       onClick: () => alert('Card 3 clicked'),
     },
   ];

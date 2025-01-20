@@ -1,6 +1,7 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
 import { Box, Grid } from '@mui/material';
+import FadeInBox from './FadeInBox';
 
 const StyledPrayerCardGrid = styled(Grid)(({ theme }) => ({
   display: 'grid',
@@ -19,15 +20,17 @@ const PrayerCardGrid = ({ prayerCards }) => {
     <StyledPrayerCardGrid>
       {prayerCards.map((src, index) => (
         <StyledPrayerCard key={index}>
-          <Box
-            component="img"
-            src={src}
-            alt={`Prayer Card ${index + 1}`}
-            sx={{
-              width: '100%',
-              height: 'auto',
-            }}
-          />
+          <FadeInBox delay={index * 0.1} distance={60}>
+            <Box
+              component="img"
+              src={src}
+              alt={`Prayer Card ${index + 1}`}
+              sx={{
+                width: '100%',
+                height: 'auto',
+              }}
+            />
+          </FadeInBox>
         </StyledPrayerCard>
       ))}
     </StyledPrayerCardGrid>

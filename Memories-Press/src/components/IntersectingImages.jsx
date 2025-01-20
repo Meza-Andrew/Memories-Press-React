@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import FadeInBox from './FadeInBox';
 
 const IntersectingImageContainer = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -21,24 +22,26 @@ const StyledImage = styled(Box)(({ xAxis, yAxis, isOdd }) => ({
 
 const IntersectingImages = ({ image1, image2, xAxis = 0, yAxis = 0 }) => {
   return (
-    <IntersectingImageContainer>
-      <StyledImage
-        component="img"
-        src={image1}
-        alt="Image 1"
-        xAxis={xAxis}
-        yAxis={yAxis}
-        isOdd={true}
-      />
-      <StyledImage
-        component="img"
-        src={image2}
-        alt="Image 2"
-        xAxis={xAxis}
-        yAxis={yAxis}
-        isOdd={false}
-      />
-    </IntersectingImageContainer>
+    <FadeInBox>
+      <IntersectingImageContainer>
+        <StyledImage
+          component="img"
+          src={image1}
+          alt="Image 1"
+          xAxis={xAxis}
+          yAxis={yAxis}
+          isOdd={true}
+        />
+        <StyledImage
+          component="img"
+          src={image2}
+          alt="Image 2"
+          xAxis={xAxis}
+          yAxis={yAxis}
+          isOdd={false}
+        />
+      </IntersectingImageContainer>
+    </FadeInBox>
   );
 };
 

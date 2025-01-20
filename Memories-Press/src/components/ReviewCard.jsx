@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Typography, Avatar } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import FadeInBox from './FadeInBox';
 
 
 const ReviewCardContainer = styled(Box)(({ theme, backgroundColor }) => ({
@@ -45,9 +46,11 @@ export default function ReviewCard({
     <ReviewCardContainer backgroundColor={backgroundColor}>
       <StarsRow>
         {Array.from({ length: stars }).map((_, index) => (
-          <Star key={index} color="#ffd700" borderColor="#e0a800">
-          ★
-        </Star>
+          <FadeInBox delay={index * .2}>
+            <Star key={index} color="#ffd700" borderColor="#e0a800">
+            ★
+            </Star>
+        </FadeInBox>
         ))}
       </StarsRow>
       <Typography variant="h5" sx={{ fontSize: '1.2rem', fontWeight: 600, color: '#6c2e44' }}>

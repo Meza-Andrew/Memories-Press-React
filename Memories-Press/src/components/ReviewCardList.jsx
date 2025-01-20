@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Container } from '@mui/material';
 import ReviewCard from './ReviewCard';
+import FadeInBox from './FadeInBox';
 
 export default function ReviewCardList({ showBackground = true }) {
   const reviews = [
@@ -69,16 +70,18 @@ export default function ReviewCardList({ showBackground = true }) {
               width: '410px',
             }}
           >
-            <ReviewCard
-              stars={review.stars}
-              reviewTitle={review.title}
-              reviewText={review.text}
-              reviewerName={review.reviewerName}
-              reviewDate={review.date}
-              reviewerImage={review.image}
-              backgroundColor="#f7fbe8"
-              starColor="#ffd700"
-            />
+            <FadeInBox delay={index * 0.1}>
+              <ReviewCard
+                stars={review.stars}
+                reviewTitle={review.title}
+                reviewText={review.text}
+                reviewerName={review.reviewerName}
+                reviewDate={review.date}
+                reviewerImage={review.image}
+                backgroundColor="#f7fbe8"
+                starColor="#ffd700"
+              />
+            </FadeInBox>
           </Box>
         ))}
       </Container>

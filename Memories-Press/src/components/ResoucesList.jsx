@@ -1,36 +1,43 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import StyledButton from './StyledButton';
+import FadeInBox from './FadeInBox';
 
 function ResourceSection({ heading, subheading, buttonText, onClick }) {
   return (
     <Box sx={{ marginBottom: 6 }}>
-      <Typography
-        variant="h5"
-        sx={{
-          fontWeight: 600,
-          color: '#4A6222',
-          marginBottom: 2,
-        }}
-      >
-        {heading}
-      </Typography>
-      <Typography
-        variant="body1"
-        sx={{
-          color: 'black',
-          marginBottom: 3,
-          lineHeight: 1.6,
-        }}
-      >
-        {subheading}
-      </Typography>
-      <StyledButton
-        onClick={onClick}
-        small
-      >
-        {buttonText}
-      </StyledButton>
+      <FadeInBox>
+        <Typography
+          variant="h5"
+          sx={{
+            fontWeight: 600,
+            color: '#4A6222',
+            marginBottom: 2,
+          }}
+        >
+          {heading}
+        </Typography>
+      </FadeInBox>
+      <FadeInBox delay={0.1}>
+        <Typography
+          variant="body1"
+          sx={{
+            color: 'black',
+            marginBottom: 3,
+            lineHeight: 1.6,
+          }}
+        >
+          {subheading}
+        </Typography>
+      </FadeInBox>
+      <FadeInBox delay={0.3}>
+        <StyledButton
+          onClick={onClick}
+          small
+        >
+          {buttonText}
+        </StyledButton>
+      </FadeInBox>
     </Box>
   );
 }
@@ -82,15 +89,17 @@ export default function ResourcesList() {
         Resources and guidance to support your journey
       </Typography>
       {resources.map((resource, index) => (
-        <ResourceSection
-          key={index}
-          heading={resource.heading}
-          subheading={resource.subheading}
-          buttonText={resource.buttonText}
-          buttonColor="white"
-          buttonBgColor={resource.buttonBgColor}
-          onClick={resource.onClick}
-        />
+        <FadeInBox delay={index * 0.2}>
+          <ResourceSection
+            key={index}
+            heading={resource.heading}
+            subheading={resource.subheading}
+            buttonText={resource.buttonText}
+            buttonColor="white"
+            buttonBgColor={resource.buttonBgColor}
+            onClick={resource.onClick}
+          />
+        </FadeInBox>
       ))}
     </Box>
   );

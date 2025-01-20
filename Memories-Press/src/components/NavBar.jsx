@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import {
   AppBar,
   Box,
@@ -33,6 +33,7 @@ function NavBar({ isLoggedIn, setUser }) {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -65,12 +66,19 @@ function NavBar({ isLoggedIn, setUser }) {
     }
   };
 
+  const handleHome = () => {
+    navigate('/');
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 0);
+  }
+
   return (
     <>
       <AppBar component="nav" position="fixed">
         <Container maxWidth="100%">
           <Toolbar disableGutters>
-            <Link component={RouterLink} to='/' color='inherit' underline='none'>
+            <Link component={RouterLink} to='/' onClick={handleHome} color='inherit' underline='none'>
               <img src={logoText} alt="Logo" style={{ display: 'flex', marginRight: 4, padding: 6, height: 'auto', width: '155px' }} />
             </Link>
 

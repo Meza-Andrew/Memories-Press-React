@@ -53,11 +53,12 @@ export default function CardList({
                   {card.subtitle}
                 </Typography>
               </CardContent>
-              <CardActions sx={{ justifyContent: 'right', paddingBottom: 2 }}>
+              <CardActions sx={{ justifyContent: 'right', paddingBottom: 2, paddingRight: 2 }}>
                 <StyledButton
                   color={card.buttonTextColor}
                   backgroundColor={card.buttonBgColor}
                   onClick={card.onClick}
+                  small
                 >
                   {card.buttonText}
                 </StyledButton>
