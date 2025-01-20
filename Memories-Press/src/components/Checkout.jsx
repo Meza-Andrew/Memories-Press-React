@@ -123,18 +123,18 @@ export default function Checkout() {
   return (
 
 
-      <Grid container sx={{ height: { xs: '100%', sm: '100dvh' } }}>
+      <Grid container sx={{ height: { xs: '100%', md: '100dvh' } }}>
         <Grid
           item
           xs={12}
-          sm={5}
+          md={4}
           lg={4}
           sx={{
             display: { xs: 'none', md: 'flex' },
             flexDirection: 'column',
             backgroundColor: 'background.paper',
-            borderRight: { sm: 'none', md: '1px solid' },
-            borderColor: { sm: 'none', md: 'divider' },
+            borderRight: { xs: 'none', md: '1px solid' },
+            borderColor: { xs: 'none', md: 'divider' },
             alignItems: 'start',
             pt: 4,
             px: 10,
@@ -172,8 +172,8 @@ export default function Checkout() {
         </Grid>
         <Grid
           item
-          sm={12}
-          md={7}
+          xs={12}
+          md={8}
           lg={8}
           sx={{
             display: 'flex',
@@ -182,8 +182,8 @@ export default function Checkout() {
             width: '100%',
             backgroundColor: { xs: 'transparent', sm: 'background.default' },
             alignItems: 'start',
-            pt: { xs: 2, sm: 4 },
-            px: { xs: 2, sm: 10 },
+            pt: { xs: 2, md: 4 },
+            px: { xs: 2, md: 10 },
             gap: { xs: 4, md: 8 },
           }}
         >

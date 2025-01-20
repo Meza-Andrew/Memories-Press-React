@@ -60,7 +60,7 @@ export default function PaymentForm() {
   };
 
   return (
-    <Stack spacing={{ xs: 3, sm: 6 }} useFlexGap>
+    <Stack spacing={{ xs: 3, md: 6 }} useFlexGap>
       <FormControl component="fieldset" fullWidth>
         <RadioGroup
           aria-label="Payment options"
@@ -68,14 +68,14 @@ export default function PaymentForm() {
           value={paymentType}
           onChange={handlePaymentTypeChange}
           sx={{
-            flexDirection: { sm: 'column', md: 'row' },
+            flexDirection: { xs: 'column', md: 'row' },
             gap: 2,
           }}
         >
           <Card
             raised={paymentType === 'creditCard'}
             sx={{
-              maxWidth: { sm: '100%', md: '50%' },
+              maxWidth: { xs: '100%', md: '50%' },
               flexGrow: 1,
               outline: '1px solid',
               outlineColor:
@@ -94,7 +94,7 @@ export default function PaymentForm() {
           <Card
             raised={paymentType === 'bankTransfer'}
             sx={{
-              maxWidth: { sm: '100%', md: '50%' },
+              maxWidth: { xs: '100%', md: '50%' },
               flexGrow: 1,
               outline: '1px solid',
               outlineColor:
@@ -126,7 +126,7 @@ export default function PaymentForm() {
               flexDirection: 'column',
               justifyContent: 'space-between',
               p: 3,
-              height: { xs: 300, sm: 350, md: 375 },
+              height: { xs: 350, md: 420 },
               width: '100%',
               borderRadius: '20px',
               border: '1px solid ',
@@ -141,7 +141,7 @@ export default function PaymentForm() {
             </Box>
             <SimCardRoundedIcon
               sx={{
-                fontSize: { xs: 48, sm: 56 },
+                fontSize: { xs: 48, md: 56 },
                 transform: 'rotate(90deg)',
                 color: 'text.secondary',
               }}
@@ -207,11 +207,48 @@ export default function PaymentForm() {
                 />
               </FormGrid>
             </Box>
+            <Box sx={{marginTop:2}}>
+              <FormControlLabel
+              control={<Checkbox name="saveCard" />}
+              label="Remember credit card details for next time"
+              />
+            </Box>
           </Box>
-          <FormControlLabel
-            control={<Checkbox name="saveCard" />}
-            label="Remember credit card details for next time"
-          />
+          <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+            gap: 1.8,
+          }}
+        >
+          <Typography
+            sx={{
+              fontStyle: 'italic',
+            }}
+          >
+            Powered by
+          </Typography>
+          <Box
+            component="a"
+            href="https://www.authorize.net/"
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{
+              display: 'inline-block',
+            }}
+          >
+            <Box
+              component="img"
+              src="./logo_authorize-net.svg"
+              alt="Authorize.net Logo"
+              sx={{
+                height: '39px',
+                cursor: 'pointer',
+              }}
+            />
+          </Box>
+        </Box>
         </Box>
       )}
 
