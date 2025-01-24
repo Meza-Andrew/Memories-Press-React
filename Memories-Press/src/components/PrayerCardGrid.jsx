@@ -27,7 +27,7 @@ const PrayerCardGrid = ({ prayerCards }) => {
               alt={`Prayer Card ${index + 1}`}
               sx={{
                 width: '100%',
-                height: 'auto',
+                maxHeight: 'auto',
               }}
             />
           </FadeInBox>

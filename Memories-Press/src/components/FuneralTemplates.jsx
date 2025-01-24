@@ -31,7 +31,7 @@ export default function FuneralPrayerCardTemplates({ path }) {
             heading="See our collection of funeral prayer card templates"
             subheading="Choose from a diverse library of funeral prayer card designs, each thoughtfully created to provide a fitting tribute to your loved ones. Find the perfect template that resonates with your sentiments, and personalize it with photos, prayers, and heartfelt messages. Our selection offers various styles and themes to reflect the individuality of the departed so you can commemorate their life and legacy in a meaningful way."
             buttonText="Get started"
-            path="/prayercards/prayercardeditor/"
+            path={path}
             stacked={false}
           />
         </Box>

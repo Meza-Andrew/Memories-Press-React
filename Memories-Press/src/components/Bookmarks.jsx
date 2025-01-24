@@ -7,10 +7,10 @@ import CustomizableSpecs from './Customizable_Specs';
 import ResourceSection from './ResourceSection';
 import CTA from './CTA';
 
-function PrayerCards() {
+function Bookmarks() {
   const title = 'Customizable specifications';
   const description =
-    'Choose from a variety of finishes to create a custom prayer card that reflects your loved one’s personality and values. Options include matte, gloss, or soft-touch finishes, along with different fonts and layout choices.';
+    'Choose from a variety of finishes to create a custom bookmark that reflects your loved one’s personality and values. Options include matte, gloss, or soft-touch finishes, along with different fonts and layout choices.';
   const finishes = [
     {
       name: 'Matte',
@@ -20,12 +20,12 @@ function PrayerCards() {
     {
       name: 'Gloss',
       description:
-        'A shiny, reflective finish that enhances colors and details, providing a vibrant and polished look to your prayer cards.',
+        'A shiny, reflective finish that enhances colors and details, providing a vibrant and polished look to your bookmarks',
     },
     {
       name: 'Soft touch',
       description:
-        'A luxurious, velvety finish that feels gentle to the touch, adding a unique and comforting texture to your personalized prayer cards.',
+        'A luxurious, velvety finish that feels gentle to the touch, adding a unique and comforting texture to your personalized bookmarks.',
     },
   ];
   return (
@@ -92,7 +92,7 @@ function PrayerCards() {
                 color: '#D3648B',
               }}
             >
-              Funeral prayer cards
+              Funeral bookmarks
             </Typography>
             <Box
               sx={{
@@ -110,14 +110,14 @@ function PrayerCards() {
                   maxWidth: { xs: '80%', md: '80%' },
                 }}
               >
-                Design personalized prayer cards for your loved ones.
+                Design personalized bookmarks for your loved ones.
               </Typography>
             </Box>
             <Box sx={{ display: { xs: 'none', md: 'block' } }}>
               <StyledButton
                 backgroundColor="#D3648B"
                 color="#FCF46D"
-                path="/prayercards/producteditor/"
+                path="/bookmarks/producteditor/"
                 width="auto"
                 longButton={true}
               >
@@ -128,7 +128,7 @@ function PrayerCards() {
               <StyledButton
                 backgroundColor="#D3648B"
                 color="#FCF46D"
-                path="/prayercards/producteditor/"
+                path="/bookmarks/producteditor/"
                 width="46%"
               >
                 Create now
@@ -139,7 +139,7 @@ function PrayerCards() {
             sx={{
               width: { xs: '100%', md: '40%' },
               display: 'flex',
-              justifyContent: { xs: 'center', md: 'flex-end' },
+              justifyContent: { xs: 'center', md: 'center' },
               alignItems: 'center',
               position: 'relative',
               zIndex: 3,
@@ -147,11 +147,16 @@ function PrayerCards() {
           >
             <Box
               component="img"
-              src="./PrayerCard.png"
+              src="./Bookmark.png"
               alt="Prayer Card"
               sx={{
-                maxWidth: { xs: '20rem', md: '24.5rem' },
-                width: '100%',
+                // maxWidth: { xs: '20rem', md: '24.5rem' },
+                maxHeight: 'auto',
+                width: {xs: 'auto', md: '50%'},
+                filter: {
+                  xs: 'drop-shadow(0px 3px 5px rgba(0, 0, 0, 0.3))',
+                  md: 'drop-shadow(0px 9px 6px rgba(0, 0, 0, 0.4))',
+                }
               }}
             />
           </Box>
@@ -184,7 +189,7 @@ function PrayerCards() {
                 marginBottom: 2,
               }}
             >
-              The role of funeral prayer cards
+              The role of funeral bookmarks
             </Typography>
           </Box>
           <Box sx={{ display: { xs: 'block', md: 'none' } }}>
@@ -197,7 +202,7 @@ function PrayerCards() {
                 marginBottom: 2,
               }}
             >
-              The significance of funeral prayer cards
+              The significance of funeral bookmarks
             </Typography>
           </Box>
           <Typography
@@ -209,9 +214,9 @@ function PrayerCards() {
               textAlign: { xs: 'left', md: 'center' },
             }}
           >
-            Funeral prayer cards provide a lasting tribute, a gentle way to honor the memory of a loved
+            Funeral bookmarks provide a lasting tribute, a gentle way to honor the memory of a loved
             one. Personalized with meaningful symbols, quotes, and prayers, they serve as a tangible
-            keepsake for family and friends. At Memories Press, we thoughtfully design each card to
+            keepsake for family and friends. At Memories Press, we thoughtfully design each bookmark to
             inspire reflection and provide comfort, helping you celebrate life’s journey and cherish
             the memories shared.
           </Typography>
@@ -225,7 +230,7 @@ function PrayerCards() {
         <ReviewCardList showBackground={false} />
       </Box>
       <Container>
-        <FuneralTemplates path="/prayercards/prayercardeditor/"/>
+        <FuneralTemplates path="/bookmarks/producteditor/"/>
       </Container>
       <Container maxWidth="100%"
         disableGutters
@@ -256,4 +261,4 @@ function PrayerCards() {
   );
 }
 
-export default PrayerCards;
+export default Bookmarks;

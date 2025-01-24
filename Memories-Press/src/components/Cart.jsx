@@ -1,8 +1,27 @@
 import React, { useContext } from 'react';
-import { Box, Button, Typography, Card, CardContent, CardMedia, Tooltip, Stack, Grid, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import {
+  Box,
+  Button,
+  Typography,
+  Card,
+  CardContent,
+  Tooltip,
+  Stack,
+  Grid,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
+} from '@mui/material';
 import CartContext from './CartContext';
 import { useMedia } from 'react-use';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+
+const productEditorRoutes = {
+  prayer_card: '/prayercards/producteditor',
+  bookmark: '/bookmarks/producteditor',
+  memorial_heart: '/memorialhearts/producteditor',
+};
 
 function Cart() {
   const { cartItems, removeFromCart, updateCartItem } = useContext(CartContext);
@@ -11,7 +30,12 @@ function Cart() {
 
   const handleEdit = (index) => {
     const selectedItem = cartItems[index];
-    navigate('/prayercards/prayercardeditor', { state: { item: selectedItem, index } });
+    const type = selectedItem.productType;
+    const editRoute = productEditorRoutes[type];
+    console.log(`Editing item of type: ${type}`);
+    navigate(editRoute, {
+      state: { item: selectedItem, index },
+    });
   };
 
   const handleQuantityEdit = (event, index) => {
@@ -23,33 +47,78 @@ function Cart() {
     const value = event.target.value;
     updateCartItem(index, { finish: value });
   };
-  
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" sx={{ marginTop: 6 }}>
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      sx={{ marginTop: 6, paddingX: { xs: 2, sm: 4 } }}
+    >
       {cartItems.map((item, index) => (
-        <Card key={index} sx={{ display: 'flex', mb: 2, width: "96%", maxWidth: "600px", padding: 1 }}>
+        <Card
+          key={index}
+          sx={{ display: 'flex', mb: 2, width: '100%', maxWidth: '600px', padding: 1 }}
+        >
           <Grid container spacing={1}>
-            <Grid item xs={5} sm={4} margin='auto'>
-              <CardMedia
-                component="img"
-                image={item.smallScaleImage}
-                alt="Small scale"
-                sx={{ width: '100%', border: '2px solid #e8e8e8' }}
-              />
+            <Grid item xs={5} sm={4}>
+              <Box
+                sx={{
+                  position: 'relative',
+                  width: '100%',
+                  paddingTop: '133%', // Maintains a 4:3 aspect ratio (height = 4/3 * width)
+                  border: '2px solid #e8e8e8',
+                  borderRadius: 1,
+                  overflow: 'hidden',
+                  backgroundColor: '#f9f9f9',
+                }}
+              >
+                <Box
+                  component="img"
+                  src={item.smallScaleImage}
+                  alt={`${item.name} preview`}
+                  sx={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain', 
+                  }}
+                />
+              </Box>
             </Grid>
             <Grid item xs={7} sm={8}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', p: 2, height: '100%' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  p: 2,
+                  height: '100%',
+                }}
+              >
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Stack gap={1}>
                     <Typography variant="h6">{item.name}</Typography>
-                    <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '.6rem', sm: '1rem' } }}>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ fontSize: { xs: '0.6rem', sm: '1rem' } }}
+                    >
                       {item.dob} - {item.dod}
                     </Typography>
                     {isMobile ? (
-                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '.8rem', sm: '1rem' } }}>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{ fontSize: { xs: '0.8rem', sm: '1rem' } }}
+                      >
                         {item.currentProverb.length > 80
-                          ? `${item.currentProverb.substring(0, item.currentProverb.substring(0, 80).lastIndexOf(' '))}...`
+                          ? `${item.currentProverb.substring(
+                              0,
+                              item.currentProverb.substring(0, 80).lastIndexOf(' ')
+                            )}...`
                           : item.currentProverb}
                       </Typography>
                     ) : (
@@ -57,22 +126,25 @@ function Cart() {
                         {item.currentProverb}
                       </Typography>
                     )}
-                    <Box sx={{
-                      display: 'flex',
-                      gap: 1,
-                      marginTop: 2
-                    }}>
-                      <Box sx={{ width: 80 }}>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        gap: 1,
+                        marginTop: 2,
+                        flexWrap: 'wrap',
+                      }}
+                    >
+                      <Box sx={{ minWidth: 80, flex: '1 1 80px' }}>
                         <FormControl fullWidth>
-                          <InputLabel id="quantity-select-label">Quantity</InputLabel>
+                          <InputLabel id={`quantity-select-label-${index}`}>Quantity</InputLabel>
                           <Select
-                            labelId="quantity-select-label"
-                            id="quantity-select"
+                            labelId={`quantity-select-label-${index}`}
+                            id={`quantity-select-${index}`}
                             value={item.quantity}
-                            label="quantity"
+                            label="Quantity"
                             onChange={(event) => handleQuantityEdit(event, index)}
                             sx={{
-                              height: 40
+                              height: 40,
                             }}
                           >
                             <MenuItem value={25}>25</MenuItem>
@@ -83,22 +155,22 @@ function Cart() {
                           </Select>
                         </FormControl>
                       </Box>
-                      <Box sx={{ width: 120 }}>
+                      <Box sx={{ minWidth: 120, flex: '1 1 120px' }}>
                         <FormControl fullWidth>
-                          <InputLabel id="finish-select-label">Finish</InputLabel>
+                          <InputLabel id={`finish-select-label-${index}`}>Finish</InputLabel>
                           <Select
-                            labelId="finish-select-label"
-                            id="finish-select"
+                            labelId={`finish-select-label-${index}`}
+                            id={`finish-select-${index}`}
                             value={item.finish}
-                            label="finish"
+                            label="Finish"
                             onChange={(event) => handleFinishEdit(event, index)}
                             sx={{
-                              height: 40
+                              height: 40,
                             }}
                           >
-                            <MenuItem value={'Matte'}>Matte</MenuItem>
-                            <MenuItem value={'Gloss'}>Gloss</MenuItem>
-                            <MenuItem value={'Soft'}>Soft</MenuItem>
+                            <MenuItem value="Matte">Matte</MenuItem>
+                            <MenuItem value="Gloss">Gloss</MenuItem>
+                            <MenuItem value="Soft">Soft</MenuItem>
                           </Select>
                         </FormControl>
                       </Box>
@@ -106,10 +178,24 @@ function Cart() {
                   </Stack>
                 </CardContent>
                 <Box sx={{ textAlign: 'right' }}>
-                  <Button variant="outlined" color="error" sx={{
-                    borderRadius: .1
-                  }} onClick={() => removeFromCart(index)}>Remove</Button>
-                  <Button variant="outlined" sx={{ borderRadius: .1, marginLeft: 1 }} onClick={() => handleEdit(index)}>Edit</Button>
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    sx={{
+                      borderRadius: 0.5,
+                      minWidth: '75px',
+                    }}
+                    onClick={() => removeFromCart(index)}
+                  >
+                    Remove
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    sx={{ borderRadius: 0.5, marginLeft: 1, minWidth: '75px' }}
+                    onClick={() => handleEdit(index)}
+                  >
+                    Edit
+                  </Button>
                 </Box>
               </Box>
             </Grid>
@@ -117,8 +203,8 @@ function Cart() {
         </Card>
       ))}
       <Box mt={2} mb={6}>
-        <Tooltip title="Checkout">
-          <Button component={RouterLink} variant='contained' color='primary' to="/checkout">
+        <Tooltip title="Proceed to Checkout">
+          <Button component={RouterLink} variant="contained" color="primary" to="/checkout">
             <Typography>Checkout</Typography>
           </Button>
         </Tooltip>

@@ -77,6 +77,7 @@ export default function ProductsList() {
         leftPadding={{ xs: 3, md: 0 }}
         small
         reduceImg={{xs: '100%', md: '80%'}}
+        path="/bookmarks/"
       />
       <SplitContent
         imageSrc="./MemorialHeart.png"

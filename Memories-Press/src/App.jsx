@@ -13,6 +13,8 @@ import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import PrayerCardDesigner from './components/PrayerCardDesigner';
 import Checkout from './components/Checkout';
+import ProductEditor from './components/ProductEditor/ProductEditor';
+import Bookmarks from './components/Bookmarks';
 
 function App() {
   const [user, setUser] = React.useState(false);
@@ -34,6 +36,11 @@ function App() {
           <Route path='prayercards'>
             <Route index element={<PrayerCards />}/>
             <Route path='prayercardeditor' element={<PrayerCardDesigner />} />
+            <Route path='producteditor' element={<ProductEditor />} />
+          </Route>
+          <Route path='bookmarks'>
+            <Route index element={<Bookmarks />}/>
+            <Route path='producteditor' element={<ProductEditor />} />
           </Route>
         </Route>
       </Routes>
