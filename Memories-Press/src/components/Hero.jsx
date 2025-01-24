@@ -36,6 +36,7 @@ function Hero() {
           width: '100%',
           height: '100%',
           objectFit: 'cover',
+          objectPosition: 'top',
           zIndex: 0,
           filter: 'brightness(102%) blur(0px)'
         }}

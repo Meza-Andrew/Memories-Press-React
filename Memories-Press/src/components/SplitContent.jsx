@@ -82,7 +82,7 @@ export default function SplitContent({
             </Typography>
           </FadeInBox>
           <Box sx={{ textAlign: buttonAlign }}>
-            <FadeInBox delay={0.3}>
+            <FadeInBox delay={0.2}>
               <StyledButton
                 sx={{
                   width: buttonWidthMobile,

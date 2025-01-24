@@ -5,7 +5,7 @@ import CTA from './CTA';
 import CTA_Partner from './CTA_Partner'
 import ProductsList from './ProductsList';
 import ReviewCardList from './ReviewCardList';
-import ResourcesList from './ResoucesList';
+import ResourcesList from './ResourcesList';
 
 function Homepage() {
 
@@ -14,7 +14,7 @@ function Homepage() {
       <Hero />
       <Box
         sx={{
-          backgroundColor: '#ffe4e1',
+          backgroundColor: '#FFF5F9',
           height: '35px',
           width: '100%',
           boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.1)',

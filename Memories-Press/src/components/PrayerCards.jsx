@@ -4,7 +4,7 @@ import StyledButton from './StyledButton';
 import ReviewCardList from './ReviewCardList';
 import FuneralTemplates from './FuneralTemplates';
 import CustomizableSpecs from './Customizable_Specs';
-import ResourceSection from './ResourceSection';
+import ResourceCards from './ResourceCards';
 import CTA from './CTA';
 
 function PrayerCards() {
@@ -53,8 +53,9 @@ function PrayerCards() {
             height: { xs: '100vh', md: 'auto' },
             maxHeight: '700px',
             objectFit: 'cover',
+            objectPosition: 'top',
             zIndex: -1,
-            filter: 'brightness(102%) blur(1px)'
+            filter: 'brightness(101%) blur(1px)'
           }}
         >
           <source src="./videos/background_flowers.webm" type="video/webm" />
@@ -241,7 +242,7 @@ function PrayerCards() {
       <Container disableGutters sx={{
         marginY: {xs: 2, md: 4}
       }}>
-        <ResourceSection/>
+        <ResourceCards/>
       </Container>
       <Container
         maxWidth="100%"

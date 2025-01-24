@@ -18,13 +18,11 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartSharpIcon from '@mui/icons-material/ShoppingCartSharp';
-import logo from '../assets/logoPrinting.png';
 import logoText from '../assets/logo.png';
 import CartContext from './CartContext';
 import StyledButton from './StyledButton';
 
-
-const pages = [];
+const pages = ['Resources'];
 const settings = ['View Orders', 'Update Info', 'Change Password', 'Logout'];
 
 function NavBar({ isLoggedIn, setUser }) {
@@ -71,42 +69,67 @@ function NavBar({ isLoggedIn, setUser }) {
     setTimeout(() => {
       window.scrollTo(0, 0);
     }, 0);
-  }
+  };
 
   return (
     <>
       <AppBar component="nav" position="fixed">
         <Container maxWidth="100%">
           <Toolbar disableGutters>
-            <Link component={RouterLink} to='/' onClick={handleHome} color='inherit' underline='none'>
-              <img src={logoText} alt="Logo" style={{ display: 'flex', marginRight: 4, padding: 6, height: 'auto', width: '155px' }} />
+            <Link
+              component={RouterLink}
+              to="/"
+              onClick={handleHome}
+              color="inherit"
+              underline="none"
+            >
+              <img
+                src={logoText}
+                alt="Logo"
+                style={{
+                  display: 'flex',
+                  marginRight: 4,
+                  padding: 6,
+                  height: 'auto',
+                  width: '155px',
+                }}
+              />
             </Link>
-
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
-                {pages.map((page) => (
-                  <>
-                  <Button
-                    key={page}
-                    component={RouterLink}
-                    to={`/${formatString(page)}`}
-                    onClick={handleCloseNavMenu}
-                    sx={{ py: 2, color: 'inherit' }}
+                <Box sx={{ p: 2 }}>
+                  <StyledButton
+                    component={location.pathname !== '/' ? RouterLink : 'button'}
+                    to={location.pathname !== '/' ? '/' : undefined}
+                    onClick={(e) => {
+                      if (location.pathname === '/') {
+                        handleScroll();
+                      } else {
+                        handleHome();
+                      }
+                    }}
+                    small={true}
                   >
-                    {page}
-                  </Button>
-                  <Divider orientation='vertical' flexItem variant="middle"/>
-                  </>
-                ))}
-                <Box sx={{
-                  p:2,
-                  display: location.pathname === '/' ? 'block' : 'none'
-                }}>
-                  <StyledButton component={RouterLink} onClick={handleScroll} small={true}>Start your design</StyledButton>
+                    Start your design
+                  </StyledButton>
                 </Box>
+                {pages.map((page) => (
+                  <React.Fragment key={page}>
+                    <Button
+                      component={RouterLink}
+                      to={`/${formatString(page)}`}
+                      onClick={handleCloseNavMenu}
+                      sx={{ py: 2, color: 'inherit' }}
+                    >
+                      {page}
+                    </Button>
+                    <Divider orientation="vertical" flexItem variant="middle" />
+                  </React.Fragment>
+                ))}
               </Box>
             </Box>
 
+            {/* Rest of your NavBar code remains unchanged */}
             <Box sx={{ display: { xs: 'flex', md: 'none' }, ml: 'auto' }}>
               <IconButton
                 component={RouterLink}
@@ -114,25 +137,22 @@ function NavBar({ isLoggedIn, setUser }) {
                 size="large"
                 aria-label="shopping cart"
                 color="inherit"
-                sx={{marginRight: 0.5}}
+                sx={{ marginRight: 0.5 }}
               >
                 <Badge badgeContent={cartItems.length} color="primary">
                   <ShoppingCartSharpIcon />
                 </Badge>
               </IconButton>
-              {isLoggedIn &&
+              {isLoggedIn && (
                 <Tooltip title="Open settings">
-                  <IconButton 
-                    onClick={handleOpenUserMenu} 
-                    sx={{ 
-                      p: 0,
-                      marginRight: 0.5 
-                    }}
+                  <IconButton
+                    onClick={handleOpenUserMenu}
+                    sx={{ p: 0, marginRight: 0.5 }}
                   >
                     <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                   </IconButton>
                 </Tooltip>
-              }
+              )}
               <IconButton
                 size="large"
                 aria-label="menu"
@@ -161,24 +181,24 @@ function NavBar({ isLoggedIn, setUser }) {
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-                {!isLoggedIn &&
+                {!isLoggedIn && (
                   <MenuItem
                     component={RouterLink}
-                    to={"/signin"}
+                    to="/signin"
                     onClick={handleCloseNavMenu}
                   >
                     <Typography textAlign="center">Log In</Typography>
                   </MenuItem>
-                }
-                {!isLoggedIn &&
+                )}
+                {!isLoggedIn && (
                   <MenuItem
                     component={RouterLink}
-                    to={"/signup"}
+                    to="/signup"
                     onClick={handleCloseNavMenu}
                   >
                     <Typography textAlign="center">Sign Up</Typography>
                   </MenuItem>
-                }
+                )}
                 {!isLoggedIn && <Divider />}
                 {pages.map((page) => (
                   <MenuItem
@@ -191,14 +211,13 @@ function NavBar({ isLoggedIn, setUser }) {
                   </MenuItem>
                 ))}
                 <MenuItem
-                onClick={handleUserLogin} 
-                sx={{ ml: 0, color: 'inherit' }}
+                  onClick={handleUserLogin}
+                  sx={{ ml: 0, color: 'inherit' }}
                 >
                   <Typography>{isLoggedIn ? 'Logout' : 'Login'}</Typography>
                 </MenuItem>
               </Menu>
             </Box>
-
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               <IconButton
                 component={RouterLink}
@@ -206,38 +225,43 @@ function NavBar({ isLoggedIn, setUser }) {
                 size="large"
                 aria-label="shopping cart"
                 color="inherit"
-                sx={{marginRight: 0.5}}
+                sx={{ marginRight: 0.5 }}
               >
                 <Badge badgeContent={cartItems.length} color="primary">
                   <ShoppingCartSharpIcon />
                 </Badge>
               </IconButton>
-              {isLoggedIn ?
+              {isLoggedIn ? (
                 <Tooltip title="Open settings">
-                  <IconButton 
-                    onClick={handleOpenUserMenu} 
-                    sx={{ 
-                      p: 0, 
-                      marginRight: 0.5 
-                    }}
+                  <IconButton
+                    onClick={handleOpenUserMenu}
+                    sx={{ p: 0, marginRight: 0.5 }}
                   >
                     <Avatar alt="Amy Sharp" src="/static/images/avatar/2.jpg" />
                   </IconButton>
                 </Tooltip>
-                :
+              ) : (
                 <>
                   <Tooltip title="Login">
-                    <Button component={RouterLink} sx={{ p: 0, color: 'inherit' }} to="/signin">
+                    <Button
+                      component={RouterLink}
+                      sx={{ p: 0, color: 'inherit' }}
+                      to="/signin"
+                    >
                       Login
                     </Button>
                   </Tooltip>
                   <Tooltip title="Sign Up">
-                    <Button component={RouterLink} sx={{ p: 0, color: 'inherit' }} to="/signup">
+                    <Button
+                      component={RouterLink}
+                      sx={{ p: 0, color: 'inherit' }}
+                      to="/signup"
+                    >
                       Sign Up
                     </Button>
                   </Tooltip>
                 </>
-              }
+              )}
               <Button onClick={handleUserLogin} sx={{ ml: 2, color: 'inherit' }}>
                 {isLoggedIn ? 'Logout' : 'Login'}
               </Button>
