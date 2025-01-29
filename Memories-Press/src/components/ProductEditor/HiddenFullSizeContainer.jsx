@@ -16,6 +16,28 @@ export default function HiddenFullSizeContainers({
 
   const { widthPx, heightPx } = productConfig;
 
+  const renderDesignOverlays = (overlays) => {
+    if (!overlays || !overlays.length) return null;
+    return overlays.map((overlay, index) => (
+      <Box
+        key={`overlay-${index}`}
+        component="img"
+        src={overlay.src}
+        alt={`overlay-${index}`}
+        sx={{
+          position: 'absolute',
+          top: overlay.y,
+          left: overlay.x,
+          width: overlay.width,
+          height: overlay.height,
+          objectFit: 'contain',
+          zIndex: 9999,
+          pointerEvents: 'none',
+        }}
+      />
+    ));
+  };
+
   return (
     <>
       <Box
@@ -27,6 +49,7 @@ export default function HiddenFullSizeContainers({
           width: `${widthPx}px`,
           height: `${heightPx}px`,
           backgroundColor: '#fff',
+          overflow: 'hidden',
         }}
       >
         <img
@@ -36,16 +59,22 @@ export default function HiddenFullSizeContainers({
             width: '100%',
             height: '100%',
             objectFit: 'cover',
+            position: 'absolute',
+            top: 0,
+            left: 0,
           }}
         />
-        {renderTemplateElements && currentTemplate.front && (
+        {renderTemplateElements &&
+          currentTemplate.front &&
           renderTemplateElements({
             elements: currentTemplate.front.elements,
             userData,
             scaleFactor: 1,
-          })
-        )}
+          })}
+
+        {design.front?.overlays && renderDesignOverlays(design.front.overlays)}
       </Box>
+
       {currentTemplate.back && (
         <Box
           ref={backRef}
@@ -56,6 +85,7 @@ export default function HiddenFullSizeContainers({
             width: `${widthPx}px`,
             height: `${heightPx}px`,
             backgroundColor: '#eee',
+            overflow: 'hidden',
           }}
         >
           <img
@@ -65,15 +95,19 @@ export default function HiddenFullSizeContainers({
               width: '100%',
               height: '100%',
               objectFit: 'cover',
+              position: 'absolute',
+              top: 0,
+              left: 0,
             }}
           />
-          {renderTemplateElements && currentTemplate.back && (
+          {renderTemplateElements &&
+            currentTemplate.back &&
             renderTemplateElements({
               elements: currentTemplate.back.elements,
               userData,
               scaleFactor: 1,
-            })
-          )}
+            })}
+          {design.back?.overlays && renderDesignOverlays(design.back.overlays)}
         </Box>
       )}
     </>

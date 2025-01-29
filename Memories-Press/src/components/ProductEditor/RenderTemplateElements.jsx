@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
+import FadeInBox from '../FadeInBox';
 
 export function renderTemplateElements({ elements, userData, scaleFactor = 1 }) {
   if (!elements) return null;
@@ -17,10 +18,10 @@ export function renderTemplateElements({ elements, userData, scaleFactor = 1 }) 
           alt="User Photo"
           sx={{
             position: 'absolute',
-            top: elem.y * scaleFactor,
-            left: elem.x * scaleFactor,
-            width: elem.width * scaleFactor,
-            height: elem.height * scaleFactor,
+            top: `${elem.y * scaleFactor}px`,
+            left: `${elem.x * scaleFactor}px`,
+            width: `${elem.width * scaleFactor}px`,
+            height: `${elem.height * scaleFactor}px`,
             objectFit: 'cover',
             borderRadius: elem.borderRadius || '0%',
           }}
@@ -43,9 +44,9 @@ export function renderTemplateElements({ elements, userData, scaleFactor = 1 }) 
           key={key}
           sx={{
             position: 'absolute',
-            top: elem.y * scaleFactor,
-            left: elem.x * scaleFactor,
-            width: elem.width * scaleFactor,
+            top: `${elem.y * scaleFactor}px`,
+            left: `${elem.x * scaleFactor}px`,
+            width: `${elem.width * scaleFactor}px`,
             fontFamily: elem.font.family || 'Arial',
             fontWeight: elem.font.weight || 'normal',
             fontStyle: elem.font.italic ? 'italic' : 'normal',
@@ -65,6 +66,7 @@ export function renderTemplateElements({ elements, userData, scaleFactor = 1 }) 
         </Typography>
       );
     }
+
     return null;
   });
 }

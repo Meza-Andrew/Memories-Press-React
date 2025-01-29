@@ -89,9 +89,8 @@ export default function ResourcesList() {
         Resources and guidance to support your journey
       </Typography>
       {resources.map((resource, index) => (
-        <FadeInBox delay={index * 0.2}>
+        <FadeInBox key={index} delay={index * 0.2}>
           <ResourceSection
-            key={index}
             heading={resource.heading}
             subheading={resource.subheading}
             buttonText={resource.buttonText}

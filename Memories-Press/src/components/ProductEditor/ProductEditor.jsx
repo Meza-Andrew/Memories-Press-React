@@ -1,4 +1,3 @@
-// ProductEditor.js
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import {
   Box,
@@ -15,18 +14,16 @@ import {
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useLocation, useNavigate } from 'react-router-dom';
-
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-
-import { designs } from './designs'; // your designs array
-import { templatesConfig, PRODUCT_TYPES } from './templatesConfig'; // your templates config
+import { designs } from './designs';
+import { templatesConfig, PRODUCT_TYPES } from './templatesConfig';
 import DesignSelector from './DesignSelector';
 import CropModal from './CropModal';
 import CartContext from '../../components/CartContext';
-
 import HiddenFullSizeContainers from './HiddenFullSizeContainer';
 import SingleSidePreview from './SingleSidePreview';
+import FadeInBox from '../FadeInBox';
 
 /** Optional sample proverbs */
 const defaultProverbs = [
@@ -252,7 +249,7 @@ export default function ProductEditor() {
     // Now do the capture
     try {
       const canvas = await html2canvas(ref.current, {
-        scale: 2,
+        scale: 1,
         useCORS: true,   // if same domain, typically no problem, but let's keep it
         logging: true,
       });
@@ -551,6 +548,7 @@ export default function ProductEditor() {
       <Box sx={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
         {/* Left side: tabs */}
         <Box sx={{ width: '30%', borderRight: '1px solid #ccc' }}>
+          <FadeInBox>
           <Tabs
             orientation="vertical"
             variant="scrollable"
@@ -565,6 +563,7 @@ export default function ProductEditor() {
             <Tab label="Proverb" />
             <Tab label="Finish & Qty" />
           </Tabs>
+          </FadeInBox>
         </Box>
 
         {/* Right side: preview */}

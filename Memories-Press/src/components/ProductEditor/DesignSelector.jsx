@@ -1,11 +1,13 @@
 import React from 'react';
 import { Grid, Card, CardActionArea, CardMedia, Typography } from '@mui/material';
+import FadeInBox from '../FadeInBox';
 
 export default function DesignSelector({ designs, onSelect, selectedDesignId }) {
   return (
     <Grid container spacing={2}>
-      {designs.map((design) => (
+      {designs.map((design, index) => (
         <Grid item xs={6} sm={4} md={3} key={design.id}>
+          <FadeInBox triggerOnce={false} delay={index * 0.01} direction='down'>
           <Card 
             variant={selectedDesignId === design.id ? 'outlined' : 'elevation'}
             sx={{
@@ -27,6 +29,7 @@ export default function DesignSelector({ designs, onSelect, selectedDesignId }) 
               </Typography>
             </CardActionArea>
           </Card>
+          </FadeInBox>
         </Grid>
       ))}
     </Grid>

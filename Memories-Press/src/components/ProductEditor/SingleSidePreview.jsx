@@ -10,7 +10,9 @@ export default function SingleSidePreview({
 }) {
   if (!design || !productConfig) return null;
 
-  const currentTemplate = productConfig.templates.find(t => t.id === design.templateId);
+  const currentTemplate = productConfig.templates.find(
+    (t) => t.id === design.templateId
+  );
   if (!currentTemplate) {
     return <Box>No template found for {design.id}</Box>;
   }
@@ -33,21 +35,43 @@ export default function SingleSidePreview({
     const parentH = rect.height;
 
     let newScale = Math.min(parentW / realWidth, parentH / realHeight);
-
     if (newScale > 1) {
       newScale = 1;
     }
-
     setScaleFactor(newScale);
   }, [realWidth, realHeight]);
 
   useEffect(() => {
     measureAndComputeScale();
     window.addEventListener('resize', measureAndComputeScale);
-    return () => window.removeEventListener('resize', measureAndComputeScale);
+    return () => {
+      window.removeEventListener('resize', measureAndComputeScale);
+    };
   }, [measureAndComputeScale]);
 
   const bgUrl = side === 'back' ? design.backImage : design.frontImage;
+
+  const renderOverlays = (overlays) => {
+    if (!overlays || !overlays.length) return null;
+    return overlays.map((ov, index) => (
+      <Box
+        key={`overlay-${index}`}
+        component="img"
+        src={ov.src}
+        alt={`overlay-${index}`}
+        sx={{
+          position: 'absolute',
+          top: ov.y,
+          left: ov.x,
+          width: ov.width,
+          height: ov.height,
+          objectFit: 'cover',
+          zIndex: 9999,
+          pointerEvents: 'none',
+        }}
+      />
+    ));
+  };
 
   return (
     <Box
@@ -78,6 +102,8 @@ export default function SingleSidePreview({
           userData,
           scaleFactor: 1,
         })}
+        {side === 'front' && design.front?.overlays && renderOverlays(design.front.overlays)}
+        {side === 'back' && design.back?.overlays && renderOverlays(design.back.overlays)}
       </Box>
     </Box>
   );

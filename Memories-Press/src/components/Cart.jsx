@@ -53,15 +53,15 @@ function Cart() {
       display="flex"
       flexDirection="column"
       alignItems="center"
-      sx={{ marginTop: 6, paddingX: { xs: 2, sm: 4 } }}
+      sx={{ marginTop: 6, paddingX: { xs: 2, md: 4 } }}
     >
       {cartItems.map((item, index) => (
         <Card
           key={index}
-          sx={{ display: 'flex', mb: 2, width: '100%', maxWidth: '600px', padding: 1 }}
+          sx={{ display: 'flex', mb: 2, width: '100%', maxWidth: '660px', padding: 1 }}
         >
           <Grid container spacing={1}>
-            <Grid item xs={5} sm={4}>
+            <Grid item xs={4} md={4}>
               <Box
                 sx={{
                   position: 'relative',
@@ -88,7 +88,7 @@ function Cart() {
                 />
               </Box>
             </Grid>
-            <Grid item xs={7} sm={8}>
+            <Grid item xs={8} md={8}>
               <Box
                 sx={{
                   display: 'flex',
@@ -123,7 +123,12 @@ function Cart() {
                       </Typography>
                     ) : (
                       <Typography variant="body2" color="text.secondary">
-                        {item.currentProverb}
+                        {item.currentProverb.length > 100
+                          ? `${item.currentProverb.substring(
+                              0,
+                              item.currentProverb.substring(0, 100).lastIndexOf(' ')
+                            )}...`
+                          : item.currentProverb}
                       </Typography>
                     )}
                     <Box
@@ -155,7 +160,7 @@ function Cart() {
                           </Select>
                         </FormControl>
                       </Box>
-                      <Box sx={{ minWidth: 120, flex: '1 1 120px' }}>
+                      <Box sx={{ minWidth: 80, flex: '1 1 80px' }}>
                         <FormControl fullWidth>
                           <InputLabel id={`finish-select-label-${index}`}>Finish</InputLabel>
                           <Select

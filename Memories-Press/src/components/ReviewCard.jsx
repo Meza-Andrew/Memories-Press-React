@@ -46,8 +46,8 @@ export default function ReviewCard({
     <ReviewCardContainer backgroundColor={backgroundColor}>
       <StarsRow>
         {Array.from({ length: stars }).map((_, index) => (
-          <FadeInBox delay={index * .2}>
-            <Star key={index} color="#ffd700" borderColor="#e0a800">
+          <FadeInBox key={index} delay={index * .2}>
+            <Star color="#ffd700" borderColor="#e0a800">
             ★
             </Star>
         </FadeInBox>
