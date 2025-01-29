@@ -9,26 +9,28 @@ export function renderTemplateElements({ elements, userData, scaleFactor = 1 }) 
     const elem = elements[key];
     if (!elem) return null;
 
+    // Photo Element
     if (elem.hasPhoto && userData.photo) {
       return (
         <Box
           key={key}
-          component="img"
-          src={userData.photo}
-          alt="User Photo"
           sx={{
             position: 'absolute',
             top: `${elem.y * scaleFactor}px`,
             left: `${elem.x * scaleFactor}px`,
             width: `${elem.width * scaleFactor}px`,
             height: `${elem.height * scaleFactor}px`,
-            objectFit: 'cover',
+            backgroundImage: `url(${userData.photo})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
             borderRadius: elem.borderRadius || '0%',
           }}
         />
       );
     }
 
+    // Text Element
     if (elem.hasText) {
       let textValue = userData[key] || '';
       if (key === 'proverb' && userData.proverb === 'CUSTOM') {

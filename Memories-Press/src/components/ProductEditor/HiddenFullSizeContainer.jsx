@@ -64,8 +64,7 @@ export default function HiddenFullSizeContainers({
             left: 0,
           }}
         />
-        {renderTemplateElements &&
-          currentTemplate.front &&
+          {currentTemplate.front &&
           renderTemplateElements({
             elements: currentTemplate.front.elements,
             userData,
@@ -100,8 +99,7 @@ export default function HiddenFullSizeContainers({
               left: 0,
             }}
           />
-          {renderTemplateElements &&
-            currentTemplate.back &&
+            {currentTemplate.back &&
             renderTemplateElements({
               elements: currentTemplate.back.elements,
               userData,
