@@ -2,30 +2,30 @@ import { PRODUCT_TYPES } from './templatesConfig.js';
 
 export const designs = [
   // --- Prayer Card Designs ---
-  // {
-  //   id: 'prayercard_template1',
-  //   productType: PRODUCT_TYPES.PRAYER_CARD,
-  //   templateId: 'pc_template_1',
-  //   frontImage: './templates/prayer_cards/jpeg/template_1_front.jpg',
-  //   backImage: './templates/prayer_cards/jpeg/template_1_back.jpg',
-  //   label: 'template one',
-  // },
-  // {
-  //   id: 'prayercard_template2',
-  //   productType: PRODUCT_TYPES.PRAYER_CARD,
-  //   templateId: 'pc_template_2',
-  //   frontImage: './templates/prayer_cards/jpeg/template_2_front.jpg',
-  //   backImage: './templates/prayer_cards/jpeg/template_2_back.jpg',
-  //   label: 'template two',
-  // },
-  // {
-  //   id: 'prayercard_template3',
-  //   productType: PRODUCT_TYPES.PRAYER_CARD,
-  //   templateId: 'pc_template_3',
-  //   frontImage: './templates/prayer_cards/jpeg/template_3_front.jpg',
-  //   backImage: './templates/prayer_cards/jpeg/template_3_back.jpg',
-  //   label: 'template three',
-  // },
+  {
+    id: 'prayercard_template1',
+    productType: PRODUCT_TYPES.PRAYER_CARD,
+    templateId: 'pc_template_1',
+    frontImage: './templates/prayer_cards/jpeg/template_1_front.jpg',
+    backImage: './templates/prayer_cards/jpeg/Prayer_Cards_1_Dove_Right_Front.jpg',
+    label: 'template one',
+  },
+  {
+    id: 'prayercard_template2',
+    productType: PRODUCT_TYPES.PRAYER_CARD,
+    templateId: 'pc_template_2',
+    frontImage: './templates/prayer_cards/jpeg/template_2_front.jpg',
+    backImage: './templates/prayer_cards/jpeg/Prayer_Cards_3_Dove_Left_Front.jpg',
+    label: 'template two',
+  },
+  {
+    id: 'prayercard_template3',
+    productType: PRODUCT_TYPES.PRAYER_CARD,
+    templateId: 'pc_template_3',
+    frontImage: './templates/prayer_cards/jpeg/template_3_front.jpg',
+    backImage: './templates/prayer_cards/jpeg/Prayer_Cards_25_Angel_Baby_Pink_Front.jpg',
+    label: 'template three',
+  },
   {
     id: 'prayercard_design1',
     productType: PRODUCT_TYPES.PRAYER_CARD,

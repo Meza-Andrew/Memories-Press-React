@@ -27,35 +27,33 @@ export const templatesConfig = {
               hasPhoto: true,
             },
             name: {
-              x: 215,
-              y: 880,
-              width: 170,
+              //adjusts horizontally
+              x: 50,
+              //adjusts vertically
+              //font face
+              y: 870,
+              width: 300,
               height: 40,
-              font: { family: 'Arial', size: '64px', weight: 'normal', color: '#000' },
+              font: { family: 'Arial', size: '90%', weight: 'normal', color: '#000' },
               hasText: true,
             },
-            // middleName: {
-            //   x: 200,
-            //   y: 450,
-            //   width: 350,
-            //   height: 40,
-            //   font: { family: 'Arial', size: '20px', weight: 'normal', color: '#222' },
-            //   hasText: true,
-            // },
             lastName: {
               x: 390,
-              y: 880,
-              width: 170,
+              y: 870,
+              width: 300,
               height: 40,
-              font: { family: 'Arial', size: '64px', weight: 'normal', color: '#000' },
+              font: { family: 'Arial', size: '88px', weight: 'normal', color: '#000' },
               hasText: true,
             },
+            //adjusts date of birth
             dob: {
+              //adjusts horizontally
               x: 100,
+              //adjusts vertically
               y: 990,
               width: 310,
               height: 30,
-              font: { family: 'Georgia', size: '34px', weight: 'normal', color: '#444' },
+              font: { family: 'Georgia', size: '22px', weight: 'normal', color: '#444' },
               hasText: true,
             },
             dod: {
@@ -63,13 +61,32 @@ export const templatesConfig = {
               y: 990,
               width: 310,
               height: 30,
-              font: { family: 'Georgia', size: '34px', weight: 'normal', color: '#444' },
+              font: { family: 'Georgia', size: '22px', weight: 'normal', color: '#444' },
               hasText: true,
             },
           },
         },
         back: {
           elements: {
+            name: {
+              //adjusts horizontally
+              x: 50,
+              //adjusts vertically
+              y: 925,
+              width: 300,
+              height: 40,
+              font: { family: 'Arial', size: '92px', weight: 'normal', color: '#000' },
+              //x4 fonts
+              hasText: true,
+            },
+            lastName: {
+              x: 390,
+              y: 925,
+              width: 300,
+              height: 40,
+              font: { family: 'Arial', size: '22px', weight: 'normal', color: '#000' },
+              hasText: true,
+            },
             note: {
               x: 100,
               y: 100,
@@ -83,7 +100,7 @@ export const templatesConfig = {
               y: 190,
               width: 400,
               height: 60,
-              font: { family: 'Times New Roman', size: '16px', weight: 'normal', color: '#555', italic: true },
+              font: { family: 'Times New Roman', size: '22px', weight: 'normal', color: '#555', italic: true },
               hasText: true,
             },
           },
@@ -110,14 +127,6 @@ export const templatesConfig = {
               font: { family: 'Arial', size: '64px', weight: 'normal', color: '#fff' },
               hasText: true,
             },
-            // middleName: {
-            //   x: 200,
-            //   y: 450,
-            //   width: 350,
-            //   height: 40,
-            //   font: { family: 'Arial', size: '20px', weight: 'normal', color: '#222' },
-            //   hasText: true,
-            // },
             lastName: {
               x: 390,
               y: 890,
@@ -186,14 +195,6 @@ export const templatesConfig = {
               font: { family: 'Arial', size: '64px', weight: 'normal', color: '#fff' },
               hasText: true,
             },
-            // middleName: {
-            //   x: 200,
-            //   y: 450,
-            //   width: 350,
-            //   height: 40,
-            //   font: { family: 'Arial', size: '20px', weight: 'normal', color: '#222' },
-            //   hasText: true,
-            // },
             lastName: {
               x: 390,
               y: 890,
@@ -262,14 +263,6 @@ export const templatesConfig = {
               font: { family: 'Arial', size: '54px', weight: 'normal', color: '#000' },
               hasText: true,
             },
-            // middleName: {
-            //   x: 200,
-            //   y: 450,
-            //   width: 350,
-            //   height: 40,
-            //   font: { family: 'Arial', size: '20px', weight: 'normal', color: '#222' },
-            //   hasText: true,
-            // },
             lastName: {
               x: 380,
               y: 960,
@@ -338,14 +331,6 @@ export const templatesConfig = {
               font: { family: 'Arial', size: '54px', weight: 'normal', color: '#fff' },
               hasText: true,
             },
-            // middleName: {
-            //   x: 200,
-            //   y: 450,
-            //   width: 350,
-            //   height: 40,
-            //   font: { family: 'Arial', size: '20px', weight: 'normal', color: '#222' },
-            //   hasText: true,
-            // },
             lastName: {
               x: 380,
               y: 960,
@@ -414,14 +399,6 @@ export const templatesConfig = {
               font: { family: 'Arial', size: '54px', weight: 'normal', color: '#fff' },
               hasText: true,
             },
-            // middleName: {
-            //   x: 200,
-            //   y: 450,
-            //   width: 350,
-            //   height: 40,
-            //   font: { family: 'Arial', size: '20px', weight: 'normal', color: '#222' },
-            //   hasText: true,
-            // },
             lastName: {
               x: 380,
               y: 960,
@@ -474,14 +451,6 @@ export const templatesConfig = {
         label: 'Template 3 - Full Info',
         front: {
           elements: {
-            // photo: {
-            //   x: 95,
-            //   y: 143,
-            //   width: 560,
-            //   height: 620,
-            //   borderRadius: '50%',
-            //   hasPhoto: true,
-            // },
             name: {
               x: 215,
               y: 850,
@@ -490,14 +459,6 @@ export const templatesConfig = {
               font: { family: 'Arial', size: '74px', weight: 'normal', color: '#000' },
               hasText: true,
             },
-            // middleName: {
-            //   x: 200,
-            //   y: 450,
-            //   width: 350,
-            //   height: 40,
-            //   font: { family: 'Arial', size: '20px', weight: 'normal', color: '#222' },
-            //   hasText: true,
-            // },
             lastName: {
               x: 390,
               y: 850,

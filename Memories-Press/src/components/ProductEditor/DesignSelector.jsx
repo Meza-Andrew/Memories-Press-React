@@ -7,7 +7,7 @@ export default function DesignSelector({ designs, onSelect, selectedDesignId }) 
     <Grid container spacing={2}>
       {designs.map((design, index) => (
         <Grid item xs={6} sm={4} md={3} key={design.id}>
-          <FadeInBox triggerOnce={false} delay={index * 0.01} direction='down'>
+          <FadeInBox delay={index * 0.01} direction='down'>
           <Card 
             variant={selectedDesignId === design.id ? 'outlined' : 'elevation'}
             sx={{

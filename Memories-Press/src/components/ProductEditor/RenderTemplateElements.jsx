@@ -60,7 +60,7 @@ export function renderTemplateElements({ elements, userData, scaleFactor = 1 }) 
             whiteSpace: 'pre-wrap',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: key === 'name' ? 'right' : key === 'lastName' ? 'left' : 'center',
             padding: '0px',
           }}
         >
