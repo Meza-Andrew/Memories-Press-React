@@ -14,6 +14,7 @@ const PrayerHero = () => {
         minHeight: '10vh',
         padding: '10px',
         backgroundColor: '#f5f5f5',
+        mt: 10
       }}
     >
       <Typography
@@ -45,7 +46,8 @@ const PrayerHero = () => {
     }}>
       <Divider sx={{
         marginBottom: 6,
-        width: '60%'
+        width: '80%',
+        maxWidth: '1200px'
       }}/>
     </Box>
     </>

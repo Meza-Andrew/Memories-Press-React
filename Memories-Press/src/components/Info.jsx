@@ -26,7 +26,7 @@ function Info({ totalPrice }) {
               primary={item.name}
               secondary={`${item.dob} - ${item.dod}`}
             />
-            <img src={item.smallScaleImage} alt={item.name} style={{ width: 50, height: 75, marginRight: 16 }} />
+            <img src={item.smallScaleImage} alt={item.name} style={{ width: 'auto', height: 75, marginRight: 16 }} />
           </ListItem>
         ))}
       </List>

@@ -7,10 +7,10 @@ import CustomizableSpecs from './Customizable_Specs';
 import ResourceSection from './ResourceSection';
 import CTA from './CTA';
 
-function Bookmarks() {
+function MemorialHearts() {
   const title = 'Customizable specifications';
   const description =
-    'Choose from a variety of finishes to create a custom bookmark that reflects your loved one’s personality and values. Options include matte, gloss, or soft-touch finishes, along with different fonts and layout choices.';
+    'Choose from a variety of finishes to create a custom memorial heart that reflects your loved one’s personality and values. Options include matte, gloss, or soft-touch finishes, along with different fonts and layout choices.';
   const finishes = [
     {
       name: 'Matte',
@@ -92,7 +92,7 @@ function Bookmarks() {
                 color: '#D3648B',
               }}
             >
-              Funeral bookmarks
+              Memorial Hearts
             </Typography>
             <Box
               sx={{
@@ -110,14 +110,14 @@ function Bookmarks() {
                   maxWidth: { xs: '80%', md: '80%' },
                 }}
               >
-                Design personalized bookmarks for your loved ones.
+                Design personalized memorial hearts for your loved ones.
               </Typography>
             </Box>
             <Box sx={{ display: { xs: 'none', md: 'block' } }}>
               <StyledButton
                 backgroundColor="#D3648B"
                 color="#FCF46D"
-                path="/bookmarks/producteditor/"
+                path="/memorialhearts/producteditor/"
                 width="auto"
                 longButton={true}
               >
@@ -128,7 +128,7 @@ function Bookmarks() {
               <StyledButton
                 backgroundColor="#D3648B"
                 color="#FCF46D"
-                path="/bookmarks/producteditor/"
+                path="/memorialhearts/producteditor/"
                 width="46%"
               >
                 Create now
@@ -147,12 +147,12 @@ function Bookmarks() {
           >
             <Box
               component="img"
-              src="./Bookmark.png"
+              src="./MemorialHeart.png"
               alt="Prayer Card"
               sx={{
                 // maxWidth: { xs: '20rem', md: '24.5rem' },
-                maxHeight: 'auto',
-                width: {xs: 'auto', md: '50%'},
+                maxWidth: { xs: '20rem', md: '24.5rem' },
+                width: '100%',
                 filter: {
                   xs: 'drop-shadow(0px 3px 5px rgba(0, 0, 0, 0.3))',
                   md: 'drop-shadow(0px 9px 6px rgba(0, 0, 0, 0.4))',
@@ -189,7 +189,7 @@ function Bookmarks() {
                 marginBottom: 2,
               }}
             >
-              The role of funeral bookmarks
+              The role of memorial hearts
             </Typography>
           </Box>
           <Box sx={{ display: { xs: 'block', md: 'none' } }}>
@@ -202,7 +202,7 @@ function Bookmarks() {
                 marginBottom: 2,
               }}
             >
-              The significance of funeral bookmarks
+              The significance of memorial hearts
             </Typography>
           </Box>
           <Typography
@@ -214,9 +214,9 @@ function Bookmarks() {
               textAlign: { xs: 'left', md: 'center' },
             }}
           >
-            Funeral bookmarks provide a lasting tribute, a gentle way to honor the memory of a loved
+            Memorial hearts provide a lasting tribute, a gentle way to honor the memory of a loved
             one. Personalized with meaningful symbols, quotes, and prayers, they serve as a tangible
-            keepsake for family and friends. At Memories Press, we thoughtfully design each bookmark to
+            keepsake for family and friends. At Memories Press, we thoughtfully design each memorial heart to
             inspire reflection and provide comfort, helping you celebrate life’s journey and cherish
             the memories shared.
           </Typography>
@@ -230,7 +230,7 @@ function Bookmarks() {
         <ReviewCardList showBackground={false} />
       </Box>
       <Container>
-        <FuneralTemplates product='bookmarks' path="/bookmarks/producteditor/"/>
+        <FuneralTemplates product='memorialHearts' path="/memorialhearts/producteditor/"/>
       </Container>
       <Container maxWidth="100%"
         disableGutters
@@ -261,4 +261,4 @@ function Bookmarks() {
   );
 }
 
-export default Bookmarks;
+export default MemorialHearts;

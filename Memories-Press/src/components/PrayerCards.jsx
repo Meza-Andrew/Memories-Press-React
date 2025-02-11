@@ -152,6 +152,10 @@ function PrayerCards() {
               sx={{
                 maxWidth: { xs: '20rem', md: '24.5rem' },
                 width: '100%',
+                filter: {
+                  xs: 'drop-shadow(0px 3px 5px rgba(0, 0, 0, 0.3))',
+                  md: 'drop-shadow(0px 9px 6px rgba(0, 0, 0, 0.4))',
+                }
               }}
             />
           </Box>
@@ -225,7 +229,7 @@ function PrayerCards() {
         <ReviewCardList showBackground={false} />
       </Box>
       <Container>
-        <FuneralTemplates path="/prayercards/prayercardeditor/"/>
+        <FuneralTemplates product='prayerCards' path="/prayercards/prayercardeditor/"/>
       </Container>
       <Container maxWidth="100%"
         disableGutters

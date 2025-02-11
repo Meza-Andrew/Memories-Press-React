@@ -15,6 +15,7 @@ import PrayerCardDesigner from './components/PrayerCardDesigner';
 import Checkout from './components/Checkout';
 import ProductEditor from './components/ProductEditor/ProductEditor';
 import Bookmarks from './components/Bookmarks';
+import MemorialHearts from './components/MemorialHearts';
 
 function App() {
   const [user, setUser] = React.useState(false);
@@ -40,6 +41,10 @@ function App() {
           </Route>
           <Route path='bookmarks'>
             <Route index element={<Bookmarks />}/>
+            <Route path='producteditor' element={<ProductEditor />} />
+          </Route>
+          <Route path='memorialhearts'>
+            <Route index element={<MemorialHearts />}/>
             <Route path='producteditor' element={<ProductEditor />} />
           </Route>
         </Route>

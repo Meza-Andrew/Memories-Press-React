@@ -89,6 +89,7 @@ export default function ProductsList() {
         stacked={true}
         imageAlign={{ xs: 'left', md: 'left' }}
         small
+        path="/memorialhearts/"
       />
       </Box>
     </Box>

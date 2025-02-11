@@ -20,25 +20,25 @@ export default function SingleSidePreview({
   const realWidth = productConfig.widthPx;
   const realHeight = productConfig.heightPx;
 
-  const sideConfig = side === 'back' ? currentTemplate.back : currentTemplate.front;
+  const sideConfig =
+    side === 'back' ? currentTemplate.back : currentTemplate.front;
   if (!sideConfig) {
     return <Box>No {side} side found in template</Box>;
   }
 
   const outerRef = useRef(null);
   const [scaleFactor, setScaleFactor] = useState(1);
+  const [isMeasured, setIsMeasured] = useState(false);
 
   const measureAndComputeScale = useCallback(() => {
     if (!outerRef.current) return;
     const rect = outerRef.current.getBoundingClientRect();
     const parentW = rect.width;
     const parentH = rect.height;
-
     let newScale = Math.min(parentW / realWidth, parentH / realHeight);
-    if (newScale > 1) {
-      newScale = 1;
-    }
+    if (newScale > 1) newScale = 1;
     setScaleFactor(newScale);
+    setIsMeasured(true);
   }, [realWidth, realHeight]);
 
   useEffect(() => {
@@ -78,9 +78,9 @@ export default function SingleSidePreview({
       ref={outerRef}
       sx={{
         width: '100%',
-        height: '100%',
+        height: '95%',
         position: 'relative',
-        overflow: 'hidden',
+        visibility: isMeasured ? 'visible' : 'hidden',
       }}
     >
       <Box
@@ -95,6 +95,9 @@ export default function SingleSidePreview({
           backgroundImage: `url(${bgUrl})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
+          border: '0px solid grey',
+          borderRadius: 0,
+          boxShadow: '0px 5px 10px grey',
         }}
       >
         {renderTemplateElements({
@@ -102,8 +105,12 @@ export default function SingleSidePreview({
           userData,
           scaleFactor: 1,
         })}
-        {side === 'front' && design.front?.overlays && renderOverlays(design.front.overlays)}
-        {side === 'back' && design.back?.overlays && renderOverlays(design.back.overlays)}
+        {side === 'front' &&
+          design.front?.overlays &&
+          renderOverlays(design.front.overlays)}
+        {side === 'back' &&
+          design.back?.overlays &&
+          renderOverlays(design.back.overlays)}
       </Box>
     </Box>
   );
