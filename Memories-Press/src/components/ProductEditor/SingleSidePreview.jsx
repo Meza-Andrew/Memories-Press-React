@@ -2,12 +2,12 @@ import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { Box } from '@mui/material';
 import { renderTemplateElements } from './RenderTemplateElements';
 
-export default function SingleSidePreview({
+const SingleSidePreview = React.forwardRef(({
   productConfig,
   design,
   userData,
   side = 'front',
-}) {
+}, ref) => {
   if (!design || !productConfig) return null;
 
   const currentTemplate = productConfig.templates.find(
@@ -78,12 +78,13 @@ export default function SingleSidePreview({
       ref={outerRef}
       sx={{
         width: '100%',
-        height: '95%',
+        height: '100%',
         position: 'relative',
         visibility: isMeasured ? 'visible' : 'hidden',
       }}
     >
       <Box
+        ref={ref}
         sx={{
           position: 'absolute',
           top: '50%',
@@ -103,6 +104,7 @@ export default function SingleSidePreview({
         {renderTemplateElements({
           elements: sideConfig.elements,
           userData,
+          design,
           scaleFactor: 1,
         })}
         {side === 'front' &&
@@ -114,4 +116,6 @@ export default function SingleSidePreview({
       </Box>
     </Box>
   );
-}
+});
+
+export default SingleSidePreview;

@@ -5,4 +5,7 @@ import react from '@vitejs/plugin-react-swc'
 export default defineConfig({
   base: '/Memories-Press-React/',
   plugins: [react()],
+  server: {
+    host: '0.0.0.0'
+  }
 })

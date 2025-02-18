@@ -14,7 +14,11 @@ export default function HiddenFullSizeContainers({
   const currentTemplate = productConfig.templates.find(t => t.id === design.templateId);
   if (!currentTemplate) return null;
 
-  const { widthPx, heightPx } = productConfig;
+  const { widthPx, heightPx, bleedWidthPx, bleedHeightPx } = productConfig;
+  const widthOffset = (bleedWidthPx - widthPx) / 2;
+  const heightOffset = (bleedHeightPx - heightPx) / 2;
+
+  const offset = { widthOffset, heightOffset };
 
   const renderDesignOverlays = (overlays) => {
     if (!overlays || !overlays.length) return null;
@@ -26,8 +30,8 @@ export default function HiddenFullSizeContainers({
         alt={`overlay-${index}`}
         sx={{
           position: 'absolute',
-          top: overlay.y,
-          left: overlay.x,
+          top: overlay.y + offset.heightOffset,
+          left: overlay.x + offset.widthOffset,
           width: overlay.width,
           height: overlay.height,
           objectFit: 'contain',
@@ -46,14 +50,14 @@ export default function HiddenFullSizeContainers({
           position: 'absolute',
           top: '-2000px',
           left: '-2000px',
-          width: `${widthPx}px`,
-          height: `${heightPx}px`,
+          width: `${bleedWidthPx}px`,
+          height: `${bleedHeightPx}px`,
           backgroundColor: '#fff',
           overflow: 'hidden',
         }}
       >
         <img
-          src={design.frontImage}
+          src={design.frontImageBleed}
           alt="Front"
           style={{
             width: '100%',
@@ -64,13 +68,14 @@ export default function HiddenFullSizeContainers({
             left: 0,
           }}
         />
-          {currentTemplate.front &&
+        {currentTemplate.front &&
           renderTemplateElements({
             elements: currentTemplate.front.elements,
             userData,
+            design,
             scaleFactor: 1,
+            offset,
           })}
-
         {design.front?.overlays && renderDesignOverlays(design.front.overlays)}
       </Box>
 
@@ -81,14 +86,14 @@ export default function HiddenFullSizeContainers({
             position: 'absolute',
             top: '-4000px',
             left: '-4000px',
-            width: `${widthPx}px`,
-            height: `${heightPx}px`,
+            width: `${bleedWidthPx}px`,
+            height: `${bleedHeightPx}px`,
             backgroundColor: '#eee',
             overflow: 'hidden',
           }}
         >
           <img
-            src={design.backImage}
+            src={design.backImageBleed}
             alt="Back"
             style={{
               width: '100%',
@@ -99,11 +104,13 @@ export default function HiddenFullSizeContainers({
               left: 0,
             }}
           />
-            {currentTemplate.back &&
+          {currentTemplate.back &&
             renderTemplateElements({
               elements: currentTemplate.back.elements,
               userData,
+              design,
               scaleFactor: 1,
+              offset,
             })}
           {design.back?.overlays && renderDesignOverlays(design.back.overlays)}
         </Box>
