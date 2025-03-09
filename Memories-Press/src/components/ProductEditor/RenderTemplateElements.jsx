@@ -62,6 +62,7 @@ export function renderTemplateElements({
     if (elem.hasText) {
       let textValue = '';
       let overrideFontSize;
+      let overrideFontSizeAlt;
       if (key === 'name') {
         textValue = displayUserData.fullName;
       } else if (key === 'proverb') {
@@ -82,6 +83,9 @@ export function renderTemplateElements({
             textValue = pObj.text || '';
             if (pObj.fontSize) {
               overrideFontSize = parseInt(pObj.fontSize, 10);
+            }
+            if (pObj.fontSizeAlt) {
+              overrideFontSizeAlt = parseInt(pObj.fontSizeAlt, 10);
             }
           }
         }
@@ -114,13 +118,17 @@ export function renderTemplateElements({
         transformStyle = `scale(${textScale})`;
         transformOrigin = 'center bottom';
       } else if (key === 'proverb') {
-        const fontSource = userData.selectedFont === 'font1' ? elem.font : elem.fontAlt;
+        const fontSource = userData.selectedFontBack === 'font1' ? elem.font : elem.fontAlt;
+        const fontFamilyWeightStyle = userData.selectedFontBack === 'font1' ? design.prayerFont : design.prayerFontAlt;
         const fontSizeNum =
           overrideFontSize !== undefined ? overrideFontSize : (parseInt(fontSource.size, 10) || 16);
-        computedFontSize = Math.round(fontSizeNum * fontSizeMultiplier * scaleFactor);
-        fontFamily = fontSource.family || 'Arial';
-        fontWeight = fontSource.weight || 'normal';
-        fontStyle = fontSource.italic ? 'italic' : 'normal';
+        const fontSizeNumAlt =
+          overrideFontSizeAlt !== undefined ? overrideFontSizeAlt : (parseInt(fontSource.size, 10) || 16);
+        const fontSizeNumTrue = userData.selectedFontBack === 'font1' ? fontSizeNum : fontSizeNumAlt;
+        computedFontSize = Math.round(fontSizeNumTrue * fontSizeMultiplier * scaleFactor);
+        fontFamily = fontFamilyWeightStyle.family || 'Arial';
+        fontWeight = fontFamilyWeightStyle.weight || 'normal';
+        fontStyle = fontFamilyWeightStyle.italic ? 'italic' : 'normal';
         fontColor = fontSource.color || '#000';
       } else {
         const fontSizeNum = parseInt(elem.font.size, 10) || 16;

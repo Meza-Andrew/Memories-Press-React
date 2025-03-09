@@ -1,4 +1,3 @@
-// ProductEditor.jsx
 import React, { useState, useEffect, useContext, useRef, useMemo } from 'react';
 import {
   Box,
@@ -32,6 +31,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { format } from 'date-fns';
 import ProverbSelect from './ProverbSelect';
+import { useLoadDesignFonts } from './useLoadDesignFonts';
 
 async function convertBlobUrlToBase64(blobUrl) {
   const response = await fetch(blobUrl);
@@ -110,6 +110,7 @@ export default function ProductEditor() {
     quantity: 25,
     finish: 'Matte',
     selectedFont: 'font1',
+    selectedFontBack: 'font1',
   });
 
   const [uploadedFileInfo, setUploadedFileInfo] = useState(null);
@@ -127,6 +128,8 @@ export default function ProductEditor() {
   const singleSidePreviewRef = useRef(null);
 
   const { addToCart, updateCartItem } = useContext(CartContext);
+
+  useLoadDesignFonts(selectedDesign);
 
   useEffect(() => {
     if (location.state && location.state.item && !cartItemLoaded.current) {
@@ -150,6 +153,8 @@ export default function ProductEditor() {
               finish: item.finish || 'Matte',
               selectedFont:
                 item.selectedFont !== undefined ? item.selectedFont : prev.selectedFont,
+              selectedFontBack:
+                item.selectedFontBack !== undefined ? item.selectedFontBack : prev.selectedFontBack,
             }));
             setOriginalImage(base64);
           })
@@ -168,6 +173,8 @@ export default function ProductEditor() {
               finish: item.finish || 'Matte',
               selectedFont:
                 item.selectedFont !== undefined ? item.selectedFont : prev.selectedFont,
+              selectedFontBack:
+                item.selectedFontBack !== undefined ? item.selectedFontBack : prev.selectedFontBack,
             }));
             setOriginalImage(item.photo);
           });
@@ -185,6 +192,8 @@ export default function ProductEditor() {
           finish: item.finish || 'Matte',
           selectedFont:
             item.selectedFont !== undefined ? item.selectedFont : prev.selectedFont,
+          selectedFontBack:
+              item.selectedFontBack !== undefined ? item.selectedFontBack : prev.selectedFontBack,
         }));
         setOriginalImage(item.originalPhoto || item.photo);
       }
@@ -362,6 +371,7 @@ export default function ProductEditor() {
       quantity: userData.quantity,
       finish: userData.finish,
       selectedFont: userData.selectedFont,
+      selectedFontBack: userData.selectedFontBack,
       smallScaleImage,
       originalPhoto: originalImage,
       customProverb: userData.customProverb,
@@ -527,6 +537,7 @@ export default function ProductEditor() {
               onChange={(e, newFont) => {
                 if (newFont !== null) {
                   setUserData((prev) => ({ ...prev, selectedFont: newFont }));
+                  setShowBack(productRoute === PRODUCT_TYPES.MEMORIAL_HEART ? true : false);
                 }
               }}
               sx={{ mt: 1 }}
@@ -563,6 +574,25 @@ export default function ProductEditor() {
               disabled={productRoute === PRODUCT_TYPES.MEMORIAL_HEART}
             />
           )}
+          <Box sx={{ mt: 2 }}>
+            <Typography variant="h6">Select Font Back</Typography>
+            <ToggleButtonGroup
+              color="primary"
+              value={userData.selectedFontBack}
+              exclusive
+              disabled={productRoute === PRODUCT_TYPES.MEMORIAL_HEART}
+              onChange={(e, newFont) => {
+                if (newFont !== null) {
+                  setUserData((prev) => ({ ...prev, selectedFontBack: newFont }));
+                  setShowBack(true);
+                }
+              }}
+              sx={{ mt: 1 }}
+            >
+              <ToggleButton value="font1">Font 1</ToggleButton>
+              <ToggleButton value="font2">Font 2</ToggleButton>
+            </ToggleButtonGroup>
+          </Box>
         </Box>
         <Box sx={{ mb: 4 }}>
           <Typography variant="h6">Finish & Quantity</Typography>

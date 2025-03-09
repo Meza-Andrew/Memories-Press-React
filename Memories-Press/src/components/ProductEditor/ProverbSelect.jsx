@@ -23,7 +23,8 @@ const proverbs = [
   Help from above,
   Unfailing sympathy
   Undying love…`,
-        fontSize: "13"
+        fontSize: "13",
+        fontSizeAlt: "11"
       },
       bookmark: { 
         text: `God hath not promised
@@ -42,7 +43,8 @@ const proverbs = [
   Help from above,
   Unfailing sympathy
   Undying love…`,
-        fontSize: "14"
+        fontSize: "15",
+        fontSizeAlt: "14"
       },
       memorialHeart: { 
         text: `God hath not promised
@@ -84,7 +86,8 @@ const proverbs = [
   blessings come to rest
   Each time that we remember
   the times that we loved best`,
-        fontSize: "10"
+        fontSize: "10",
+        fontSizeAlt: "9"
       },
       bookmark: { 
         text: `Early in the morning
@@ -103,7 +106,8 @@ const proverbs = [
   blessings come to rest
   Each time that we remember
   the times that we loved best`,
-        fontSize: "13"
+        fontSize: "14",
+        fontSizeAlt: "13"
       },
       memorialHeart: { 
         text: `Early in the morning
@@ -122,7 +126,7 @@ const proverbs = [
   blessings come to rest
   Each time that we remember
   the times that we loved best`,
-        fontSize: "20"
+        fontSize: "20",
       },
     },
     {
@@ -135,7 +139,8 @@ const proverbs = [
   and the rains fall soft upon your fields.
   Until we meet again,
   may God hold you in the palm of His hand.`,
-        fontSize: "15"
+        fontSize: "16",
+        fontSizeAlt: "14"
       },
       bookmark: { 
         text: `May the road rise to meet you.
@@ -144,7 +149,8 @@ const proverbs = [
   and the rains fall soft upon your fields.
   Until we meet again,
   may God hold you in the palm of His hand.`,
-        fontSize: "19"
+        fontSize: "21",
+        fontSizeAlt: "19"
       },
       memorialHeart: { 
         text: `May the road rise to meet you.
@@ -179,7 +185,8 @@ const proverbs = [
   Surely goodness and mercy
   shall follow me all the days of my life,
   and I will dwell in the house of the Lord forever.`,
-        fontSize: "9"
+        fontSize: "9",
+        fontSizeAlt: "8"
       },
       bookmark: { 
         text: `The Lord is my shepherd;
@@ -201,7 +208,8 @@ const proverbs = [
   Surely goodness and mercy
   shall follow me all the days of my life,
   and I will dwell in the house of the Lord forever.`,
-        fontSize: "12"
+        fontSize: "12",
+        fontSizeAlt: "11"
       },
       memorialHeart: { 
         text: `The Lord is my shepherd;
@@ -240,7 +248,8 @@ const proverbs = [
   As we forgive those who trespass against us;
   And lead us not into temptation,
   But deliver us from evil.`,
-        fontSize: "12"
+        fontSize: "13",
+        fontSizeAlt: "11"
       },
       bookmark: { 
         text: `Our Father who art in Heaven,
@@ -253,7 +262,8 @@ const proverbs = [
   As we forgive those who trespass against us;
   And lead us not into temptation,
   But deliver us from evil.`,
-        fontSize: "17"
+        fontSize: "18",
+        fontSizeAlt: "16"
       },
       memorialHeart: { 
         text: `Our Father who art in Heaven,
@@ -285,7 +295,8 @@ const proverbs = [
   to dry before the sun
   of happy memories that I leave,
   when life is done.`,
-        fontSize: "11"
+        fontSize: "12",
+        fontSizeAlt: "11"
       },
       bookmark: { 
         text: `I’d like the memory of me,
@@ -300,7 +311,8 @@ const proverbs = [
   to dry before the sun
   of happy memories that I leave,
   when life is done.`,
-        fontSize: "15"
+        fontSize: "16",
+        fontSizeAlt: "15"
       },
       memorialHeart: { 
         text: `I’d like the memory of me,
@@ -334,7 +346,8 @@ const proverbs = [
   When life will have no end.
   No, this is not goodbye at all;
   It is, I will see you then.`,
-        fontSize: "11"
+        fontSize: "12",
+        fontSizeAlt: "10"
       },
       bookmark: { 
         text: `Life is like a vapor
@@ -349,7 +362,8 @@ const proverbs = [
   When life will have no end.
   No, this is not goodbye at all;
   It is, I will see you then.`,
-        fontSize: "16"
+        fontSize: "16",
+        fontSizeAlt: "15"
       },
       memorialHeart: { 
         text: `Life is like a vapor
@@ -387,7 +401,8 @@ const proverbs = [
   even death can’t separate;
   a touch that lives forever,
   time cannot erase.`,
-        fontSize: "11"
+        fontSize: "11",
+        fontSizeAlt: "9"
       },
       bookmark: { 
         text: `Each life leaves a unique legacy
@@ -406,7 +421,8 @@ const proverbs = [
   even death can’t separate;
   a touch that lives forever,
   time cannot erase.`,
-        fontSize: "13"
+        fontSize: "14",
+        fontSizeAlt: "13"
       },
       memorialHeart: { 
         text: `Each life leaves a unique legacy
@@ -444,7 +460,8 @@ const proverbs = [
   
   The Lord replied, "The times when you have seen only one set of footprints,
   my child, is when I carried you."`,
-        fontSize: "9"
+        fontSize: "9",
+        fontSizeAlt: "8"
       },
       bookmark: { 
         text: `One night I dreamed I was
@@ -459,7 +476,8 @@ const proverbs = [
   
   The Lord replied, "The times when you have seen only one set of footprints,
   my child, is when I carried you."`,
-        fontSize: "13"
+        fontSize: "13",
+        fontSizeAlt: "12"
       },
       memorialHeart: { 
         text: `One night I dreamed I was

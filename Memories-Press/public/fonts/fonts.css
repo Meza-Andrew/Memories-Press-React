@@ -1,0 +1,48 @@
+@font-face {
+    font-family: 'Birthstone';
+    src: url('./Birthstone-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'CrimsonTextRegular';
+    src: url('./CrimsonText-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'CrimsonTextSemiBold';
+    src: url('./CrimsonText-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'DancingScriptRegular';
+    src: url('./DancingScript-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'ImperialScriptRegular';
+    src: url('./ImperialScript-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'MonteCarloRegular';
+    src: url('./MonteCarlo-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'PinyonScriptRegular';
+    src: url('./PinyonScript-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'PoppinsRegular';
+    src: url('./Poppins-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
