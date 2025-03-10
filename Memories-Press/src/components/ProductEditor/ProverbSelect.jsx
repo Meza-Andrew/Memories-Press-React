@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem, Tooltip, Typography } from '@mui/material';
 import { PRODUCT_TYPES } from './templatesConfig';
 
 const proverbs = [
@@ -497,45 +497,60 @@ const proverbs = [
     },
   ];
 
-function ProverbSelect({ value, onChange, productType, disabled }) {
-
-  const getVersion = (p) => {
-    if (productType === PRODUCT_TYPES.MEMORIAL_HEART) return p.memorialHeart;
-    if (productType === PRODUCT_TYPES.BOOKMARK) return p.bookmark;
-    return p.prayerCard;
-  };
-
-  const selectValue =
-    typeof value === 'object' && value !== null ? JSON.stringify(value) : value || '';
-
-  return (
-    <FormControl fullWidth margin="normal" disabled={disabled}>
-      <InputLabel id="proverb-select-label">Select Proverb</InputLabel>
-      <Select
-        labelId="proverb-select-label"
-        label="Select Proverb"
-        value={selectValue}
-        onChange={(e) => {
-          try {
-            const parsed = JSON.parse(e.target.value);
-            onChange({ target: { value: parsed } });
-          } catch {
-            onChange({ target: { value: e.target.value } });
-          }
-        }}
-      >
-        {proverbs.map((p) => {
-          const version = getVersion(p);
-          return (
-            <MenuItem key={p.key} value={JSON.stringify(version)}>
-              {p.title}
-            </MenuItem>
-          );
-        })}
-        <MenuItem value="CUSTOM">Custom Proverb</MenuItem>
-      </Select>
-    </FormControl>
-  );
-}
-
-export default ProverbSelect;
+  function ProverbSelect({ value, onChange, productType, disabled }) {
+    const getVersion = (p) => {
+      if (productType === PRODUCT_TYPES.MEMORIAL_HEART) return p.memorialHeart;
+      if (productType === PRODUCT_TYPES.BOOKMARK) return p.bookmark;
+      return p.prayerCard;
+    };
+  
+    const selectValue =
+      typeof value === 'object' && value !== null ? JSON.stringify(value) : value || '';
+  
+    const selectControl = (
+      <FormControl fullWidth margin="normal" disabled={disabled}>
+        <InputLabel id="proverb-select-label">Select Proverb</InputLabel>
+        <Select
+          labelId="proverb-select-label"
+          label="Select Proverb"
+          value={selectValue}
+          onChange={(e) => {
+            try {
+              const parsed = JSON.parse(e.target.value);
+              onChange({ target: { value: parsed } });
+            } catch {
+              onChange({ target: { value: e.target.value } });
+            }
+          }}
+        >
+          {proverbs.map((p) => {
+            const version = getVersion(p);
+            return (
+              <MenuItem key={p.key} value={JSON.stringify(version)}>
+                {p.title}
+              </MenuItem>
+            );
+          })}
+          <MenuItem value="CUSTOM">Custom Proverb</MenuItem>
+        </Select>
+      </FormControl>
+    );
+  
+    if (productType === PRODUCT_TYPES.MEMORIAL_HEART) {
+      return (
+        <>
+        <Tooltip
+          title="This product does not support this feature."
+          disableFocusListener
+        >
+          <span>{selectControl}</span>
+        </Tooltip>
+        <Typography sx={{display:{xs: 'block', md: 'none'}, fontStyle: 'italic', color: '#666666'}}>This product does not support this feature.</Typography>
+        </>
+      );
+    }
+  
+    return selectControl;
+  }
+  
+  export default ProverbSelect;

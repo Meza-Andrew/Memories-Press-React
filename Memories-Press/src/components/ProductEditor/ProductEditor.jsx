@@ -12,6 +12,7 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   useMediaQuery,
+  Divider,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -32,6 +33,12 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { format } from 'date-fns';
 import ProverbSelect from './ProverbSelect';
 import { useLoadDesignFonts } from './useLoadDesignFonts';
+import IconButton from '@mui/material/IconButton';
+import ThreeSixtyIcon from '@mui/icons-material/ThreeSixty';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
+
+
 
 async function convertBlobUrlToBase64(blobUrl) {
   const response = await fetch(blobUrl);
@@ -445,40 +452,45 @@ export default function ProductEditor() {
   );
 
   const inputOptionsContent = (
-    <FadeInBox>
-      <Box sx={{ p: 4 }}>
-        {/* Photo Upload Section */}
+    <Box sx={{ display: { xs: 'block', md: 'flex' }, gap: 2.5 }}>
+      {/* Left column: first paper */}
+      <Paper elevation={3} sx={{ p: 4, flex: 1, mb: {xs: 2, md: 0} }}>
         <Box sx={{ mb: 4 }}>
-          <Typography variant="h6">Upload & Crop Photo</Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', mt: 1, gap: 2 }}>
-            <Button variant="contained" component="label" fullWidth>
-              Upload
-              <input type="file" hidden accept="image/*" onChange={handlePhotoUpload} />
-            </Button>
-            {userData.photo && (
-              <Button
-                variant="outlined"
-                onClick={() => {
-                  if (originalImage) {
-                    setUploadedImage(originalImage);
-                    setShowCropModal(true);
-                  }
-                }}
-                disabled={!userData.photo}
-              >
-                Edit
-              </Button>
-            )}
-          </Box>
-          {userData.photo && (
-            <Typography variant="body2" sx={{ mt: 1 }}>
-              Photo selected. Re-upload to replace.
-            </Typography>
-          )}
+          <Button
+            variant="contained"
+            component="label"
+            fullWidth
+            startIcon={
+              <FileUploadIcon
+                sx={{ fontSize: 'inherit', position: 'relative', top: '-2px' }}
+              />
+            }
+          >
+            Upload
+            <input type="file" hidden accept="image/*" onChange={handlePhotoUpload} />
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              if (originalImage) {
+                setUploadedImage(originalImage);
+                setShowCropModal(true);
+              }
+            }}
+            disabled={!userData.photo}
+          >
+            Edit
+          </Button>
         </Box>
-        <Box sx={{ mb: 4, display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <Typography variant="h6">Name & Dates</Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+        {userData.photo && (
+          <Typography variant="body2" sx={{ mt: 1 }}>
+            Photo selected. Re-upload to replace.
+          </Typography>
+        )}
+      </Box>
+        <Box sx={{ mb: 0, display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <TextField
               label="First Name"
               value={userData.name}
@@ -487,7 +499,7 @@ export default function ProductEditor() {
                 setShowBack(productRoute === PRODUCT_TYPES.MEMORIAL_HEART ? true : false)
               }
               fullWidth
-              margin="normal"
+              margin="none"
             />
             <TextField
               label="Last Name"
@@ -497,7 +509,7 @@ export default function ProductEditor() {
                 setShowBack(productRoute === PRODUCT_TYPES.MEMORIAL_HEART ? true : false)
               }
               fullWidth
-              margin="normal"
+              margin="none"
             />
           </Box>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -528,8 +540,8 @@ export default function ProductEditor() {
               />
             </Box>
           </LocalizationProvider>
-          <Box sx={{ mt: 2 }}>
-            <Typography variant="h6">Select Font</Typography>
+          <Box sx={{ mt: 1 }}>
+            <Typography variant="h6">Front Side Font</Typography>
             <ToggleButtonGroup
               color="primary"
               value={userData.selectedFont}
@@ -547,126 +559,143 @@ export default function ProductEditor() {
             </ToggleButtonGroup>
           </Box>
         </Box>
-        <Box sx={{ mb: 4 }}>
-          <Typography variant="h6">Proverb or Message</Typography>
-          <ProverbSelect
-            value={userData.proverb}
-            onChange={(e) => {
-              setUserData({ ...userData, proverb: e.target.value });
-              setShowBack(true);
-            }}
-            productType={productRoute}
-            disabled={productRoute === PRODUCT_TYPES.MEMORIAL_HEART}
-          />
-          {userData.proverb === 'CUSTOM' && (
-            <TextField
-              label="Custom Proverb"
-              multiline
-              minRows={2}
-              value={userData.customProverb}
+      </Paper>
+      {/* Right column: second and third papers stacked */}
+      <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1, gap: 2.5 }}>
+        <Paper elevation={3} sx={{ p: 4 }}>
+          <Box sx={{ mb: 4 }}>
+            <Typography variant="h6" sx={{ color: productRoute === PRODUCT_TYPES.MEMORIAL_HEART ? '#a1a1a1' : 'black'}}>Proverb or Message</Typography>
+            <ProverbSelect
+              value={userData.proverb}
               onChange={(e) => {
-                const newValue = e.target.value.slice(0, 300);
-                setUserData((prev) => ({ ...prev, customProverb: newValue }));
+                setUserData({ ...userData, proverb: e.target.value });
+                setShowBack(true);
               }}
-              fullWidth
-              margin="normal"
-              helperText={`${userData.customProverb.length}/300 characters`}
+              productType={productRoute}
               disabled={productRoute === PRODUCT_TYPES.MEMORIAL_HEART}
             />
-          )}
-          <Box sx={{ mt: 2 }}>
-            <Typography variant="h6">Select Font Back</Typography>
-            <ToggleButtonGroup
-              color="primary"
-              value={userData.selectedFontBack}
-              exclusive
-              disabled={productRoute === PRODUCT_TYPES.MEMORIAL_HEART}
-              onChange={(e, newFont) => {
-                if (newFont !== null) {
-                  setUserData((prev) => ({ ...prev, selectedFontBack: newFont }));
-                  setShowBack(true);
-                }
-              }}
-              sx={{ mt: 1 }}
+            {userData.proverb === 'CUSTOM' && (
+              <TextField
+                label="Custom Proverb"
+                multiline
+                rows= {isLargeScreen ? 1 : 2}
+                value={userData.customProverb}
+                onChange={(e) => {
+                  const newValue = e.target.value.slice(0, 300);
+                  setUserData((prev) => ({ ...prev, customProverb: newValue }));
+                }}
+                fullWidth
+                margin="normal"
+                helperText={`${userData.customProverb.length}/300 characters`}
+                disabled={productRoute === PRODUCT_TYPES.MEMORIAL_HEART}
+                inputProps={{
+                  style: { overflowY: 'auto' },
+                }}
+              />
+            )}
+            <Box sx={{ mt: 2 }}>
+              <Typography variant="h6" sx={{ color: productRoute === PRODUCT_TYPES.MEMORIAL_HEART ? '#a1a1a1' : 'black'}}>Back Side Font</Typography>
+              <ToggleButtonGroup
+                color="primary"
+                value={userData.selectedFontBack}
+                exclusive
+                disabled={productRoute === PRODUCT_TYPES.MEMORIAL_HEART}
+                onChange={(e, newFont) => {
+                  if (newFont !== null) {
+                    setUserData((prev) => ({ ...prev, selectedFontBack: newFont }));
+                    setShowBack(true);
+                  }
+                }}
+                sx={{ mt: 1 }}
+              >
+                <ToggleButton value="font1">Font 1</ToggleButton>
+                <ToggleButton value="font2">Font 2</ToggleButton>
+              </ToggleButtonGroup>
+            </Box>
+          </Box>
+          <Box sx={{ mb: 0 }}>
+            <Typography variant="h6">Finish & Quantity</Typography>
+            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 2 }}>
+              <FormControl fullWidth margin="normal">
+                <InputLabel id="finish-select-label">Finish</InputLabel>
+                <Select
+                  labelId="finish-select-label"
+                  value={userData.finish}
+                  label="Finish"
+                  onChange={(e) => {
+                    setUserData({ ...userData, finish: e.target.value });
+                    setShowBack(false);
+                  }}
+                >
+                  <MenuItem value="Matte">Matte</MenuItem>
+                  <MenuItem value="Gloss">Gloss</MenuItem>
+                  <MenuItem value="Soft">Soft</MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <InputLabel id="quantity-select-label">Quantity</InputLabel>
+                <Select
+                  labelId="quantity-select-label"
+                  value={userData.quantity}
+                  label="Quantity"
+                  onChange={(e) => {
+                    setUserData({ ...userData, quantity: e.target.value });
+                    setShowBack(false);
+                  }}
+                >
+                  <MenuItem value={25}>25</MenuItem>
+                  <MenuItem value={50}>50</MenuItem>
+                  <MenuItem value={75}>75</MenuItem>
+                  <MenuItem value={100}>100</MenuItem>
+                  <MenuItem value={125}>125</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+          </Box>
+        </Paper>
+        <Paper elevation={3} sx={{ p: 4 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: 1,
+              width: '100%',
+              mt: 0,
+            }}
+          >
+            {/* <Button
+              variant="outlined"
+              color="secondary"
+              onClick={handleGeneratePdf}
+              disabled={!selectedDesign}
+              fullWidth
             >
-              <ToggleButton value="font1">Font 1</ToggleButton>
-              <ToggleButton value="font2">Font 2</ToggleButton>
-            </ToggleButtonGroup>
+              Generate PDF
+            </Button> */}
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleAddToCart}
+              disabled={!selectedDesign}
+              fullWidth
+              size="large"
+              startIcon={
+                <AddShoppingCartIcon
+                  sx={{ fontSize: 'inherit', position: 'relative', top: '-2px' }}
+                />
+              }
+              sx={{ fontSize: '1.25rem', display: 'flex', alignItems: 'center' }}
+            >
+              Add to Cart
+            </Button>
           </Box>
-        </Box>
-        <Box sx={{ mb: 4 }}>
-          <Typography variant="h6">Finish & Quantity</Typography>
-          <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 2 }}>
-            <FormControl fullWidth margin="normal">
-              <InputLabel id="finish-select-label">Finish</InputLabel>
-              <Select
-                labelId="finish-select-label"
-                value={userData.finish}
-                label="Finish"
-                onChange={(e) => {
-                  setUserData({ ...userData, finish: e.target.value });
-                  setShowBack(false);
-                }}
-              >
-                <MenuItem value="Matte">Matte</MenuItem>
-                <MenuItem value="Gloss">Gloss</MenuItem>
-                <MenuItem value="Soft">Soft</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl fullWidth margin="normal">
-              <InputLabel id="quantity-select-label">Quantity</InputLabel>
-              <Select
-                labelId="quantity-select-label"
-                value={userData.quantity}
-                label="Quantity"
-                onChange={(e) => {
-                  setUserData({ ...userData, quantity: e.target.value });
-                  setShowBack(false);
-                }}
-              >
-                <MenuItem value={25}>25</MenuItem>
-                <MenuItem value={50}>50</MenuItem>
-                <MenuItem value={75}>75</MenuItem>
-                <MenuItem value={100}>100</MenuItem>
-                <MenuItem value={125}>125</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-        </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: 1,
-            width: '100%',
-            mt: 2,
-          }}
-        >
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={handleGeneratePdf}
-            disabled={!selectedDesign}
-            fullWidth
-          >
-            Generate PDF
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleAddToCart}
-            disabled={!selectedDesign}
-            fullWidth
-          >
-            Add to Cart
-          </Button>
-        </Box>
+        </Paper>
       </Box>
-    </FadeInBox>
+    </Box>
   );
-
+  
   return (
     <>
       <PrayerHero />
@@ -680,23 +709,23 @@ export default function ProductEditor() {
         }}
       >
         {isLargeScreen ? (
-          <Box sx={{ display: 'flex', gap: 2.5, height: '100vh' }}>
-            <Paper
-              elevation={3}
-              sx={{
-                width: '35%',
-                height: '100%',
-                overflowY: 'auto',
-                p: 2,
-              }}
-            >
-              {designPickerContent}
-            </Paper>
-            <Box sx={{ display: 'flex', flexDirection: 'column', width: '65%', gap: 2.5 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+            {/* Top row with design picker and preview */}
+            <Box sx={{ display: 'flex', gap: 2.5, height: '60vh' }}>
               <Paper
                 elevation={3}
                 sx={{
-                  height: '50%',
+                  width: '35%',
+                  overflowY: 'auto',
+                  p: 2,
+                }}
+              >
+                {designPickerContent}
+              </Paper>
+              <Paper
+                elevation={3}
+                sx={{
+                  width: '65%',
                   overflow: 'hidden',
                   position: 'relative',
                   p: 1,
@@ -712,23 +741,28 @@ export default function ProductEditor() {
                       side={showBack ? 'back' : 'front'}
                       ref={singleSidePreviewRef}
                     />
+                    <IconButton
+                      onClick={() => setShowBack((prev) => !prev)}
+                      sx={{
+                        position: 'absolute',
+                        bottom: 8,
+                        right: 8,
+                        backgroundColor: 'rgba(255,255,255,0.7)',
+                        '&:hover': { backgroundColor: 'rgba(255,255,255,0.9)' },
+                      }}
+                      size="large"
+                    >
+                      <ThreeSixtyIcon fontSize="large" />
+                    </IconButton>
                   </Box>
                 ) : (
                   <Typography>Select a design to see preview</Typography>
                 )}
               </Paper>
-              <Paper
-                elevation={3}
-                sx={{
-                  flex: 1,
-                  overflowY: 'auto',
-                  p: 2,
-                  boxShadow: '0px 4px 6px rgba(0,0,0,0.1)',
-                }}
-              >
-                {inputOptionsContent}
-              </Paper>
+
             </Box>
+            {/* Full-width input options below */}
+              {inputOptionsContent}
           </Box>
         ) : (
           <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', gap: 2 }}>
@@ -764,23 +798,34 @@ export default function ProductEditor() {
                       side={showBack ? 'back' : 'front'}
                       ref={singleSidePreviewRef}
                     />
+                    <IconButton
+                      onClick={() => setShowBack((prev) => !prev)}
+                      sx={{
+                        position: 'absolute',
+                        bottom: 8,
+                        right: 8,
+                        backgroundColor: 'rgba(255,255,255,0.7)',
+                        '&:hover': { backgroundColor: 'rgba(255,255,255,0.9)' },
+                      }}
+                      size="large"
+                    >
+                      <ThreeSixtyIcon fontSize="large" />
+                    </IconButton>
                   </Box>
                 ) : (
                   <Typography>Select a design to see preview</Typography>
                 )}
               </Paper>
             </Box>
-            <Paper
-              elevation={3}
+            <Box
               sx={{
                 flex: 1,
                 overflowY: 'auto',
-                p: 2,
-                boxShadow: '0px 4px 6px rgba(0,0,0,0.1)',
+                // boxShadow: '0px 4px 6px rgba(0,0,0,0.1)',
               }}
             >
               {inputOptionsContent}
-            </Paper>
+            </Box>
           </Box>
         )}
         {selectedDesign && (

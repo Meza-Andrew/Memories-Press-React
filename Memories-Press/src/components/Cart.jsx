@@ -78,17 +78,15 @@ function Cart() {
         return (
           <Card
             key={index}
-            sx={{ display: 'flex', mb: 2, width: '100%', maxWidth: '660px', padding: 1 }}
+            sx={{ display: 'flex', mb: 2, width: '100%', maxWidth: '660px', padding: 0.5 }}
           >
             <Grid container spacing={1}>
-              <Grid item xs={4} md={4}>
+              <Grid item xs={4} md={4} sx={{ display: 'flex', alignItems: 'center' }}>
                 <Box
                   sx={{
-                    position: 'relative',
                     width: '100%',
-                    paddingTop: '133%', // Maintains a 4:3 aspect ratio
                     border: '2px solid #e8e8e8',
-                    borderRadius: 1,
+                    borderRadius: 0,
                     overflow: 'hidden',
                     backgroundColor: '#f9f9f9',
                   }}
@@ -98,11 +96,9 @@ function Cart() {
                     src={item.smallScaleImage}
                     alt={`${item.name} preview`}
                     sx={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
+                      display: 'block',
                       width: '100%',
-                      height: '100%',
+                      height: 'auto',
                       objectFit: 'contain',
                     }}
                   />
