@@ -554,8 +554,15 @@ export default function ProductEditor() {
               }}
               sx={{ mt: 1 }}
             >
-              <ToggleButton value="font1">Font 1</ToggleButton>
-              <ToggleButton value="font2">Font 2</ToggleButton>
+              <ToggleButton value="font1" sx={{
+                borderRadius: 1,
+                height: 40
+              }}>Font 1</ToggleButton>
+              <ToggleButton value="font2"
+              sx={{
+                borderRadius: 1,
+                height: 40
+              }}>Font 2</ToggleButton>
             </ToggleButtonGroup>
           </Box>
         </Box>
@@ -608,8 +615,15 @@ export default function ProductEditor() {
                 }}
                 sx={{ mt: 1 }}
               >
-                <ToggleButton value="font1">Font 1</ToggleButton>
-                <ToggleButton value="font2">Font 2</ToggleButton>
+                <ToggleButton value="font1" sx={{
+                borderRadius: 1,
+                height: 40
+              }}>Font 1</ToggleButton>
+              <ToggleButton value="font2"
+              sx={{
+                borderRadius: 1,
+                height: 40
+              }}>Font 2</ToggleButton>
               </ToggleButtonGroup>
             </Box>
           </Box>
