@@ -37,6 +37,7 @@ import IconButton from '@mui/material/IconButton';
 import ThreeSixtyIcon from '@mui/icons-material/ThreeSixty';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 
@@ -84,7 +85,15 @@ export default function ProductEditor() {
   const location = useLocation();
   const theme = useTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
+  const [loadingPreview, setLoadingPreview] = useState(false);
 
+  const togglePreviewSide = () => {
+    setLoadingPreview(true);
+    setTimeout(() => {
+      setShowBack((prev) => !prev);
+      setLoadingPreview(false);
+    }, 200);
+  };
 
   let productRoute;
   if (location.pathname.includes('prayercards')) {
@@ -454,7 +463,16 @@ export default function ProductEditor() {
   const inputOptionsContent = (
     <Box sx={{ display: { xs: 'block', md: 'flex' }, gap: 2.5 }}>
       {/* Left column: first paper */}
-      <Paper elevation={3} sx={{ p: 4, flex: 1, mb: {xs: 2, md: 0} }}>
+      <Paper 
+        sx={{
+          p: 4,
+          flex: 1,
+          mb: { xs: 2, md: 0 },
+          // transition: { xs: 'none', md: 'box-shadow 0.6s ease' },
+          // '&:focus-within': {
+          // boxShadow: { xs: 'none', md: '0 0 10px 2px rgba(255,105,180,0.4)' },
+          // },
+        }}>
         <Box sx={{ mb: 4 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', mt: 1, gap: 2 }}>
           <Button
@@ -569,7 +587,14 @@ export default function ProductEditor() {
       </Paper>
       {/* Right column: second and third papers stacked */}
       <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1, gap: 2.5 }}>
-        <Paper elevation={3} sx={{ p: 4 }}>
+        <Paper elevation={3}
+          sx={{
+            p: 4,
+            // transition: { xs: 'none', md: 'box-shadow 0.6s ease' },
+            // '&:focus-within': {
+            // boxShadow: { xs: 'none', md: '0 0 10px 2px rgba(255,105,180,0.4)' },
+            // },
+          }}>
           <Box sx={{ mb: 4 }}>
             <Typography variant="h6" sx={{ color: productRoute === PRODUCT_TYPES.MEMORIAL_HEART ? '#a1a1a1' : 'black'}}>Proverb or Message</Typography>
             <ProverbSelect
@@ -667,7 +692,16 @@ export default function ProductEditor() {
             </Box>
           </Box>
         </Paper>
-        <Paper elevation={3} sx={{ p: 4 }}>
+        <Paper 
+          elevation={3} 
+          sx={{ 
+            p: 4, 
+            // transition: { xs: 'none', md: 'box-shadow 0.6s ease' },
+            // '&:focus-within': {
+            // boxShadow: { xs: 'none', md: '0 0 10px 2px rgba(255,105,180,0.4)' },
+            // }
+          }}
+        >
           <Box
             sx={{
               display: 'flex',
@@ -732,6 +766,10 @@ export default function ProductEditor() {
                   width: '35%',
                   overflowY: 'auto',
                   p: 2,
+                  // transition: 'box-shadow 0.6s ease',
+                  // '&:focus-within': {
+                  //   boxShadow: '0 0 10px 2px rgba(255,105,180,0.3)',
+                  // },
                 }}
               >
                 {designPickerContent}
@@ -755,8 +793,26 @@ export default function ProductEditor() {
                       side={showBack ? 'back' : 'front'}
                       ref={singleSidePreviewRef}
                     />
+                     {loadingPreview && (
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: '100%',
+                          height: '100%',
+                          backgroundColor: 'rgba(146, 146, 146, 0.1)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          zIndex: 9999,
+                        }}
+                      >
+                        <CircularProgress color="primary" />
+                      </Box>
+                    )}
                     <IconButton
-                      onClick={() => setShowBack((prev) => !prev)}
+                      onClick={togglePreviewSide}
                       sx={{
                         position: 'absolute',
                         bottom: 8,

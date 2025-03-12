@@ -13,7 +13,11 @@ export default function DesignSelector({ designs, onSelect, selectedDesignId }) 
             sx={{
               borderColor: selectedDesignId === design.id ? 'primary.main' : 'transparent',
               borderRadius: 0,
-              border: '1px solid grey'
+              border: '1px solid grey',
+              transition: 'box-shadow 0.5s ease',
+              '&:hover': {
+                boxShadow: '0 0 5px 2px rgba(99, 99, 99, 0.4)',
+              },
             }}
           >
             <CardActionArea onClick={() => onSelect(design)}>
