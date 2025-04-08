@@ -6,6 +6,7 @@ const SingleSidePreview = React.forwardRef(({
   productConfig,
   design,
   userData,
+  productType,
   side = 'front',
 }, ref) => {
   if (!design || !productConfig) return null;
@@ -106,6 +107,7 @@ const SingleSidePreview = React.forwardRef(({
           userData,
           design,
           scaleFactor: 1,
+          productType
         })}
         {side === 'front' &&
           design.front?.overlays &&

@@ -116,11 +116,11 @@ function Cart() {
                 >
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Stack gap={1}>
-                      <Typography variant="h6">{item.name}</Typography>
+                      <Typography variant="h6">{item.name} {item.lastName}</Typography>
                       <Typography
                         variant="body2"
                         color="text.secondary"
-                        sx={{ fontSize: { xs: '0.6rem', sm: '1rem' } }}
+                        sx={{ fontSize: { xs: '0.6rem', sm: '0.8rem' }, fontStyle: 'italic' }}
                       >
                         {item.dob} - {item.dod}
                       </Typography>
@@ -128,12 +128,15 @@ function Cart() {
                         <Typography
                           variant="body2"
                           color="text.secondary"
-                          sx={{ fontSize: { xs: '0.8rem', sm: '1rem' } }}
+                          sx={{ fontSize: { xs: '0.7rem', sm: '1rem' } }}
                         >
                           {truncatedMobile}
                         </Typography>
                       ) : (
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography 
+                          variant="body2" 
+                          color="text.secondary"
+                          sx={{ fontSize: { xs: '0.7rem', sm: '0.9rem' } }}>
                           {truncatedDesktop}
                         </Typography>
                       )}

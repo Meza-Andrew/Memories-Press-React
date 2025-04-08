@@ -7,44 +7,58 @@ const proverbs = [
       key: 'godHathNotPromised',
       title: 'God Hath Not Promised',
       prayerCard: { 
-        text: `God hath not promised
-  Skies always blue,
-  Flower-strewn pathways
-  All our lives through;
-  God hath not promised
-  Sun without rain,
-  Joy without sorrow,
-  Peace without pain.
-  But God hath promised
-  Strength for the day,
-  Rest for the labor
-  Light for the way.
-  Grace for the trials,
-  Help from above,
-  Unfailing sympathy
-  Undying love…`,
-        fontSize: "13",
-        fontSizeAlt: "11"
+        text: 
+`God hath not promised
+Skies always blue,
+Flower-strewn pathways
+All our lives through;
+
+God hath not promised
+Sun without rain,
+Joy without sorrow,
+Peace without pain.
+
+But God hath promised
+Strength for the day,
+Rest for the labor
+Light for the way.
+
+Grace for the trials,
+Help from above,
+Unfailing sympathy
+Undying love…`,
+        fontSize: 12,
+        lineHeight: 1.07,
+        fontSizeAlt: 10,
+        lineHeightAlt: 1.29,
+        textAlignment: 'left'
       },
       bookmark: { 
-        text: `God hath not promised
-  Skies always blue,
-  Flower-strewn pathways
-  All our lives through;
-  God hath not promised
-  Sun without rain,
-  Joy without sorrow,
-  Peace without pain.
-  But God hath promised
-  Strength for the day,
-  Rest for the labor
-  Light for the way.
-  Grace for the trials,
-  Help from above,
-  Unfailing sympathy
-  Undying love…`,
-        fontSize: "15",
-        fontSizeAlt: "14"
+        text: 
+`God hath not promised
+Skies always blue,
+Flower-strewn pathways
+All our lives through;
+
+God hath not promised
+Sun without rain,
+Joy without sorrow,
+Peace without pain.
+
+But God hath promised
+Strength for the day,
+Rest for the labor
+Light for the way.
+
+Grace for the trials,
+Help from above,
+Unfailing sympathy
+Undying love…`,
+        fontSize: 12,
+        lineHeight: 2.1,
+        fontSizeAlt: 10,
+        lineHeightAlt: 2.37,
+        textAlignment: 'left'
       },
       memorialHeart: { 
         text: `God hath not promised
@@ -70,44 +84,50 @@ const proverbs = [
       key: 'reflections',
       title: 'Reflections',
       prayerCard: { 
-        text: `Early in the morning
-  awakening the sun
-  Again as dusk is moving in
-  with night skies soon to come
-  Familiar place is sought to touch
-  the soul with solitude
-  Reflecting on Life’s seasons
-  with Heartfelt gratitude
-  In midst of waters peaceful
-  memories fill the mind
-  Of laughter, love, and family
-  forever ties the bind
-  Through sorrow sometimes visits
-  blessings come to rest
-  Each time that we remember
-  the times that we loved best`,
-        fontSize: "10",
-        fontSizeAlt: "9"
+        text: 
+`Early in the morning
+awakening the sun
+Again as dusk is moving in
+with night skies soon to come
+Familiar place is sought to touch
+the soul with solitude
+Reflecting on Life’s seasons
+with Heartfelt gratitude
+In midst of waters peaceful
+memories fill the mind
+Of laughter, love, and family
+forever ties the bind
+Through sorrow sometimes visits
+blessings come to rest
+Each time that we remember
+the times that we loved best`,
+  fontSize: 10,
+  lineHeight: 1.52,
+  fontSizeAlt: 8,
+  lineHeightAlt: 1.9
       },
       bookmark: { 
-        text: `Early in the morning
-  awakening the sun
-  Again as dusk is moving in
-  with night skies soon to come
-  Familiar place is sought to touch
-  the soul with solitude
-  Reflecting on Life’s seasons
-  with Heartfelt gratitude
-  In midst of waters peaceful
-  memories fill the mind
-  Of laughter, love, and family
-  forever ties the bind
-  Through sorrow sometimes visits
-  blessings come to rest
-  Each time that we remember
-  the times that we loved best`,
-        fontSize: "14",
-        fontSizeAlt: "13"
+        text: 
+`Early in the morning
+awakening the sun
+Again as dusk is moving in
+with night skies soon to come
+Familiar place is sought to touch
+the soul with solitude
+Reflecting on Life’s seasons
+with Heartfelt gratitude
+In midst of waters peaceful
+memories fill the mind
+Of laughter, love, and family
+forever ties the bind
+Through sorrow sometimes visits
+blessings come to rest
+Each time that we remember
+the times that we loved best`,
+  fontSize: 9,
+  lineHeight: 3.25,
+  fontSizeAlt: 7,
+  lineHeightAlt: 4.2
       },
       memorialHeart: { 
         text: `Early in the morning
@@ -133,24 +153,40 @@ const proverbs = [
       key: 'irishBlessing',
       title: 'Irish Blessing',
       prayerCard: { 
-        text: `May the road rise to meet you.
-  May the wind be always at your back.
-  May the sun shine warm upon your face,
-  and the rains fall soft upon your fields.
-  Until we meet again,
-  may God hold you in the palm of His hand.`,
-        fontSize: "16",
-        fontSizeAlt: "14"
+        text: 
+`May the road rise 
+to meet you.
+May the wind be always 
+at your back.
+May the sun shine 
+warm upon your face,
+and the rains fall soft 
+upon your fields.
+Until we meet again,
+may God hold you 
+in the palm of His hand.`,
+        fontSize: 13.5,
+        lineHeight: 1.63,
+        fontSizeAlt: 11,
+        lineHeightAlt: 2
       },
       bookmark: { 
-        text: `May the road rise to meet you.
-  May the wind be always at your back.
-  May the sun shine warm upon your face,
-  and the rains fall soft upon your fields.
-  Until we meet again,
-  may God hold you in the palm of His hand.`,
-        fontSize: "21",
-        fontSizeAlt: "19"
+        text: 
+`May the road rise 
+to meet you.
+May the wind be always 
+at your back.
+May the sun shine 
+warm upon your face,
+and the rains fall soft 
+upon your fields.
+Until we meet again,
+may God hold you 
+in the palm of His hand.`,
+        fontSize: 12.7,
+        lineHeight: 3.41,
+        fontSizeAlt: 10,
+        lineHeightAlt: 4.35
       },
       memorialHeart: { 
         text: `May the road rise to meet you.
@@ -166,50 +202,60 @@ const proverbs = [
       key: 'twentyThirdPsalm',
       title: 'Twenty-Third Psalm',
       prayerCard: { 
-        text: `The Lord is my shepherd;
-  I shall not want.
-  He maketh me to lie down
-  in green pastures:
-  He leadeth me beside the still waters;
-  He restoreth my soul:
-  He leadeth me in the paths
-  of righteousness for His name’s sake.
-  Yea, though I walk through the valley
-  of the shadow of death,
-  I will fear no evil;
-  for thou art with me.
-  Thou preparest a table before me
-  in the presence of mine enemies:
-  thou anointest my head with oil;
-  my cup runneth over.
-  Surely goodness and mercy
-  shall follow me all the days of my life,
-  and I will dwell in the house of the Lord forever.`,
-        fontSize: "9",
-        fontSizeAlt: "8"
+        text: 
+`The Lord is my shepherd;
+I shall not want.
+He maketh me to lie down
+in green pastures:
+He leadeth me beside the still waters.
+He restoreth my soul:
+He leadeth me in the paths
+of righteousness for His name’s sake.
+Yea, though I walk through the valley
+of the shadow of death,
+I will fear no evil:
+for thou art with me.
+Thou preparest a table before me
+in the presence of mine enemies:
+thou anointest my head with oil;
+my cup runneth over.
+Surely goodness and mercy
+shall follow me 
+all the days of my life:
+and I will dwell in the house 
+of the Lord forever.`,
+  fontSize: 9.1,
+  lineHeight: 1.3,
+  fontSizeAlt: 7,
+  lineHeightAlt: 1.67
       },
       bookmark: { 
-        text: `The Lord is my shepherd;
-  I shall not want.
-  He maketh me to lie down
-  in green pastures:
-  He leadeth me beside the still waters;
-  He restoreth my soul:
-  He leadeth me in the paths
-  of righteousness for His name’s sake.
-  Yea, though I walk through the valley
-  of the shadow of death,
-  I will fear no evil;
-  for thou art with me.
-  Thou preparest a table before me
-  in the presence of mine enemies:
-  thou anointest my head with oil;
-  my cup runneth over.
-  Surely goodness and mercy
-  shall follow me all the days of my life,
-  and I will dwell in the house of the Lord forever.`,
-        fontSize: "12",
-        fontSizeAlt: "11"
+        text: 
+`The Lord is my shepherd;
+I shall not want.
+He maketh me to lie down
+in green pastures:
+He leadeth me beside the still waters.
+He restoreth my soul:
+He leadeth me in the paths
+of righteousness for His name’s sake.
+Yea, though I walk through the valley
+of the shadow of death,
+I will fear no evil:
+for thou art with me.
+Thou preparest a table before me
+in the presence of mine enemies:
+thou anointest my head with oil;
+my cup runneth over.
+Surely goodness and mercy
+shall follow me 
+all the days of my life:
+and I will dwell in the house 
+of the Lord forever.`,
+  fontSize: 8,
+  lineHeight: 2.8,
+  fontSizeAlt: 6.2,
+  lineHeightAlt: 3.58
       },
       memorialHeart: { 
         text: `The Lord is my shepherd;
@@ -238,32 +284,40 @@ const proverbs = [
       key: 'lordsPrayer',
       title: 'The Lord’s Prayer',
       prayerCard: { 
-        text: `Our Father who art in Heaven,
-  Hallowed be Thy name;
-  Thy kingdom will come,
-  Thy will be done
-  On earth as it is in Heaven.
-  Give us this day our daily bread;
-  And forgive us our trespasses
-  As we forgive those who trespass against us;
-  And lead us not into temptation,
-  But deliver us from evil.`,
-        fontSize: "13",
-        fontSizeAlt: "11"
+        text: 
+`Our Father who art in Heaven,
+Hallowed be Thy name;
+Thy kingdom will come,
+Thy will be done
+On earth as it is in Heaven.
+Give us this day our daily bread;
+And forgive us our trespasses
+As we forgive those who 
+trespass against us;
+And lead us not into temptation,
+But deliver us from evil.`,
+        fontSize: 10,
+        lineHeight: 2.22,
+        fontSizeAlt: 8,
+        lineHeightAlt: 2.78
       },
       bookmark: { 
-        text: `Our Father who art in Heaven,
-  Hallowed be Thy name;
-  Thy kingdom will come,
-  Thy will be done
-  On earth as it is in Heaven.
-  Give us this day our daily bread;
-  And forgive us our trespasses
-  As we forgive those who trespass against us;
-  And lead us not into temptation,
-  But deliver us from evil.`,
-        fontSize: "18",
-        fontSizeAlt: "16"
+        text: 
+`Our Father who art in Heaven,
+Hallowed be Thy name;
+Thy kingdom will come,
+Thy will be done
+On earth as it is in Heaven.
+Give us this day our daily bread;
+And forgive us our trespasses
+As we forgive those who 
+trespass against us;
+And lead us not into temptation,
+But deliver us from evil.`,
+        fontSize: 9.2,
+        lineHeight: 4.6,
+        fontSizeAlt: 7.3,
+        lineHeightAlt: 5.9
       },
       memorialHeart: { 
         text: `Our Father who art in Heaven,
@@ -283,36 +337,42 @@ const proverbs = [
       key: 'afterglow',
       title: 'Afterglow',
       prayerCard: { 
-        text: `I’d like the memory of me,
-  to be a happy one;
-  I’d like to leave an afterglow,
-  of smiles when life is done;
-  I’d like to leave an echo whispering,
-  softly down the ways
-  of happy times and laughing times,
-  and bright and sunny days;
-  I’d like the tears of those who grieve
-  to dry before the sun
-  of happy memories that I leave,
-  when life is done.`,
-        fontSize: "12",
-        fontSizeAlt: "11"
+        text: 
+`I’d like the memory of me,
+to be a happy one
+I’d like to leave an afterglow,
+of smiles when life is done
+I’d like to leave an echo whispering,
+softly down the ways
+Of happy times and laughing times,
+and bright and sunny days
+I’d like the tears of those who grieve,
+to dry before the sun
+Of happy memories that I leave,
+when life is done.`,
+        fontSize: 9,
+        lineHeight: 2.26,
+        fontSizeAlt: 7,
+        lineHeightAlt: 2.9
       },
       bookmark: { 
-        text: `I’d like the memory of me,
-  to be a happy one;
-  I’d like to leave an afterglow,
-  of smiles when life is done;
-  I’d like to leave an echo whispering,
-  softly down the ways
-  of happy times and laughing times,
-  and bright and sunny days;
-  I’d like the tears of those who grieve
-  to dry before the sun
-  of happy memories that I leave,
-  when life is done.`,
-        fontSize: "16",
-        fontSizeAlt: "15"
+        text: 
+`I’d like the memory of me,
+to be a happy one
+I’d like to leave an afterglow,
+of smiles when life is done
+I’d like to leave an echo whispering,
+softly down the ways
+Of happy times and laughing times,
+and bright and sunny days
+I’d like the tears of those who grieve,
+to dry before the sun
+Of happy memories that I leave,
+when life is done.`,
+        fontSize: 8.2,
+        lineHeight: 4.8,
+        fontSizeAlt: 6.5,
+        lineHeightAlt: 6.1
       },
       memorialHeart: { 
         text: `I’d like the memory of me,
@@ -334,36 +394,44 @@ const proverbs = [
       key: 'aNoteToYou',
       title: 'A Note to You',
       prayerCard: { 
-        text: `Life is like a vapor
-  On the side where you remain.
-  Forever is where time goes on,
-  Filled with joyful, timeless days.
-  I am quite alive, you see,
-  And waiting here for you;
-  So, please live your life with joy and love,
-  Until you are timeless too.
-  We will laugh again together
-  When life will have no end.
-  No, this is not goodbye at all;
-  It is, I will see you then.`,
-        fontSize: "12",
-        fontSizeAlt: "10"
+        text: 
+`Life is like a vapor
+On the side where you remain
+Forever is where time goes on
+Filled with joyful, timeless days
+I am quite alive, you see
+And waiting here for you
+So, please live your life 
+with joy and love
+Until you are timeless too
+We will laugh again together
+When life will have no end
+No, this is not goodbye at all
+It is, I will see you then.`,
+        fontSize: 10.5,
+        lineHeight: 1.81,
+        fontSizeAlt: 8.5,
+        lineHeightAlt: 2.24
       },
       bookmark: { 
-        text: `Life is like a vapor
-  On the side where you remain.
-  Forever is where time goes on,
-  Filled with joyful, timeless days.
-  I am quite alive, you see,
-  And waiting here for you;
-  So, please live your life with joy and love,
-  Until you are timeless too.
-  We will laugh again together
-  When life will have no end.
-  No, this is not goodbye at all;
-  It is, I will see you then.`,
-        fontSize: "16",
-        fontSizeAlt: "15"
+        text: 
+`Life is like a vapor
+On the side where you remain
+Forever is where time goes on
+Filled with joyful, timeless days
+I am quite alive, you see
+And waiting here for you
+So, please live your life 
+with joy and love
+Until you are timeless too
+We will laugh again together
+When life will have no end
+No, this is not goodbye at all
+It is, I will see you then.`,
+        fontSize: 9.7,
+        lineHeight: 3.7,
+        fontSizeAlt: 7.7,
+        lineHeightAlt: 4.7
       },
       memorialHeart: { 
         text: `Life is like a vapor
@@ -385,44 +453,50 @@ const proverbs = [
       key: 'foreverTouch',
       title: 'Forever Touch',
       prayerCard: { 
-        text: `Each life leaves a unique legacy
-  embossed upon our hearts.
-  A touch that lingers on and on,
-  when time has come to part.
-  Memories like fingerprints
-  leave a special place,
-  knitted to the people
-  that time cannot erase.
-  They live forever in our hearts
-  as time continues on—
-  in memories of days gone by
-  we still shared a special bond.
-  That bond cannot be broken,
-  even death can’t separate;
-  a touch that lives forever,
-  time cannot erase.`,
-        fontSize: "11",
-        fontSizeAlt: "9"
+        text: 
+`Each life leaves a unique legacy
+embossed upon our hearts
+A touch that lingers on and on
+when time has come to part
+Memories like fingerprints
+leave a special place
+knitted to the people
+that time cannot erase
+They live forever in our hearts
+as time continues on
+in memories of days gone by
+we still shared a special bond
+That bond cannot be broken
+even death can’t separate
+a touch that lives forever
+time cannot erase`,
+        fontSize: 10.5,
+        lineHeight: 1.46,
+        fontSizeAlt: 8,
+        lineHeightAlt: 1.91
       },
       bookmark: { 
-        text: `Each life leaves a unique legacy
-  embossed upon our hearts.
-  A touch that lingers on and on,
-  when time has come to part.
-  Memories like fingerprints
-  leave a special place,
-  knitted to the people
-  that time cannot erase.
-  They live forever in our hearts
-  as time continues on—
-  in memories of days gone by
-  we still shared a special bond.
-  That bond cannot be broken,
-  even death can’t separate;
-  a touch that lives forever,
-  time cannot erase.`,
-        fontSize: "14",
-        fontSizeAlt: "13"
+        text: 
+`Each life leaves a unique legacy
+embossed upon our hearts
+A touch that lingers on and on
+when time has come to part
+Memories like fingerprints
+leave a special place
+knitted to the people
+that time cannot erase
+They live forever in our hearts
+as time continues on
+in memories of days gone by
+we still shared a special bond
+That bond cannot be broken
+even death can’t separate
+a touch that lives forever
+time cannot erase.`,
+        fontSize: 9.7,
+        lineHeight: 3,
+        fontSizeAlt: 7.5,
+        lineHeightAlt: 3.9
       },
       memorialHeart: { 
         text: `Each life leaves a unique legacy
@@ -448,36 +522,58 @@ const proverbs = [
       key: 'footprintsInTheSand',
       title: 'Footprints in the Sand',
       prayerCard: { 
-        text: `One night I dreamed I was
-  walking along the beach with the Lord.
-  Scenes from my life flashed across the sky.
-  In each, I noticed footprints in the sand.
-  Sometimes there were two sets of footprints; other times there was only one.
-  
-  During the low periods of my life I could see only one set of footprints,
-  so I said, "You promised me, Lord, that you would walk with me always.
-  Why, when I have needed you most, have you not been there for me?"
-  
-  The Lord replied, "The times when you have seen only one set of footprints,
-  my child, is when I carried you."`,
-        fontSize: "9",
-        fontSizeAlt: "8"
+        text: 
+`One night I dreamed I was
+walking along the beach with the 
+Lord. Scenes from my life flashed 
+across the sky. In each, I noticed 
+footprints in the sand. Sometimes 
+there were two sets of footprints; 
+other times there was only one.
+
+During the low periods of my 
+life I could see only one set of 
+footprints, so I said, "You promised 
+me, Lord, that you would walk 
+with me always. Why, when I have 
+needed you most, have you not 
+been there for me?"
+
+The Lord replied, "The times when 
+you have seen only one set of 
+footprints, my child, is when 
+I carried you."`,
+        fontSize: 8.9,
+        lineHeight: 1.35,
+        fontSizeAlt: 7.5,
+        lineHeightAlt: 1.62
       },
       bookmark: { 
-        text: `One night I dreamed I was
-  walking along the beach with the Lord.
-  Scenes from my life flashed across the sky.
-  In each, I noticed footprints in the sand.
-  Sometimes there were two sets of footprints; other times there was only one.
-  
-  During the low periods of my life I could see only one set of footprints,
-  so I said, "You promised me, Lord, that you would walk with me always.
-  Why, when I have needed you most, have you not been there for me?"
-  
-  The Lord replied, "The times when you have seen only one set of footprints,
-  my child, is when I carried you."`,
-        fontSize: "13",
-        fontSizeAlt: "12"
+        text: 
+`One night I dreamed I was
+walking along the beach with the 
+Lord. Scenes from my life flashed 
+across the sky. In each, I noticed 
+footprints in the sand. Sometimes 
+there were two sets of footprints; 
+other times there was only one.
+
+During the low periods of my 
+life I could see only one set of 
+footprints, so I said, "You promised 
+me, Lord, that you would walk 
+with me always. Why, when I have 
+needed you most, have you not 
+been there for me?"
+
+The Lord replied, "The times when 
+you have seen only one set of 
+footprints, my child, is when 
+I carried you."`,
+        fontSize: 8.5,
+        lineHeight: 2.75,
+        fontSizeAlt: 7,
+        lineHeightAlt: 3.35
       },
       memorialHeart: { 
         text: `One night I dreamed I was

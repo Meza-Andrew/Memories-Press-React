@@ -121,7 +121,7 @@ export default function ProductEditor() {
     dob: '',
     dod: '',
     proverb: '',
-    customProverb: '',
+    customProverb: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam bibendum suscipit urna, vel luctus nulla viverra in. In id posuere felis, quis facilisis elit. Cras sodales justo et ipsum gravida egestas. Duis vel mauris at mi finibus porta at in enim. Nunc et augue quam. Pellentesque vel lorem a velit imperdiet auctor et non ligula. Sed consectetur pellentesque tortor quis scelerisque. Maecenas ornare ipsum sapien, ut dictum lacus facilisis a. Ut consequat nisi vel tristique malesuada. Duis ne.",
     note: '',
     quantity: 25,
     finish: 'Matte',
@@ -243,6 +243,10 @@ export default function ProductEditor() {
       setSelectedDesign(fullDesign);
     }
   }, [location.state, productDesigns]);
+
+  useEffect(() => {
+    console.log(userData);
+  }, [userData]);
 
   useEffect(() => {
     if (
@@ -610,15 +614,15 @@ export default function ProductEditor() {
               <TextField
                 label="Custom Proverb"
                 multiline
-                rows= {isLargeScreen ? 1 : 2}
+                rows= {isLargeScreen ? 4 : 6}
                 value={userData.customProverb}
                 onChange={(e) => {
-                  const newValue = e.target.value.slice(0, 300);
+                  const newValue = e.target.value.slice(0, 500);
                   setUserData((prev) => ({ ...prev, customProverb: newValue }));
                 }}
                 fullWidth
                 margin="normal"
-                helperText={`${userData.customProverb.length}/300 characters`}
+                helperText={`${userData.customProverb.length}/500 characters`}
                 disabled={productRoute === PRODUCT_TYPES.MEMORIAL_HEART}
                 inputProps={{
                   style: { overflowY: 'auto' },
@@ -663,7 +667,7 @@ export default function ProductEditor() {
                   label="Finish"
                   onChange={(e) => {
                     setUserData({ ...userData, finish: e.target.value });
-                    setShowBack(false);
+                    // setShowBack(false);
                   }}
                 >
                   <MenuItem value="Matte">Matte</MenuItem>
@@ -679,7 +683,7 @@ export default function ProductEditor() {
                   label="Quantity"
                   onChange={(e) => {
                     setUserData({ ...userData, quantity: e.target.value });
-                    setShowBack(false);
+                    // setShowBack(false);
                   }}
                 >
                   <MenuItem value={25}>25</MenuItem>
@@ -791,6 +795,7 @@ export default function ProductEditor() {
                       design={selectedDesign}
                       userData={userData}
                       side={showBack ? 'back' : 'front'}
+                      productType={productRoute}
                       ref={singleSidePreviewRef}
                     />
                      {loadingPreview && (
@@ -829,7 +834,6 @@ export default function ProductEditor() {
                   <Typography>Select a design to see preview</Typography>
                 )}
               </Paper>
-
             </Box>
             {/* Full-width input options below */}
               {inputOptionsContent}
@@ -863,6 +867,7 @@ export default function ProductEditor() {
                   <Box sx={{ width: '100%', height: '100%', position: 'relative' }}>
                     <SingleSidePreview
                       productConfig={productConfig}
+                      productType={productRoute}
                       design={selectedDesign}
                       userData={userData}
                       side={showBack ? 'back' : 'front'}
