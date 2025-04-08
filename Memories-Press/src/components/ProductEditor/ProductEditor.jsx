@@ -12,7 +12,7 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   useMediaQuery,
-  Divider,
+  Backdrop,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -25,7 +25,6 @@ import CropModal from './CropModal';
 import CartContext from '../../components/CartContext';
 import HiddenFullSizeContainer from './HiddenFullSizeContainer';
 import SingleSidePreview from './SingleSidePreview';
-import FadeInBox from '../FadeInBox';
 import PrayerHero from '../PrayerHero';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -39,8 +38,6 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import CircularProgress from '@mui/material/CircularProgress';
 
-
-
 async function convertBlobUrlToBase64(blobUrl) {
   const response = await fetch(blobUrl);
   const blob = await response.blob();
@@ -53,7 +50,6 @@ async function convertBlobUrlToBase64(blobUrl) {
     reader.readAsDataURL(blob);
   });
 }
-
 
 async function getCroppedImg(imageSrc, croppedAreaPixels) {
   const image = new Image();
@@ -79,13 +75,13 @@ async function getCroppedImg(imageSrc, croppedAreaPixels) {
   return canvas.toDataURL('image/png');
 }
 
-
 export default function ProductEditor() {
   const navigate = useNavigate();
   const location = useLocation();
   const theme = useTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
   const [loadingPreview, setLoadingPreview] = useState(false);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
 
   const togglePreviewSide = () => {
     setLoadingPreview(true);
@@ -106,12 +102,10 @@ export default function ProductEditor() {
     productRoute = PRODUCT_TYPES.BOOKMARK;
   }
 
-
   const productDesigns = useMemo(
     () => designs.filter((d) => d.productType === productRoute),
     [productRoute]
   );
-
 
   const [userData, setUserData] = useState({
     photo: null,
@@ -121,28 +115,28 @@ export default function ProductEditor() {
     dob: '',
     dod: '',
     proverb: '',
-    customProverb: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam bibendum suscipit urna, vel luctus nulla viverra in. In id posuere felis, quis facilisis elit. Cras sodales justo et ipsum gravida egestas. Duis vel mauris at mi finibus porta at in enim. Nunc et augue quam. Pellentesque vel lorem a velit imperdiet auctor et non ligula. Sed consectetur pellentesque tortor quis scelerisque. Maecenas ornare ipsum sapien, ut dictum lacus facilisis a. Ut consequat nisi vel tristique malesuada. Duis ne.",
+    customProverb:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam bibendum suscipit urna, vel luctus nulla viverra in. In id posuere felis, quis facilisis elit. Cras sodales justo et ipsum gravida egestas. Duis vel mauris at mi finibus porta at in enim. Nunc et augue quam. Pellentesque vel lorem a velit imperdiet auctor et non ligula. Sed consectetur pellentesque tortor quis scelerisque. Maecenas ornare ipsum sapien, ut dictum lacus facilisis a. Ut consequat nisi vel tristique malesuada. Duis ne.",
     note: '',
     quantity: 25,
     finish: 'Matte',
     selectedFont: 'font1',
     selectedFontBack: 'font1',
   });
-
   const [uploadedFileInfo, setUploadedFileInfo] = useState(null);
   const [originalImage, setOriginalImage] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
   const [selectedDesign, setSelectedDesign] = useState(null);
   const [showCropModal, setShowCropModal] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
-  const [showBack, setShowBack] = useState(false);
+  const [showBack, setShowBack] = useState(
+    productRoute === PRODUCT_TYPES.MEMORIAL_HEART ? true : false
+  );
 
   const cartItemLoaded = useRef(false);
-
   const hiddenFrontRef = useRef(null);
   const hiddenBackRef = useRef(null);
   const singleSidePreviewRef = useRef(null);
-
   const { addToCart, updateCartItem } = useContext(CartContext);
 
   useLoadDesignFonts(selectedDesign);
@@ -365,9 +359,12 @@ export default function ProductEditor() {
       alert('Please select a design first.');
       return;
     }
+    setIsAddingToCart(true); // Start loading
+
     const smallScaleImage = await captureSingleSidePreview();
     if (!smallScaleImage) {
       alert('Failed to create preview. Try again.');
+      setIsAddingToCart(false);
       return;
     }
     const itemData = {
@@ -386,7 +383,10 @@ export default function ProductEditor() {
       lastName: userData.lastName,
       dob: userData.dob,
       dod: userData.dod,
-      currentProverb: userData.proverb === 'CUSTOM' ? userData.customProverb : userData.proverb,
+      currentProverb:
+        userData.proverb === 'CUSTOM'
+          ? userData.customProverb
+          : userData.proverb,
       note: userData.note,
       quantity: userData.quantity,
       finish: userData.finish,
@@ -396,12 +396,18 @@ export default function ProductEditor() {
       originalPhoto: originalImage,
       customProverb: userData.customProverb,
     };
-    if (editIndex !== null && editIndex >= 0) {
-      updateCartItem(editIndex, itemData);
-    } else {
-      addToCart(itemData);
+    try {
+      if (editIndex !== null && editIndex >= 0) {
+        await updateCartItem(editIndex, itemData);
+      } else {
+        await addToCart(itemData);
+      }
+      navigate('/cart');
+    } catch (error) {
+      console.error('Error adding to cart', error);
+      alert('There was an error adding to cart. Please try again.');
+      setIsAddingToCart(false);
     }
-    navigate('/cart');
   };
 
   const handleGeneratePdf = async () => {
@@ -419,7 +425,9 @@ export default function ProductEditor() {
     const pdfWidth = bleedWidthPx;
     const pdfHeight = bleedHeightPx;
     const pdfOrientation = isLandscape ? 'landscape' : 'portrait';
-    console.log(`Generating PDF in ${pdfOrientation} mode: ${pdfWidth} x ${pdfHeight}`);
+    console.log(
+      `Generating PDF in ${pdfOrientation} mode: ${pdfWidth} x ${pdfHeight}`
+    );
     const frontImgData = await captureHiddenContainer(hiddenFrontRef);
     if (!frontImgData) {
       alert('Front capture failed.');
@@ -466,246 +474,405 @@ export default function ProductEditor() {
 
   const inputOptionsContent = (
     <Box sx={{ display: { xs: 'block', md: 'flex' }, gap: 2.5 }}>
-      {/* Left column: first paper */}
-      <Paper 
-        sx={{
-          p: 4,
-          flex: 1,
-          mb: { xs: 2, md: 0 },
-          // transition: { xs: 'none', md: 'box-shadow 0.6s ease' },
-          // '&:focus-within': {
-          // boxShadow: { xs: 'none', md: '0 0 10px 2px rgba(255,105,180,0.4)' },
-          // },
-        }}>
-        <Box sx={{ mb: 4 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', mt: 1, gap: 2 }}>
-          <Button
-            variant="contained"
-            component="label"
-            fullWidth
-            startIcon={
-              <FileUploadIcon
-                sx={{ fontSize: 'inherit', position: 'relative', top: '-2px' }}
-              />
-            }
-          >
-            Upload
-            <input type="file" hidden accept="image/*" onChange={handlePhotoUpload} />
-          </Button>
-          <Button
-            variant="outlined"
-            onClick={() => {
-              if (originalImage) {
-                setUploadedImage(originalImage);
-                setShowCropModal(true);
-              }
-            }}
-            disabled={!userData.photo}
-          >
-            Edit
-          </Button>
-        </Box>
-        {userData.photo && (
-          <Typography variant="body2" sx={{ mt: 1 }}>
-            Photo selected. Re-upload to replace.
+      {/* Front Side Section */}
+      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+        {/* Header for Front Side */}
+        <Box
+          sx={{
+            backgroundColor: '#D3648B',
+            p: 1,
+            mb: 0,
+            borderTopRightRadius: 20,
+            boxShadow: '0px 5px 10px rgba(0,0,0,0.2)',
+          }}
+        >
+          <Typography variant="h6" sx={{ m: 0, color: 'white' }}>
+            Front Side
           </Typography>
-        )}
-      </Box>
-        <Box sx={{ mb: 0, display: 'flex', flexDirection: 'column', gap: 4 }}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <TextField
-              label="First Name"
-              value={userData.name}
-              onChange={(e) => setUserData({ ...userData, name: e.target.value })}
-              onFocus={() =>
-                setShowBack(productRoute === PRODUCT_TYPES.MEMORIAL_HEART ? true : false)
-              }
-              fullWidth
-              margin="none"
-            />
-            <TextField
-              label="Last Name"
-              value={userData.lastName}
-              onChange={(e) => setUserData({ ...userData, lastName: e.target.value })}
-              onFocus={() =>
-                setShowBack(productRoute === PRODUCT_TYPES.MEMORIAL_HEART ? true : false)
-              }
-              fullWidth
-              margin="none"
-            />
-          </Box>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <DatePicker
-                label="Date of Birth"
-                value={userData.dob ? new Date(userData.dob) : null}
-                onChange={(newValue) => {
-                  setUserData({
-                    ...userData,
-                    dob: newValue ? format(newValue, 'MMMM d, yyyy') : '',
-                  });
-                  setShowBack(productRoute === PRODUCT_TYPES.MEMORIAL_HEART ? true : false);
-                }}
-                renderInput={(params) => <TextField {...params} fullWidth margin="normal" />}
-              />
-              <DatePicker
-                label="Date of Death"
-                value={userData.dod ? new Date(userData.dod) : null}
-                onChange={(newValue) => {
-                  setUserData({
-                    ...userData,
-                    dod: newValue ? format(newValue, 'MMMM d, yyyy') : '',
-                  });
-                  setShowBack(productRoute === PRODUCT_TYPES.MEMORIAL_HEART ? true : false);
-                }}
-                renderInput={(params) => <TextField {...params} fullWidth margin="normal" />}
-              />
-            </Box>
-          </LocalizationProvider>
-          <Box sx={{ mt: 1 }}>
-            <Typography variant="h6">Front Side Font</Typography>
-            <ToggleButtonGroup
-              color="primary"
-              value={userData.selectedFont}
-              exclusive
-              onChange={(e, newFont) => {
-                if (newFont !== null) {
-                  setUserData((prev) => ({ ...prev, selectedFont: newFont }));
-                  setShowBack(productRoute === PRODUCT_TYPES.MEMORIAL_HEART ? true : false);
-                }
-              }}
-              sx={{ mt: 1 }}
-            >
-              <ToggleButton value="font1" sx={{
-                borderRadius: 1,
-                height: 40
-              }}>Font 1</ToggleButton>
-              <ToggleButton value="font2"
-              sx={{
-                borderRadius: 1,
-                height: 40
-              }}>Font 2</ToggleButton>
-            </ToggleButtonGroup>
-          </Box>
         </Box>
-      </Paper>
-      {/* Right column: second and third papers stacked */}
-      <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1, gap: 2.5 }}>
-        <Paper elevation={3}
+        <Paper
+          elevation={3}
           sx={{
             p: 4,
-            // transition: { xs: 'none', md: 'box-shadow 0.6s ease' },
-            // '&:focus-within': {
-            // boxShadow: { xs: 'none', md: '0 0 10px 2px rgba(255,105,180,0.4)' },
-            // },
-          }}>
-          <Box sx={{ mb: 4 }}>
-            <Typography variant="h6" sx={{ color: productRoute === PRODUCT_TYPES.MEMORIAL_HEART ? '#a1a1a1' : 'black'}}>Proverb or Message</Typography>
-            <ProverbSelect
-              value={userData.proverb}
-              onChange={(e) => {
-                setUserData({ ...userData, proverb: e.target.value });
-                setShowBack(true);
-              }}
-              productType={productRoute}
-              disabled={productRoute === PRODUCT_TYPES.MEMORIAL_HEART}
-            />
-            {userData.proverb === 'CUSTOM' && (
-              <TextField
-                label="Custom Proverb"
-                multiline
-                rows= {isLargeScreen ? 4 : 6}
-                value={userData.customProverb}
-                onChange={(e) => {
-                  const newValue = e.target.value.slice(0, 500);
-                  setUserData((prev) => ({ ...prev, customProverb: newValue }));
-                }}
+            flex: 1,
+            mb: { xs: 2, md: 0 },
+            borderTopLeftRadius: 0,
+            borderTopRightRadius: 0,
+          }}
+        >
+          {/* --- Front side content --- */}
+          <Box
+            sx={{
+              display: productRoute === 'memorial_heart' ? 'none' : 'block',
+              mb: 4,
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', mt: 1, gap: 2 }}>
+              <Button
+                variant="contained"
+                component="label"
                 fullWidth
-                margin="normal"
-                helperText={`${userData.customProverb.length}/500 characters`}
-                disabled={productRoute === PRODUCT_TYPES.MEMORIAL_HEART}
-                inputProps={{
-                  style: { overflowY: 'auto' },
+                startIcon={
+                  <FileUploadIcon
+                    sx={{
+                      fontSize: 'inherit',
+                      position: 'relative',
+                      top: '-2px',
+                    }}
+                  />
+                }
+              >
+                Upload
+                <input
+                  type="file"
+                  hidden
+                  accept="image/*"
+                  onChange={handlePhotoUpload}
+                />
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  if (originalImage) {
+                    setUploadedImage(originalImage);
+                    setShowCropModal(true);
+                  }
                 }}
-              />
+                disabled={!userData.photo}
+              >
+                Edit
+              </Button>
+            </Box>
+            {userData.photo && (
+              <Typography
+                variant="body2"
+                sx={{ mt: 1, fontStyle: 'italic', color: 'gray' }}
+              >
+                Photo selected. Re-upload to replace.
+              </Typography>
             )}
-            <Box sx={{ mt: 2 }}>
-              <Typography variant="h6" sx={{ color: productRoute === PRODUCT_TYPES.MEMORIAL_HEART ? '#a1a1a1' : 'black'}}>Back Side Font</Typography>
+          </Box>
+          <Box sx={{ mb: 0, display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <TextField
+                label="First Name"
+                value={userData.name}
+                onChange={(e) =>
+                  setUserData({ ...userData, name: e.target.value })
+                }
+                onFocus={() =>
+                  setShowBack(
+                    productRoute === PRODUCT_TYPES.MEMORIAL_HEART ? true : false
+                  )
+                }
+                fullWidth
+                margin="none"
+              />
+              <TextField
+                label="Last Name"
+                value={userData.lastName}
+                onChange={(e) =>
+                  setUserData({ ...userData, lastName: e.target.value })
+                }
+                onFocus={() =>
+                  setShowBack(
+                    productRoute === PRODUCT_TYPES.MEMORIAL_HEART ? true : false
+                  )
+                }
+                fullWidth
+                margin="none"
+              />
+            </Box>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <DatePicker
+                  label="Date of Birth"
+                  value={userData.dob ? new Date(userData.dob) : null}
+                  onChange={(newValue) => {
+                    setUserData({
+                      ...userData,
+                      dob: newValue ? format(newValue, 'MMMM d, yyyy') : '',
+                    });
+                    setShowBack(
+                      productRoute === PRODUCT_TYPES.MEMORIAL_HEART ? true : false
+                    );
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} fullWidth margin="normal" />
+                  )}
+                />
+                <DatePicker
+                  label="Date of Death"
+                  value={userData.dod ? new Date(userData.dod) : null}
+                  onChange={(newValue) => {
+                    setUserData({
+                      ...userData,
+                      dod: newValue ? format(newValue, 'MMMM d, yyyy') : '',
+                    });
+                    setShowBack(
+                      productRoute === PRODUCT_TYPES.MEMORIAL_HEART ? true : false
+                    );
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} fullWidth margin="normal" />
+                  )}
+                />
+              </Box>
+            </LocalizationProvider>
+            <Box sx={{ mt: 0 }}>
+              <Typography variant="h6">Front Side Font</Typography>
               <ToggleButtonGroup
                 color="primary"
-                value={userData.selectedFontBack}
+                value={userData.selectedFont}
                 exclusive
-                disabled={productRoute === PRODUCT_TYPES.MEMORIAL_HEART}
                 onChange={(e, newFont) => {
                   if (newFont !== null) {
-                    setUserData((prev) => ({ ...prev, selectedFontBack: newFont }));
-                    setShowBack(true);
+                    setUserData((prev) => ({ ...prev, selectedFont: newFont }));
+                    setShowBack(
+                      productRoute === PRODUCT_TYPES.MEMORIAL_HEART ? true : false
+                    );
                   }
                 }}
                 sx={{ mt: 1 }}
               >
-                <ToggleButton value="font1" sx={{
-                borderRadius: 1,
-                height: 40
-              }}>Font 1</ToggleButton>
-              <ToggleButton value="font2"
-              sx={{
-                borderRadius: 1,
-                height: 40
-              }}>Font 2</ToggleButton>
+                <ToggleButton
+                  value="font1"
+                  sx={{
+                    borderRadius: 1,
+                    height: 40,
+                  }}
+                >
+                  Font 1
+                </ToggleButton>
+                <ToggleButton
+                  value="font2"
+                  sx={{
+                    borderRadius: 1,
+                    height: 40,
+                  }}
+                >
+                  Font 2
+                </ToggleButton>
               </ToggleButtonGroup>
             </Box>
           </Box>
-          <Box sx={{ mb: 0 }}>
-            <Typography variant="h6">Finish & Quantity</Typography>
-            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 2 }}>
-              <FormControl fullWidth margin="normal">
-                <InputLabel id="finish-select-label">Finish</InputLabel>
-                <Select
-                  labelId="finish-select-label"
-                  value={userData.finish}
-                  label="Finish"
-                  onChange={(e) => {
-                    setUserData({ ...userData, finish: e.target.value });
-                    // setShowBack(false);
-                  }}
-                >
-                  <MenuItem value="Matte">Matte</MenuItem>
-                  <MenuItem value="Gloss">Gloss</MenuItem>
-                  <MenuItem value="Soft">Soft</MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl fullWidth margin="normal">
-                <InputLabel id="quantity-select-label">Quantity</InputLabel>
-                <Select
-                  labelId="quantity-select-label"
-                  value={userData.quantity}
-                  label="Quantity"
-                  onChange={(e) => {
-                    setUserData({ ...userData, quantity: e.target.value });
-                    // setShowBack(false);
-                  }}
-                >
-                  <MenuItem value={25}>25</MenuItem>
-                  <MenuItem value={50}>50</MenuItem>
-                  <MenuItem value={75}>75</MenuItem>
-                  <MenuItem value={100}>100</MenuItem>
-                  <MenuItem value={125}>125</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-          </Box>
         </Paper>
-        <Paper 
-          elevation={3} 
-          sx={{ 
-            p: 4, 
-            // transition: { xs: 'none', md: 'box-shadow 0.6s ease' },
-            // '&:focus-within': {
-            // boxShadow: { xs: 'none', md: '0 0 10px 2px rgba(255,105,180,0.4)' },
-            // }
+      </Box>
+
+      {/* Back Side Section */}
+      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+        {/* Header for Back Side */}
+        <Box
+          sx={{
+            backgroundColor: '#D3648B',
+            p: 1,
+            mb: 0,
+            borderTopRightRadius: 20,
+            boxShadow: '0px 5px 10px rgba(0,0,0,0.2)',
           }}
         >
+          <Typography variant="h6" sx={{ m: 0, color: 'white' }}>
+            Back Side
+          </Typography>
+        </Box>
+        <Paper
+          elevation={3}
+          sx={{
+            p: 4,
+            borderTopLeftRadius: 0,
+            borderTopRightRadius: 0,
+          }}
+        >
+          {/* --- Back side content (minus finish/quantity) --- */}
+          {productRoute === 'memorial_heart' ? (
+            <Box sx={{ mb: 4 }}>
+              <Typography variant="h6" sx={{ color: 'black' }}>
+                Upload an image
+              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', mt: 3, gap: 2 }}>
+                <Button
+                  variant="contained"
+                  component="label"
+                  fullWidth
+                  startIcon={
+                    <FileUploadIcon
+                      sx={{ fontSize: 'inherit', position: 'relative', top: '-2px' }}
+                    />
+                  }
+                >
+                  Upload
+                  <input
+                    type="file"
+                    hidden
+                    accept="image/*"
+                    onChange={handlePhotoUpload}
+                  />
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    if (originalImage) {
+                      setUploadedImage(originalImage);
+                      setShowCropModal(true);
+                    }
+                  }}
+                  disabled={!userData.photo}
+                >
+                  Edit
+                </Button>
+              </Box>
+              {userData.photo && (
+                <Typography
+                  variant="body2"
+                  sx={{ mt: 1, fontStyle: 'italic', color: 'gray' }}
+                >
+                  Photo selected. Re-upload to replace.
+                </Typography>
+              )}
+            </Box>
+          ) : (
+            <Box sx={{ mb: 1 }}>
+              <Typography
+                variant="h6"
+                sx={{
+                  color:
+                    productRoute === PRODUCT_TYPES.MEMORIAL_HEART ? '#a1a1a1' : 'black',
+                }}
+              >
+                Proverb or Message
+              </Typography>
+              <ProverbSelect
+                value={userData.proverb}
+                onChange={(e) => {
+                  setUserData({ ...userData, proverb: e.target.value });
+                  setShowBack(true);
+                }}
+                productType={productRoute}
+                disabled={productRoute === PRODUCT_TYPES.MEMORIAL_HEART}
+              />
+              {userData.proverb === 'CUSTOM' && (
+                <TextField
+                  label="Custom Proverb"
+                  multiline
+                  rows={isLargeScreen ? 4 : 6}
+                  value={userData.customProverb}
+                  onChange={(e) => {
+                    const newValue = e.target.value.slice(0, 500);
+                    setUserData((prev) => ({ ...prev, customProverb: newValue }));
+                  }}
+                  fullWidth
+                  margin="normal"
+                  helperText={`${userData.customProverb.length}/500 characters`}
+                  disabled={productRoute === PRODUCT_TYPES.MEMORIAL_HEART}
+                  inputProps={{ style: { overflowY: 'auto' } }}
+                />
+              )}
+              <Box sx={{ mt: 2 }}>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color:
+                      productRoute === PRODUCT_TYPES.MEMORIAL_HEART ? '#a1a1a1' : 'black',
+                  }}
+                >
+                  Back Side Font
+                </Typography>
+                <ToggleButtonGroup
+                  color="primary"
+                  value={userData.selectedFontBack}
+                  exclusive
+                  disabled={productRoute === PRODUCT_TYPES.MEMORIAL_HEART}
+                  onChange={(e, newFont) => {
+                    if (newFont !== null) {
+                      setUserData((prev) => ({ ...prev, selectedFontBack: newFont }));
+                      setShowBack(true);
+                    }
+                  }}
+                  sx={{ mt: 1 }}
+                >
+                  <ToggleButton
+                    value="font1"
+                    sx={{
+                      borderRadius: 1,
+                      height: 40,
+                    }}
+                  >
+                    Font 1
+                  </ToggleButton>
+                  <ToggleButton
+                    value="font2"
+                    sx={{
+                      borderRadius: 1,
+                      height: 40,
+                    }}
+                  >
+                    Font 2
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </Box>
+            </Box>
+          )}
+        </Paper>
+        {/* Add to Cart Section with Quantity and Finish */}
+        <Box
+          sx={{
+            backgroundColor: '#D3648B',
+            p: 1,
+            mt: 2.5,
+            borderTopRightRadius: 20,
+          }}
+        >
+          <Typography variant="h6" sx={{ m: 0, color: 'white' }}>
+            Quantity and Finish
+          </Typography>
+        </Box>
+        <Paper
+          elevation={3}
+          sx={{
+            p: 4,
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', md: 'row' },
+              gap: 2,
+              mb: 2,
+            }}
+          >
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="finish-select-label">Finish</InputLabel>
+              <Select
+                labelId="finish-select-label"
+                value={userData.finish}
+                label="Finish"
+                onChange={(e) =>
+                  setUserData({ ...userData, finish: e.target.value })
+                }
+              >
+                <MenuItem value="Matte">Matte</MenuItem>
+                <MenuItem value="Gloss">Gloss</MenuItem>
+                <MenuItem value="Soft">Soft</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="quantity-select-label">Quantity</InputLabel>
+              <Select
+                labelId="quantity-select-label"
+                value={userData.quantity}
+                label="Quantity"
+                onChange={(e) =>
+                  setUserData({ ...userData, quantity: e.target.value })
+                }
+              >
+                <MenuItem value={25}>25</MenuItem>
+                <MenuItem value={50}>50</MenuItem>
+                <MenuItem value={75}>75</MenuItem>
+                <MenuItem value={100}>100</MenuItem>
+                <MenuItem value={125}>125</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
           <Box
             sx={{
               display: 'flex',
@@ -714,23 +881,13 @@ export default function ProductEditor() {
               alignItems: 'center',
               gap: 1,
               width: '100%',
-              mt: 0,
             }}
           >
-            {/* <Button
-              variant="outlined"
-              color="secondary"
-              onClick={handleGeneratePdf}
-              disabled={!selectedDesign}
-              fullWidth
-            >
-              Generate PDF
-            </Button> */}
             <Button
               variant="contained"
               color="primary"
               onClick={handleAddToCart}
-              disabled={!selectedDesign}
+              disabled={!selectedDesign || isAddingToCart}
               fullWidth
               size="large"
               startIcon={
@@ -747,7 +904,7 @@ export default function ProductEditor() {
       </Box>
     </Box>
   );
-  
+
   return (
     <>
       <PrayerHero />
@@ -764,79 +921,126 @@ export default function ProductEditor() {
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
             {/* Top row with design picker and preview */}
             <Box sx={{ display: 'flex', gap: 2.5, height: '60vh' }}>
-              <Paper
-                elevation={3}
-                sx={{
-                  width: '35%',
-                  overflowY: 'auto',
-                  p: 2,
-                  // transition: 'box-shadow 0.6s ease',
-                  // '&:focus-within': {
-                  //   boxShadow: '0 0 10px 2px rgba(255,105,180,0.3)',
-                  // },
-                }}
+              {/* Design Selector Column */}
+              <Box
+                sx={{ width: '35%', display: 'flex', flexDirection: 'column' }}
               >
-                {designPickerContent}
-              </Paper>
-              <Paper
-                elevation={3}
-                sx={{
-                  width: '65%',
-                  overflow: 'hidden',
-                  position: 'relative',
-                  p: 1,
-                  boxShadow: '0px 4px 6px rgba(0,0,0,0.1)',
-                }}
+                <Box
+                  sx={{
+                    backgroundColor: '#D3648B',
+                    p: 1,
+                    mb: 0,
+                    borderTopRightRadius: 20,
+                    boxShadow: '0px 5px 10px rgba(0,0,0,0.2)',
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{ m: 0, textAlign: 'left', color: 'white' }}
+                  >
+                    Designs
+                  </Typography>
+                </Box>
+                <Paper
+                  elevation={3}
+                  sx={{
+                    width: '100%',
+                    overflowY: 'auto',
+                    p: 2,
+                    mt: 0,
+                    borderTopLeftRadius: 0,
+                    borderTopRightRadius: 0,
+                  }}
+                >
+                  {designPickerContent}
+                </Paper>
+              </Box>
+              {/* Single Side Preview Column */}
+              <Box
+                sx={{ width: '65%', display: 'flex', flexDirection: 'column' }}
               >
-                {selectedDesign ? (
-                  <Box sx={{ width: '100%', height: '100%', position: 'relative' }}>
-                    <SingleSidePreview
-                      productConfig={productConfig}
-                      design={selectedDesign}
-                      userData={userData}
-                      side={showBack ? 'back' : 'front'}
-                      productType={productRoute}
-                      ref={singleSidePreviewRef}
-                    />
-                     {loadingPreview && (
-                      <Box
+                <Box
+                  sx={{
+                    backgroundColor: '#D3648B',
+                    p: 1,
+                    mb: 0,
+                    borderTopRightRadius: 20,
+                    boxShadow: '0px 5px 10px rgba(0,0,0,0.2)',
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{ m: 0, textAlign: 'left', color: 'white' }}
+                  >
+                    Preview
+                  </Typography>
+                </Box>
+                <Paper
+                  elevation={3}
+                  sx={{
+                    width: '100%',
+                    height: '100%',
+                    overflow: 'hidden',
+                    position: 'relative',
+                    p: 1,
+                    mt: 0,
+                    borderTopLeftRadius: 0,
+                    borderTopRightRadius: 0,
+                  }}
+                >
+                  {selectedDesign ? (
+                    <Box
+                      sx={{ width: '100%', height: '100%', position: 'relative' }}
+                    >
+                      <SingleSidePreview
+                        productConfig={productConfig}
+                        design={selectedDesign}
+                        userData={userData}
+                        side={showBack ? 'back' : 'front'}
+                        productType={productRoute}
+                        ref={singleSidePreviewRef}
+                      />
+                      {loadingPreview && (
+                        <Box
+                          sx={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            backgroundColor: 'rgba(146,146,146,0.1)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            zIndex: 9999,
+                          }}
+                        >
+                          <CircularProgress color="primary" />
+                        </Box>
+                      )}
+                      <IconButton
+                        onClick={togglePreviewSide}
                         sx={{
                           position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          width: '100%',
-                          height: '100%',
-                          backgroundColor: 'rgba(146, 146, 146, 0.1)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          zIndex: 9999,
+                          bottom: 8,
+                          right: 8,
+                          backgroundColor: 'rgba(255,255,255,0.7)',
+                          '&:hover': { backgroundColor: 'rgba(255,255,255,0.9)' },
                         }}
+                        size="large"
                       >
-                        <CircularProgress color="primary" />
-                      </Box>
-                    )}
-                    <IconButton
-                      onClick={togglePreviewSide}
-                      sx={{
-                        position: 'absolute',
-                        bottom: 8,
-                        right: 8,
-                        backgroundColor: 'rgba(255,255,255,0.7)',
-                        '&:hover': { backgroundColor: 'rgba(255,255,255,0.9)' },
-                      }}
-                      size="large"
-                    >
-                      <ThreeSixtyIcon fontSize="large" />
-                    </IconButton>
-                  </Box>
-                ) : (
-                  <Typography>Select a design to see preview</Typography>
-                )}
-              </Paper>
+                        <ThreeSixtyIcon fontSize="large" />
+                      </IconButton>
+                    </Box>
+                  ) : (
+                    <Typography>Select a design to see preview</Typography>
+                  )}
+                </Paper>
+              </Box>
             </Box>
+
             {/* Full-width input options below */}
-              {inputOptionsContent}
+            {inputOptionsContent}
           </Box>
         ) : (
           <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', gap: 2 }}>
@@ -864,7 +1068,9 @@ export default function ProductEditor() {
                 }}
               >
                 {selectedDesign ? (
-                  <Box sx={{ width: '100%', height: '100%', position: 'relative' }}>
+                  <Box
+                    sx={{ width: '100%', height: '100%', position: 'relative' }}
+                  >
                     <SingleSidePreview
                       productConfig={productConfig}
                       productType={productRoute}
@@ -892,15 +1098,7 @@ export default function ProductEditor() {
                 )}
               </Paper>
             </Box>
-            <Box
-              sx={{
-                flex: 1,
-                overflowY: 'auto',
-                // boxShadow: '0px 4px 6px rgba(0,0,0,0.1)',
-              }}
-            >
-              {inputOptionsContent}
-            </Box>
+            <Box sx={{ flex: 1, overflowY: 'auto' }}>{inputOptionsContent}</Box>
           </Box>
         )}
         {selectedDesign && (
@@ -922,6 +1120,23 @@ export default function ProductEditor() {
           />
         )}
       </Box>
+      {/* Loader Backdrop */}
+      <Backdrop
+        sx={{
+          color: '#fff',
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+        open={isAddingToCart}
+      >
+        <Typography variant="h6" sx={{ mb: 2 }}>
+          Please wait. Adding to Cart...
+        </Typography>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </>
   );
 }

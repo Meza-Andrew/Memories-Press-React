@@ -17,7 +17,7 @@ export default function CropModal({ open, onClose, imageSrc, onCropConfirm }) {
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Crop Your Photo</DialogTitle>
+      <DialogTitle sx={{backgroundColor: '#e0dade', color: 'black'}}>Crop Your Photo</DialogTitle>
       <div style={{ position: 'relative', width: '100%', height: 400 }}>
         <Cropper
           image={imageSrc}
@@ -29,8 +29,8 @@ export default function CropModal({ open, onClose, imageSrc, onCropConfirm }) {
           onZoomChange={setZoom}
         />
       </div>
-      <DialogActions>
-        <Button onClick={onClose} color="inherit">Cancel</Button>
+      <DialogActions sx={{backgroundColor: '#e0dade'}}>
+        <Button onClick={onClose} variant='outlined' color="inherit">Cancel</Button>
         <Button onClick={handleConfirm} variant="contained" color="primary">Confirm</Button>
       </DialogActions>
     </Dialog>
