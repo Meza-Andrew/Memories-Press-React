@@ -1,24 +1,14 @@
-import React from 'react';
 import { Box, Typography } from '@mui/material';
-import FadeInBox from '../FadeInBox';
-import { PRODUCT_TYPES } from './templatesConfig';
+import AutoFitProverb from './AutoFitProverb';
 
 export function renderTemplateElements({
-  elements,
+  elements, //template
   userData,
   design,
   scaleFactor = 1,
   productType,
   offset = { widthOffset: 0, heightOffset: 0 }
 }) {
-  let customProverbOffset;
-
-  if (productType === PRODUCT_TYPES.PRAYER_CARD) {
-    customProverbOffset = 470;
-  } else if (productType === PRODUCT_TYPES.BOOKMARK) {
-    customProverbOffset = 900;
-  }
-  //fix for mobile view @ecdevguy
 
   const fontSizeMultiplier = 4;
   if (!elements) return null;
@@ -28,6 +18,9 @@ export function renderTemplateElements({
     fullName: userData.lastName
       ? `${userData.name} ${userData.lastName}`.trim()
       : userData.name,
+    dates: userData.dod
+      ? `${userData.dob} - ${userData.dod}`.trim()
+      : userData.dob,
   };
 
   return Object.keys(elements).map((key) => {
@@ -78,7 +71,10 @@ export function renderTemplateElements({
       let fontAlignment;
       if (key === 'name') {
         textValue = displayUserData.fullName;
-      } else if (key === 'proverb') {
+      } else if (key === 'dob') {
+        textValue = displayUserData.dates;
+      }
+      else if (key === 'proverb') {
         if (displayUserData.proverb === 'CUSTOM') {
           textValue = displayUserData.customProverb || '';
         } else {
@@ -121,183 +117,97 @@ export function renderTemplateElements({
 
       let computedFontSize, fontFamily, fontWeight, fontStyle, fontColor, fontLineHeight;
       let transformStyle = '';
-      let transformOrigin = 'center center';
-
+      
       if (key === 'name') {
-        const fontSource = userData.selectedFont === 'font1' ? design.font : design.fontAlt;
+        const fontSource = userData.selectedFont === 'font1' ? design.nameFont : design.nameFontAlt;
         const fontSizeNum = parseInt(fontSource.size, 10) || 16;
         computedFontSize = Math.round(fontSizeNum * fontSizeMultiplier * scaleFactor);
         fontFamily = fontSource.family || 'Arial';
         fontWeight = fontSource.weight || 'normal';
         fontStyle = fontSource.italic ? 'italic' : 'normal';
         fontColor = fontSource.color || '#000';
-
         const allowedWidth = userData.name.width || (elem.width * scaleFactor);
         const estimatedWidth = computedFontSize * 0.5 * textValue.length;
         const textScale = estimatedWidth > allowedWidth ? allowedWidth / estimatedWidth : 1;
         transformStyle = `scale(${textScale})`;
       } else if (key === 'proverb') {
-        const fontSource = userData.selectedFontBack === 'font1' ? elem.font : elem.fontAlt;
         const fontFamilyWeightStyle = userData.selectedFontBack === 'font1' ? design.prayerFont : design.prayerFontAlt;
-        const fontSizeNum = overrideFontSize !== undefined ? overrideFontSize : (parseInt(fontSource.size, 10) || 16);
-        const fontSizeNumAlt = overrideFontSizeAlt !== undefined ? overrideFontSizeAlt : (parseInt(fontSource.size, 10) || 16);
+        const fontSizeNum = overrideFontSize !== undefined ? overrideFontSize : (parseInt(fontFamilyWeightStyle.size, 10) || 16);
+        const fontSizeNumAlt = overrideFontSizeAlt !== undefined ? overrideFontSizeAlt : (parseInt(fontFamilyWeightStyle.size, 10) || 16);
         const fontSizeNumTrue = userData.selectedFontBack === 'font1' ? fontSizeNum : fontSizeNumAlt;
         fontLineHeight = userData.selectedFontBack === 'font1' ? overrideLineHeight : overrideLineHeightAlt;
         computedFontSize = Math.round(fontSizeNumTrue * fontSizeMultiplier * scaleFactor);
         fontFamily = fontFamilyWeightStyle.family || 'Arial';
         fontWeight = fontFamilyWeightStyle.weight || 'normal';
         fontStyle = fontFamilyWeightStyle.italic ? 'italic' : 'normal';
-        fontColor = fontSource.color || '#000';
-      } else {
-        const fontSizeNum = parseInt(elem.font.size, 10) || 16;
+        fontColor = fontFamilyWeightStyle.color || '#000';
+      } else if (key === 'dates') {
+        // date font toggle logic
+        // const fontSource = userData.selectedFont === 'font1' ? design.dateFont : design.dateFontAlt;
+        // const fontSizeNum = parseInt(userData.selectedFont === 'font1' ? design.dateFont.size : design.dateFontAlt.size, 10) || 16;
+        // date font no toggle, uses dateFont
+        const fontSource = design.dateFont;
+        const fontSizeNum = parseInt(design.dateFont.size, 10) || 16;
         computedFontSize = Math.round(fontSizeNum * fontSizeMultiplier * scaleFactor);
-        fontFamily = elem.font.family || 'Arial';
-        fontWeight = elem.font.weight || 'normal';
-        fontStyle = elem.font.italic ? 'italic' : 'normal';
-        fontColor = elem.font.color || '#000';
-      }
-
-      if (key === 'lastName') return null;
-      if (key === 'proverb' && userData.proverb === 'CUSTOM') {
-        const textLength = textValue.length;
-        let computedLineHeight;
-        let computedFontSizeCustom = 11;
-        if (textLength <= 30) {
-          computedLineHeight = 2.4;
-          computedFontSizeCustom = 14;
-        } else if (textLength <= 60) {
-          computedLineHeight = 2.3;
-          computedFontSizeCustom = 13.75;
-        } else if (textLength <= 90) {
-          computedLineHeight = 2.3;
-          computedFontSizeCustom = 13.5;
-        } else if (textLength <= 120) {
-          computedLineHeight = 2.3;
-          computedFontSizeCustom = 13.25;
-        } else if (textLength <= 150) {
-          computedLineHeight = 2.2;
-          computedFontSizeCustom = 13;
-        } else if (textLength <= 180) {
-          computedLineHeight = 2.1;
-          computedFontSizeCustom = 12.75;
-        } else if (textLength <= 210) {
-          computedLineHeight = 2;
-          computedFontSizeCustom = 12.5;
-        } else if (textLength <= 240) {
-          computedLineHeight = 1.9;
-          computedFontSizeCustom = 12.25;
-        } else if (textLength <= 270) {
-          computedLineHeight = 1.8;
-          computedFontSizeCustom = 12;
-        } else if (textLength <= 300) {
-          computedLineHeight = 1.7;
-          computedFontSizeCustom = 11.75;
-        } else if (textLength <= 330) {
-          computedLineHeight = 1.6;
-          computedFontSizeCustom = 11.5;
-        } else if (textLength <= 360) {
-          computedLineHeight = 1.5;
-          computedFontSizeCustom = 11.25;
-        } else if (textLength <= 390) {
-          computedLineHeight = 1.4;
-          computedFontSizeCustom = 11;
-        } else if (textLength <= 420) {
-          computedLineHeight = 1.3;
-          computedFontSizeCustom = 11;
-        } else if (textLength <= 450) {
-          computedLineHeight = 1.2;
-          computedFontSizeCustom = 11;
-        } else if (textLength <= 480) {
-          computedLineHeight = 1.1;
-          computedFontSizeCustom = 11;
-        } else {
-          computedLineHeight = 1;
-          computedFontSizeCustom = 11;
-        }
+        
+        fontFamily = fontSource.family || 'Arial';
+        fontWeight = fontSource.weight || 'normal';
+        fontStyle = fontSource.italic ? 'italic' : 'normal';
+        fontColor = fontSource.color || '#000';
+      }   
+      if (key === 'proverb') {
         return (
-          <Box
+          <AutoFitProverb
             key={key}
-            sx={{
-              position: 'absolute',
-              top: `${((elem.y + customProverbOffset) + offset.heightOffset) * scaleFactor}px`,
-              left: `${(elem.x + offset.widthOffset) * scaleFactor}px`,
-              width: `${elem.width * scaleFactor}px`,
-              height: `${elem.height * scaleFactor}px`,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <FadeInBox>
-              <Typography
-                sx={{
-                  fontFamily,
-                  fontWeight,
-                  fontStyle,
-                  fontSize: `${((userData.selectedFontBack === 'font1' ? computedFontSizeCustom : computedFontSizeCustom - 3) * fontSizeMultiplier)}px`,
-                  color: fontColor,
-                  textAlign: 'center',
-                  wordWrap: 'break-word',
-                  wordBreak: 'break-word',
-                  whiteSpace: 'pre-wrap',
-                  overflow: 'visible',
-                  lineHeight: userData.selectedFontBack === 'font1' ? computedLineHeight + (productType === PRODUCT_TYPES.BOOKMARK ? 1 : 0) : computedLineHeight + (productType === PRODUCT_TYPES.BOOKMARK ? 2 : 0.5),
-                  transform: transformStyle,
-                }}
-              >
-                {textValue}
-              </Typography>
-            </FadeInBox>
-          </Box>
+            elem={elem}
+            offset={offset}
+            scaleFactor={scaleFactor}
+            productType={productType}
+            text={textValue}
+            fontFamily={fontFamily}
+            fontWeight={fontWeight}
+            fontStyle={fontStyle}
+            fontColor={fontColor}
+            textAlign={fontAlignment}
+          />
         );
       }
       return (
         <Box
-          key={key}
-          sx={{
-            position: 'absolute',
-            top: `${(elem.y + offset.heightOffset) * scaleFactor}px`,
-            left: `${(elem.x + offset.widthOffset) * scaleFactor}px`,
-            width: `${elem.width * scaleFactor}px`,
-            overflow: 'visible',
-          }}
-        ><FadeInBox direction={key === 'proverb' ? 'down' : 'up'}>
-          <Typography
-            sx={{
-              fontFamily,
-              fontWeight,
-              fontStyle,
-              fontSize: `${computedFontSize}px`,
-              color: fontColor,
-              textAlign: fontAlignment,
-              wordWrap: 'break-word',
-              wordBreak: 'break-word',
-              whiteSpace: key === 'name' ? 'nowrap' : 'pre-wrap',
-              overflow: 'visible',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent:
-                key === 'name'
-                  ? 'center'
-                  : key === 'dob'
-                  ? 'right'
-                  : key === 'dod'
-                  ? 'left'
-                  : 'center',
-              padding: '0px',
-              lineHeight: fontLineHeight,
-              transform: transformStyle,
-              transformOrigin,
-            }}
-          >
-            {textValue}
-            {key === 'dob' ? ' -' : ''}
-          </Typography>
-          </FadeInBox>
+        key={key}
+        sx={{
+          position: 'absolute',
+          top: `${(elem.y + offset.heightOffset) * scaleFactor}px`,
+          left: `${(elem.x + offset.widthOffset) * scaleFactor}px`,
+          width: `${elem.width * scaleFactor}px`,
+          height: `${elem.height * scaleFactor}px`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        >
+            <Typography
+              sx={{
+                fontFamily,
+                fontWeight,
+                fontStyle,
+                fontSize: `${computedFontSize}px`,
+                color: fontColor,
+                textAlign: 'center',
+                lineHeight: 1,
+                wordWrap: 'break-word',
+                wordBreak: 'break-word',
+                whiteSpace: key === 'name' ? 'nowrap' : 'pre-wrap',
+                overflow: 'visible',
+                transform: transformStyle,
+                transformOrigin: 'center',
+              }}
+            >
+              {textValue}
+            </Typography>
         </Box>
       );
     }
-
     return null;
   });
 }

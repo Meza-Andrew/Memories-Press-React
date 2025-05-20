@@ -1,4 +1,3 @@
-import React from 'react';
 import { FormControl, InputLabel, Select, MenuItem, Tooltip, Typography } from '@mui/material';
 import { PRODUCT_TYPES } from './templatesConfig';
 
@@ -27,10 +26,6 @@ Grace for the trials,
 Help from above,
 Unfailing sympathy
 Undying love…`,
-        fontSize: 12,
-        lineHeight: 1.07,
-        fontSizeAlt: 10,
-        lineHeightAlt: 1.29,
         textAlignment: 'left'
       },
       bookmark: { 
@@ -54,30 +49,27 @@ Grace for the trials,
 Help from above,
 Unfailing sympathy
 Undying love…`,
-        fontSize: 12,
-        lineHeight: 2.1,
-        fontSizeAlt: 10,
-        lineHeightAlt: 2.37,
         textAlignment: 'left'
       },
       memorialHeart: { 
-        text: `God hath not promised
-  Skies always blue,
-  Flower-strewn pathways
-  All our lives through;
-  God hath not promised
-  Sun without rain,
-  Joy without sorrow,
-  Peace without pain.
-  But God hath promised
-  Strength for the day,
-  Rest for the labor
-  Light for the way.
-  Grace for the trials,
-  Help from above,
-  Unfailing sympathy
-  Undying love…`,
-        fontSize: "20"
+        text: 
+`God hath not promised
+Skies always blue,
+Flower-strewn pathways
+All our lives through;
+God hath not promised
+Sun without rain,
+Joy without sorrow,
+Peace without pain.
+But God hath promised
+Strength for the day,
+Rest for the labor
+Light for the way.
+Grace for the trials,
+Help from above,
+Unfailing sympathy
+Undying love…`,
+        textAlignment: ''
       },
     },
     {
@@ -101,10 +93,6 @@ Through sorrow sometimes visits
 blessings come to rest
 Each time that we remember
 the times that we loved best`,
-  fontSize: 10,
-  lineHeight: 1.52,
-  fontSizeAlt: 8,
-  lineHeightAlt: 1.9
       },
       bookmark: { 
         text: 
@@ -124,10 +112,6 @@ Through sorrow sometimes visits
 blessings come to rest
 Each time that we remember
 the times that we loved best`,
-  fontSize: 9,
-  lineHeight: 3.25,
-  fontSizeAlt: 7,
-  lineHeightAlt: 4.2
       },
       memorialHeart: { 
         text: `Early in the morning
@@ -146,7 +130,6 @@ the times that we loved best`,
   blessings come to rest
   Each time that we remember
   the times that we loved best`,
-        fontSize: "20",
       },
     },
     {
@@ -165,10 +148,6 @@ upon your fields.
 Until we meet again,
 may God hold you 
 in the palm of His hand.`,
-        fontSize: 13.5,
-        lineHeight: 1.63,
-        fontSizeAlt: 11,
-        lineHeightAlt: 2
       },
       bookmark: { 
         text: 
@@ -183,10 +162,6 @@ upon your fields.
 Until we meet again,
 may God hold you 
 in the palm of His hand.`,
-        fontSize: 12.7,
-        lineHeight: 3.41,
-        fontSizeAlt: 10,
-        lineHeightAlt: 4.35
       },
       memorialHeart: { 
         text: `May the road rise to meet you.
@@ -195,7 +170,6 @@ in the palm of His hand.`,
   and the rains fall soft upon your fields.
   Until we meet again,
   may God hold you in the palm of His hand.`,
-        fontSize: "20"
       },
     },
     {
@@ -224,10 +198,6 @@ shall follow me
 all the days of my life:
 and I will dwell in the house 
 of the Lord forever.`,
-  fontSize: 9.1,
-  lineHeight: 1.3,
-  fontSizeAlt: 7,
-  lineHeightAlt: 1.67
       },
       bookmark: { 
         text: 
@@ -252,10 +222,6 @@ shall follow me
 all the days of my life:
 and I will dwell in the house 
 of the Lord forever.`,
-  fontSize: 8,
-  lineHeight: 2.8,
-  fontSizeAlt: 6.2,
-  lineHeightAlt: 3.58
       },
       memorialHeart: { 
         text: `The Lord is my shepherd;
@@ -277,7 +243,6 @@ of the Lord forever.`,
   Surely goodness and mercy
   shall follow me all the days of my life,
   and I will dwell in the house of the Lord forever.`,
-        fontSize: "20"
       },
     },
     {
@@ -296,10 +261,6 @@ As we forgive those who
 trespass against us;
 And lead us not into temptation,
 But deliver us from evil.`,
-        fontSize: 10,
-        lineHeight: 2.22,
-        fontSizeAlt: 8,
-        lineHeightAlt: 2.78
       },
       bookmark: { 
         text: 
@@ -314,10 +275,6 @@ As we forgive those who
 trespass against us;
 And lead us not into temptation,
 But deliver us from evil.`,
-        fontSize: 9.2,
-        lineHeight: 4.6,
-        fontSizeAlt: 7.3,
-        lineHeightAlt: 5.9
       },
       memorialHeart: { 
         text: `Our Father who art in Heaven,
@@ -330,7 +287,6 @@ But deliver us from evil.`,
   As we forgive those who trespass against us;
   And lead us not into temptation,
   But deliver us from evil.`,
-        fontSize: "20"
       },
     },
     {
@@ -350,10 +306,6 @@ I’d like the tears of those who grieve,
 to dry before the sun
 Of happy memories that I leave,
 when life is done.`,
-        fontSize: 9,
-        lineHeight: 2.26,
-        fontSizeAlt: 7,
-        lineHeightAlt: 2.9
       },
       bookmark: { 
         text: 
@@ -369,10 +321,6 @@ I’d like the tears of those who grieve,
 to dry before the sun
 Of happy memories that I leave,
 when life is done.`,
-        fontSize: 8.2,
-        lineHeight: 4.8,
-        fontSizeAlt: 6.5,
-        lineHeightAlt: 6.1
       },
       memorialHeart: { 
         text: `I’d like the memory of me,
@@ -387,7 +335,6 @@ when life is done.`,
   to dry before the sun
   of happy memories that I leave,
   when life is done.`,
-        fontSize: "20"
       },
     },
     {
@@ -408,10 +355,6 @@ We will laugh again together
 When life will have no end
 No, this is not goodbye at all
 It is, I will see you then.`,
-        fontSize: 10.5,
-        lineHeight: 1.81,
-        fontSizeAlt: 8.5,
-        lineHeightAlt: 2.24
       },
       bookmark: { 
         text: 
@@ -428,10 +371,6 @@ We will laugh again together
 When life will have no end
 No, this is not goodbye at all
 It is, I will see you then.`,
-        fontSize: 9.7,
-        lineHeight: 3.7,
-        fontSizeAlt: 7.7,
-        lineHeightAlt: 4.7
       },
       memorialHeart: { 
         text: `Life is like a vapor
@@ -446,7 +385,6 @@ It is, I will see you then.`,
   When life will have no end.
   No, this is not goodbye at all;
   It is, I will see you then.`,
-        fontSize: "20"
       },
     },
     {
@@ -470,10 +408,6 @@ That bond cannot be broken
 even death can’t separate
 a touch that lives forever
 time cannot erase`,
-        fontSize: 10.5,
-        lineHeight: 1.46,
-        fontSizeAlt: 8,
-        lineHeightAlt: 1.91
       },
       bookmark: { 
         text: 
@@ -493,10 +427,6 @@ That bond cannot be broken
 even death can’t separate
 a touch that lives forever
 time cannot erase.`,
-        fontSize: 9.7,
-        lineHeight: 3,
-        fontSizeAlt: 7.5,
-        lineHeightAlt: 3.9
       },
       memorialHeart: { 
         text: `Each life leaves a unique legacy
@@ -515,7 +445,6 @@ time cannot erase.`,
   even death can’t separate;
   a touch that lives forever,
   time cannot erase.`,
-        fontSize: "20"
       },
     },
     {
@@ -543,10 +472,6 @@ The Lord replied, "The times when
 you have seen only one set of 
 footprints, my child, is when 
 I carried you."`,
-        fontSize: 8.9,
-        lineHeight: 1.35,
-        fontSizeAlt: 7.5,
-        lineHeightAlt: 1.62
       },
       bookmark: { 
         text: 
@@ -570,10 +495,6 @@ The Lord replied, "The times when
 you have seen only one set of 
 footprints, my child, is when 
 I carried you."`,
-        fontSize: 8.5,
-        lineHeight: 2.75,
-        fontSizeAlt: 7,
-        lineHeightAlt: 3.35
       },
       memorialHeart: { 
         text: `One night I dreamed I was
@@ -588,7 +509,6 @@ I carried you."`,
   
   The Lord replied, "The times when you have seen only one set of footprints,
   my child, is when I carried you."`,
-        fontSize: "20"
       },
     },
   ];
@@ -641,11 +561,10 @@ I carried you."`,
         >
           <span>{selectControl}</span>
         </Tooltip>
-        <Typography sx={{display:{xs: 'block', md: 'none'}, fontStyle: 'italic', color: '#666666'}}>This product does not support this feature.</Typography>
+        <Typography sx={{display:{xs: 'block', md: 'none'}, fontStyle: 'italic', color: '#666665'}}>This product does not support this feature.</Typography>
         </>
       );
     }
-  
     return selectControl;
   }
   

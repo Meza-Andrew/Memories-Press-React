@@ -78,7 +78,6 @@ export default function HiddenFullSizeContainers({
           })}
         {design.front?.overlays && renderDesignOverlays(design.front.overlays)}
       </Box>
-
       {currentTemplate.back && (
         <Box
           ref={backRef}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef, useMemo } from 'react';
+import { useState, useEffect, useContext, useRef, useMemo } from 'react';
 import {
   Box,
   Typography,
@@ -116,7 +116,7 @@ export default function ProductEditor() {
     dod: '',
     proverb: '',
     customProverb:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam bibendum suscipit urna, vel luctus nulla viverra in. In id posuere felis, quis facilisis elit. Cras sodales justo et ipsum gravida egestas. Duis vel mauris at mi finibus porta at in enim. Nunc et augue quam. Pellentesque vel lorem a velit imperdiet auctor et non ligula. Sed consectetur pellentesque tortor quis scelerisque. Maecenas ornare ipsum sapien, ut dictum lacus facilisis a. Ut consequat nisi vel tristique malesuada. Duis ne.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     note: '',
     quantity: 25,
     finish: 'Matte',
@@ -300,6 +300,7 @@ export default function ProductEditor() {
     await delay(300);
     try {
       const { bleedWidthPx, bleedHeightPx } = productConfig;
+      ref.current.offsetHeight;
       const dataUrl = await domtoimage.toPng(ref.current, {
         width: bleedWidthPx,
         height: bleedHeightPx,
@@ -359,7 +360,7 @@ export default function ProductEditor() {
       alert('Please select a design first.');
       return;
     }
-    setIsAddingToCart(true); // Start loading
+    setIsAddingToCart(true);
 
     const smallScaleImage = await captureSingleSidePreview();
     if (!smallScaleImage) {
@@ -396,6 +397,7 @@ export default function ProductEditor() {
       originalPhoto: originalImage,
       customProverb: userData.customProverb,
     };
+    await handleGeneratePdf();
     try {
       if (editIndex !== null && editIndex >= 0) {
         await updateCartItem(editIndex, itemData);
@@ -474,9 +476,7 @@ export default function ProductEditor() {
 
   const inputOptionsContent = (
     <Box sx={{ display: { xs: 'block', md: 'flex' }, gap: 2.5 }}>
-      {/* Front Side Section */}
       <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-        {/* Header for Front Side */}
         <Box
           sx={{
             backgroundColor: '#D3648B',
@@ -500,7 +500,6 @@ export default function ProductEditor() {
             borderTopRightRadius: 0,
           }}
         >
-          {/* --- Front side content --- */}
           <Box
             sx={{
               display: productRoute === 'memorial_heart' ? 'none' : 'block',
@@ -658,10 +657,7 @@ export default function ProductEditor() {
           </Box>
         </Paper>
       </Box>
-
-      {/* Back Side Section */}
       <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-        {/* Header for Back Side */}
         <Box
           sx={{
             backgroundColor: '#D3648B',
@@ -683,7 +679,6 @@ export default function ProductEditor() {
             borderTopRightRadius: 0,
           }}
         >
-          {/* --- Back side content (minus finish/quantity) --- */}
           {productRoute === 'memorial_heart' ? (
             <Box sx={{ mb: 4 }}>
               <Typography variant="h6" sx={{ color: 'black' }}>
@@ -813,7 +808,6 @@ export default function ProductEditor() {
             </Box>
           )}
         </Paper>
-        {/* Add to Cart Section with Quantity and Finish */}
         <Box
           sx={{
             backgroundColor: '#D3648B',
@@ -904,7 +898,6 @@ export default function ProductEditor() {
       </Box>
     </Box>
   );
-
   return (
     <>
       <PrayerHero />
@@ -919,9 +912,7 @@ export default function ProductEditor() {
       >
         {isLargeScreen ? (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
-            {/* Top row with design picker and preview */}
             <Box sx={{ display: 'flex', gap: 2.5, height: '60vh' }}>
-              {/* Design Selector Column */}
               <Box
                 sx={{ width: '35%', display: 'flex', flexDirection: 'column' }}
               >
@@ -955,7 +946,6 @@ export default function ProductEditor() {
                   {designPickerContent}
                 </Paper>
               </Box>
-              {/* Single Side Preview Column */}
               <Box
                 sx={{ width: '65%', display: 'flex', flexDirection: 'column' }}
               >
@@ -1038,8 +1028,6 @@ export default function ProductEditor() {
                 </Paper>
               </Box>
             </Box>
-
-            {/* Full-width input options below */}
             {inputOptionsContent}
           </Box>
         ) : (
@@ -1120,7 +1108,6 @@ export default function ProductEditor() {
           />
         )}
       </Box>
-      {/* Loader Backdrop */}
       <Backdrop
         sx={{
           color: '#fff',
