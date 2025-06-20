@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { Box } from '@mui/material';
+import { BeatLoader } from 'react-spinners';
 import { renderTemplateElements } from './RenderTemplateElements';
 
 const SingleSidePreview = React.forwardRef(({
@@ -8,6 +9,7 @@ const SingleSidePreview = React.forwardRef(({
   userData,
   productType,
   side = 'front',
+  loading
 }, ref) => {
   if (!design || !productConfig) return null;
 
@@ -74,6 +76,26 @@ const SingleSidePreview = React.forwardRef(({
     ));
   };
 
+  if (loading) {
+    return (
+      <Box sx={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
+        <Box sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: `${realWidth}px`,
+          height: `${realHeight}px`,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+          <BeatLoader />
+        </Box>
+      </Box>
+    );
+  }
+
   return (
     <Box
       ref={outerRef}
@@ -107,14 +129,10 @@ const SingleSidePreview = React.forwardRef(({
           userData,
           design,
           scaleFactor: 1,
-          productType
+          productType,
         })}
-        {side === 'front' &&
-          design.front?.overlays &&
-          renderOverlays(design.front.overlays)}
-        {side === 'back' &&
-          design.back?.overlays &&
-          renderOverlays(design.back.overlays)}
+        {side === 'front' && design.front?.overlays && renderOverlays(design.front.overlays)}
+        {side === 'back' && design.back?.overlays && renderOverlays(design.back.overlays)}
       </Box>
     </Box>
   );

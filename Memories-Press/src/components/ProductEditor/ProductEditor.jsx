@@ -88,7 +88,7 @@ export default function ProductEditor() {
     setTimeout(() => {
       setShowBack((prev) => !prev);
       setLoadingPreview(false);
-    }, 200);
+    }, 300);
   };
 
   let productRoute;
@@ -989,6 +989,7 @@ export default function ProductEditor() {
                         side={showBack ? 'back' : 'front'}
                         productType={productRoute}
                         ref={singleSidePreviewRef}
+                        loading={loadingPreview}
                       />
                       {loadingPreview && (
                         <Box
@@ -1005,7 +1006,7 @@ export default function ProductEditor() {
                             zIndex: 9999,
                           }}
                         >
-                          <CircularProgress color="primary" />
+                          {/* <CircularProgress color="primary" /> */}
                         </Box>
                       )}
                       <IconButton
@@ -1066,6 +1067,7 @@ export default function ProductEditor() {
                       userData={userData}
                       side={showBack ? 'back' : 'front'}
                       ref={singleSidePreviewRef}
+                      loading={loadingPreview}
                     />
                     <IconButton
                       onClick={() => setShowBack((prev) => !prev)}
@@ -1104,6 +1106,7 @@ export default function ProductEditor() {
             open={showCropModal}
             onClose={() => setShowCropModal(false)}
             imageSrc={uploadedImage}
+            design={selectedDesign}
             onCropConfirm={handleCropConfirm}
           />
         )}

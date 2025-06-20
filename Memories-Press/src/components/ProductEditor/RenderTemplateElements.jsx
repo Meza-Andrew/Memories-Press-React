@@ -35,7 +35,7 @@ export function renderTemplateElements({
             position: 'absolute',
             top: `${(elem.y + offset.heightOffset) * scaleFactor}px`,
             left: `${(elem.x + offset.widthOffset) * scaleFactor}px`,
-            width: `${elem.width * scaleFactor}px`,
+            width: `${(elem.width * scaleFactor)}px`,
             height: `${elem.height * scaleFactor}px`,
             borderRadius: elem.borderRadius || '0%',
             overflow: 'hidden',
@@ -45,7 +45,9 @@ export function renderTemplateElements({
                   WebkitMaskImage:
                     'radial-gradient(ellipse at center, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 70%)',
                   maskImage:
-                    'radial-gradient(ellipse at center, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 70%)',
+                    'radial-gradient(ellipse at center, rgba(0,0,0,1) 66%, rgba(0,0,0,0) 70%)',
+                    WebkitMaskRepeat: 'no-repeat',
+                    maskRepeat: 'no-repeat',
                 }),
           }}
         >
