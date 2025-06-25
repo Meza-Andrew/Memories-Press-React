@@ -15,7 +15,7 @@ export default function DesignSelector({ designs, onSelect, selectedDesignId }) 
         <Grid item xs={12} sm={12} md={6} lg={6} key={design.id}>
           <FadeInBox delay={index * 0.06} direction="down" duration={1}>
             <Card
-              variant={selectedDesignId === design.id ? 'outlined' : 'elevation'}
+              variant={selectedDesignId !== design.id ? 'outlined' : 'elevation'}
               sx={{
                 borderColor: selectedDesignId === design.id ? 'primary.main' : 'transparent',
                 borderRadius: 0,
