@@ -1,57 +1,46 @@
 import React, { useState } from 'react';
-import { Grid, Card, CardActionArea, Typography, Box } from '@mui/material';
+import { Grid, Card, CardActionArea, Box, Typography } from '@mui/material';
 import FadeInBox from '../FadeInBox';
 import { BeatLoader } from 'react-spinners';
 
 const TEMPLATE_WIDTH = 750;
 const TEMPLATE_HEIGHT = 1200;
 
-export default function DesignSelector({ designs, onSelect, selectedDesignId }) {
-  const [loading, setLoading] = useState(false);
+function DesignCard({ design, onSelect, selectedDesignId, delay }) {
+  // const [imgLoaded, setImgLoaded] = useState(false);
+  const isSelected = selectedDesignId === design.id;
 
   return (
-    <Grid container spacing={2}>
-      {designs.map((design, index) => (
-        <Grid item xs={12} sm={12} md={6} lg={6} key={design.id}>
-          <FadeInBox delay={index * 0.06} direction="down" duration={1}>
-            <Card
-              variant={selectedDesignId !== design.id ? 'outlined' : 'elevation'}
-              sx={{
-                borderColor: selectedDesignId === design.id ? 'primary.main' : 'transparent',
-                borderRadius: 0,
-                border: '1px solid grey',
-                transition: 'box-shadow 0.5s ease',
-                '&:hover': {
-                  boxShadow: '0 0 5px 2px rgba(99, 99, 99, 0.4)',
-                },
-              }}
-            >
-              <CardActionArea onClick={() => onSelect(design)}>
-                {loading ? (
-                  <Box
-                    sx={{
-                      position: 'relative',
-                      width: '100%',
-                      aspectRatio: '5/8',
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <BeatLoader />
-                    </Box>
-                  </Box>
-                ) : (
-                  <Box sx={{ position: 'relative', width: '100%', aspectRatio: '5/8' }}>
+    <Grid item xs={12} sm={12} md={6} lg={6}>
+      <FadeInBox delay={delay} direction="down" duration={1}>
+        <Card
+          variant={isSelected ? 'elevation' : 'outlined'}
+          sx={{
+            position: 'relative',
+            border: '2px solid grey',
+            borderColor: isSelected ? 'gray' : 'transparent',
+            borderRadius: 0,
+            transition: 'box-shadow 0.5s ease, border-color 0.3s ease',
+            '&:hover': { boxShadow: '0 0 5px 2px rgba(99, 99, 99, 0.4)' },
+          }}
+        >
+          <CardActionArea onClick={() => onSelect(design)}>
+            {/* {imgLoaded && (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  inset: 0,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'rgba(255,255,255,0.7)',
+                  zIndex: 1,
+                }}
+              >
+                <BeatLoader />
+              </Box>
+            )} */}
+            <Box sx={{ position: 'relative', width: '100%', aspectRatio: '5/8' }}>
                     <Box
                       component="img"
                       src={design.frontImage}
@@ -90,15 +79,51 @@ export default function DesignSelector({ designs, onSelect, selectedDesignId }) 
                       );
                     })}
                   </Box>
-                )}
-                {/* <Typography variant="subtitle2" align="center" sx={{ mt: 1 }}>
-                  {design.label}
-                </Typography> */}
-              </CardActionArea>
-            </Card>
-          </FadeInBox>
-        </Grid>
+          </CardActionArea>
+        </Card>
+      </FadeInBox>
+    </Grid>
+  );
+}
+
+export default function DesignSelector({ designs, onSelect, selectedDesignId, loading }) {
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: 200,
+        }}
+      >
+        <BeatLoader />
+      </Box>
+    );
+  }
+
+  if (!Array.isArray(designs) || designs.length === 0) {
+    return (
+      <Box sx={{ width: '100%', textAlign: 'center', p: 2 }}>
+        <Typography variant="body1">No designs available</Typography>
+      </Box>
+    );
+  }
+
+  return (
+    <Box height="100%">
+    <Grid container spacing={2}>
+      {designs.map((design, index) => (
+        <DesignCard
+          key={design.id}
+          design={design}
+          onSelect={onSelect}
+          selectedDesignId={selectedDesignId}
+          delay={index * 0.06}
+        />
       ))}
     </Grid>
+    </Box>
   );
 }

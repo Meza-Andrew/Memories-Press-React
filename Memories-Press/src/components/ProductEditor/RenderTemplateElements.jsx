@@ -2,13 +2,15 @@ import { Box, Typography } from '@mui/material';
 import AutoFitProverb from './AutoFitProverb';
 
 export function renderTemplateElements({
-  elements, //template
+  elements, // template!
   userData,
   design,
   scaleFactor = 1,
   productType,
   offset = { widthOffset: 0, heightOffset: 0 }
 }) {
+
+  const imgFade = design.borderColor === 'fade' ? false : design.borderColor;
 
   const fontSizeMultiplier = 4;
   if (!elements) return null;
@@ -39,7 +41,7 @@ export function renderTemplateElements({
             height: `${elem.height * scaleFactor}px`,
             borderRadius: elem.borderRadius || '0%',
             overflow: 'hidden',
-            ...(design.borderColor
+            ...(imgFade
               ? { border: `10px solid ${design.borderColor}` }
               : {
                   WebkitMaskImage:

@@ -18,7 +18,7 @@ import { useTheme } from '@mui/material/styles';
 import { useLocation, useNavigate } from 'react-router-dom';
 import domtoimage from 'dom-to-image-more';
 import jsPDF from 'jspdf';
-import { designs } from './designs';
+// import { designs } from './designs';
 import { templatesConfig, PRODUCT_TYPES } from './templatesConfig';
 import DesignSelector from './DesignSelector';
 import CropModal from './CropModal';
@@ -37,6 +37,161 @@ import ThreeSixtyIcon from '@mui/icons-material/ThreeSixty';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import CircularProgress from '@mui/material/CircularProgress';
+import { BeatLoader } from 'react-spinners';
+
+const username = 'rapi';
+const password = 'L3IE 1UMG 8OuA wu6t p2Vf r80i';
+const encoded = btoa(`${username}:${password}`);
+
+const mockAPI = [
+  {
+    "id": 159,
+    "name": "funeral-prayer-cards",
+    "productType": "PRAYER_CARD",
+    "designs": [
+      {
+        "id": "design_dove-right",
+        "templateId": "1",
+        "label": "Dove Right",
+        "frontImage": "https://ttr.laz.mybluehost.me/website_f71474e4/wp-content/uploads/2024/09/Prayer-Cards-Dove-Right-Front.jpg",
+        "backImage": "https://ttr.laz.mybluehost.me/website_f71474e4/wp-content/uploads/2024/09/Prayer-Cards2-Dove-RIght-Back.jpg",
+        "frontImageBleed": "https://ttr.laz.mybluehost.me/website_f71474e4/wp-content/uploads/2024/09/Prayer-Cards_1_Dove-Right_Front_Bleed.jpg",
+        "backImageBleed": "https://ttr.laz.mybluehost.me/website_f71474e4/wp-content/uploads/2024/09/Prayer-Cards_2_Dove-Right_Back_Bleed.jpg",
+        "borderColor": "fade",
+        "nameFont": {
+          "family": "MonteCarlo",
+          "size": "22px",
+          "color": "#000000"
+        },
+        "nameFontAlt": {
+          "family": "Crimson Text Semibold",
+          "size": "22px",
+          "color": "#000000"
+        },
+        "dateFont": {
+          "family": "Poppins Regular",
+          "size": "7px",
+          "color": "#000000"
+        },
+        "dateFontAlt": {
+          "family": "Poppins Regular",
+          "size": "7px",
+          "color": "#000000"
+        },
+        "prayerFont": {
+          "family": "Crimson Text Semibold",
+          "size": "22px",
+          "color": "#000000"
+        },
+        "prayerFontAlt": {
+          "family": "Crimson Text Semibold",
+          "size": "22px",
+          "color": "#000000"
+        },
+        "front": {
+          "overlays": [
+            {
+              "src": "https://ttr.laz.mybluehost.me/website_f71474e4/wp-content/uploads/2024/09/Prayer-Cards_01-Overlay-Dove.png",
+              "x": 0,
+              "y": 0,
+              "width": 750,
+              "height": 1200
+            }
+          ]
+        }
+      },
+      {
+        "id": "design_dove-rights",
+        "templateId": "1",
+        "label": "Dove Right",
+        "frontImage": "https://ttr.laz.mybluehost.me/website_f71474e4/wp-content/uploads/2024/09/Prayer-Cards-Dove-Right-Front.jpg",
+        "backImage": "https://ttr.laz.mybluehost.me/website_f71474e4/wp-content/uploads/2024/09/Prayer-Cards2-Dove-RIght-Back.jpg",
+        "frontImageBleed": "https://ttr.laz.mybluehost.me/website_f71474e4/wp-content/uploads/2024/09/Prayer-Cards_1_Dove-Right_Front_Bleed.jpg",
+        "backImageBleed": "https://ttr.laz.mybluehost.me/website_f71474e4/wp-content/uploads/2024/09/Prayer-Cards_2_Dove-Right_Back_Bleed.jpg",
+        "borderColor": "fade",
+        "nameFont": {
+          "family": "MonteCarlo",
+          "size": "22px",
+          "color": "#000000"
+        },
+        "nameFontAlt": {
+          "family": "Crimson Text Semibold",
+          "size": "22px",
+          "color": "#000000"
+        },
+        "dateFont": {
+          "family": "Poppins Regular",
+          "size": "7px",
+          "color": "#000000"
+        },
+        "dateFontAlt": {
+          "family": "Poppins Regular",
+          "size": "7px",
+          "color": "#000000"
+        },
+        "prayerFont": {
+          "family": "Crimson Text Semibold",
+          "size": "22px",
+          "color": "#000000"
+        },
+        "prayerFontAlt": {
+          "family": "Crimson Text Semibold",
+          "size": "22px",
+          "color": "#000000"
+        },
+        "front": {
+          "overlays": [
+            {
+              "src": "https://ttr.laz.mybluehost.me/website_f71474e4/wp-content/uploads/2024/09/Prayer-Cards_01-Overlay-Dove.png",
+              "x": 0,
+              "y": 0,
+              "width": 750,
+              "height": 1200
+            }
+          ]
+        }
+      }
+    ],
+    "prices": [
+      {
+        "option": "Matte",
+        "price": 0.01
+      },
+      {
+        "option": "Gloss",
+        "price": 10
+      },
+      {
+        "option": "Soft",
+        "price": 100
+      }
+    ]
+  },
+  {
+    "id": 161,
+    "name": "funeral-bookmarks",
+    "productType": "BOOKMARK",
+    "designs": [],
+    "prices": [
+      {
+        "option": "base",
+        "price": 0
+      }
+    ]
+  },
+  {
+    "id": 162,
+    "name": "memorial-hearts",
+    "productType": "MEMORIAL_HEART",
+    "designs": [],
+    "prices": [
+      {
+        "option": "base",
+        "price": 0
+      }
+    ]
+  }
+]
 
 async function convertBlobUrlToBase64(blobUrl) {
   const response = await fetch(blobUrl);
@@ -50,6 +205,7 @@ async function convertBlobUrlToBase64(blobUrl) {
     reader.readAsDataURL(blob);
   });
 }
+
 
 async function getCroppedImg(imageSrc, croppedAreaPixels) {
   const image = new Image();
@@ -82,14 +238,47 @@ export default function ProductEditor() {
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
   const [loadingPreview, setLoadingPreview] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [fetchedProducts, setFetchedProducts] = useState([]);
+  const [productsLoading, setProductsLoading] = useState(true);
+  const [productsError, setProductsError] = useState(null);
 
-  const togglePreviewSide = () => {
-    setLoadingPreview(true);
-    setTimeout(() => {
-      setShowBack((prev) => !prev);
-      setLoadingPreview(false);
-    }, 300);
-  };
+//     useEffect(() => {
+//   setProductsLoading(true);
+
+//   const timer = setTimeout(() => {
+//     setFetchedProducts(mockAPI);
+//     setProductsLoading(false);
+//   }, 3000); // 3s delay
+
+//   return () => clearTimeout(timer);
+// }, []);
+
+
+useEffect(() => {
+  setProductsLoading(true);
+
+  fetch('http://localhost:8010/proxy/website_f71474e4/wp-json/mp/v1/products', {
+    headers: {
+      'Authorization': `Basic ${encoded}`,
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error('Failed to fetch');
+      return res.json();
+    })
+    .then((data) => {
+      setFetchedProducts(data);
+    })
+    .catch((err) => {
+      console.error('Error fetching products:', err);
+      setProductsError(err.message);
+    })
+    .finally(() => {
+      setProductsLoading(false);
+    });
+}, []);
+
 
   let productRoute;
   if (location.pathname.includes('prayercards')) {
@@ -101,11 +290,38 @@ export default function ProductEditor() {
   } else {
     productRoute = PRODUCT_TYPES.BOOKMARK;
   }
+console.log('fetchedProducts:', fetchedProducts, 'isArray?', Array.isArray(fetchedProducts))
+    const currentProduct = useMemo(
+    () => fetchedProducts.find(p => p.productType === productRoute) || {},
+    [fetchedProducts, productRoute]
+  );
 
   const productDesigns = useMemo(
-    () => designs.filter((d) => d.productType === productRoute),
-    [productRoute]
+    () => Array.isArray(currentProduct.designs) ? currentProduct.designs : [],
+    [currentProduct]
   );
+
+  const togglePreviewSide = () => {
+    setLoadingPreview(true);
+    setTimeout(() => {
+      setShowBack((prev) => !prev);
+      setLoadingPreview(false);
+    }, 300);
+  };
+
+
+  useEffect(() => {
+  console.log('Current Product:', currentProduct);
+  console.log('Product Route:', productRoute);
+  console.log('Fetched Products:', fetchedProducts);
+  console.log('productDesigns:', productDesigns);
+}, [currentProduct, productRoute, fetchedProducts, productDesigns]);
+
+
+  // const productDesigns = useMemo(
+  //   () => designs.filter((d) => d.productType === productRoute),
+  //   [productRoute]
+  // );
 
   const [userData, setUserData] = useState({
     photo: null,
@@ -465,11 +681,12 @@ export default function ProductEditor() {
   const productConfig = templatesConfig[productRoute];
 
   const designPickerContent = (
-    <Box sx={{ p: 2 }}>
+    <Box sx={{ p: 2, height: '100%' }}>
       <DesignSelector
         designs={productDesigns}
         onSelect={handleDesignSelect}
         selectedDesignId={selectedDesign?.id}
+        loading={productsLoading}
       />
     </Box>
   );
@@ -937,6 +1154,7 @@ export default function ProductEditor() {
                   sx={{
                     width: '100%',
                     overflowY: 'auto',
+                    height: '100%',
                     p: 2,
                     mt: 0,
                     borderTopLeftRadius: 0,
@@ -1024,7 +1242,19 @@ export default function ProductEditor() {
                       </IconButton>
                     </Box>
                   ) : (
-                    <Typography>Select a design to see preview</Typography>
+                    <Box
+                sx={{
+                  position: 'absolute',
+                  inset: 0,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'rgba(255,255,255,0.7)',
+                  zIndex: 1,
+                }}
+              >
+                <BeatLoader />
+              </Box>
                   )}
                 </Paper>
               </Box>

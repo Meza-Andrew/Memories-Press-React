@@ -1,7 +1,7 @@
 export const PRODUCT_TYPES = {
-  PRAYER_CARD: 'prayer_card',
-  BOOKMARK: 'bookmark',
-  MEMORIAL_HEART: 'memorial_heart'
+  PRAYER_CARD: 'PRAYER_CARD',
+  BOOKMARK: 'BOOKMARK',
+  MEMORIAL_HEART: 'MEMORIAL_HEART'
 };
 
 export const templatesConfig = {
@@ -14,7 +14,7 @@ export const templatesConfig = {
     templates: [
       //template 1
       {
-        id: 'pc_template_1',
+        id: '1',
         label: 'Template 1 - Full Info',
         front: {
           elements: {
@@ -56,7 +56,7 @@ export const templatesConfig = {
       },
       //template 2
       {
-        id: 'pc_template_2',
+        id: '2',
         label: 'Template 2 - Full Info',
         front: {
           elements: {
@@ -90,7 +90,7 @@ export const templatesConfig = {
       },
       //template 3
       {
-        id: 'pc_template_3',
+        id: '3',
         label: 'Template 3 - Full Info',
         front: {
           elements: {
@@ -132,7 +132,7 @@ export const templatesConfig = {
       },
       //template 4
       {
-        id: 'pc_template_4',
+        id: '4',
         label: 'Template 4 - Full Info',
         front: {
           elements: {
@@ -174,7 +174,7 @@ export const templatesConfig = {
       },
       //template 5
       {
-        id: 'pc_template_5',
+        id: '5',
         label: 'Template 5 - Full Info',
         front: {
           elements: {
@@ -196,7 +196,7 @@ export const templatesConfig = {
     templates: [
       //template 1
       {
-        id: 'bm_template_1',
+        id: '1',
         label: 'Template 1 - Name, Dates, Photo',
         front: {
           elements: {
@@ -238,7 +238,7 @@ export const templatesConfig = {
       },
       //template 2
       {
-        id: 'bm_template_2',
+        id: '2',
         label: 'Template 2 - Name, Dates',
         front: {
           elements: {
@@ -272,7 +272,7 @@ export const templatesConfig = {
       },
       //template 3
       {
-        id: 'bm_template_3',
+        id: '3',
         label: 'Template 3 - Name, Dates, Photo',
         front: {
           elements: {
@@ -314,7 +314,7 @@ export const templatesConfig = {
       },
       //template 4
       {
-        id: 'bm_template_4',
+        id: '4',
         label: 'Template 4 - Text Only',
         front: {
           elements: {
@@ -327,7 +327,7 @@ export const templatesConfig = {
       },
       //template 5
       {
-        id: 'bm_template_5',
+        id: '5',
         label: 'Template 5 - Name, Dates',
         front: {
           elements: {
@@ -361,7 +361,7 @@ export const templatesConfig = {
       },
       //template 6
       {
-        id: 'bm_template_6',
+        id: '6',
         label: 'Template 6 - Name, Dates, Photo',
         front: {
           elements: {
@@ -412,7 +412,7 @@ export const templatesConfig = {
     templates: [
       //template 1
       {
-        id: 'mh_template_1',
+        id: '1',
         label: 'Template 1 - Name, Dates, Photo',
         front: {
           elements: {
@@ -447,7 +447,7 @@ export const templatesConfig = {
       },
       //template 2
       {
-        id: 'mh_template_2',
+        id: '2',
         label: 'Template 2 - Name, Dates, Photo',
         front: {
           elements: {
@@ -482,7 +482,7 @@ export const templatesConfig = {
       },
       //template 3
       {
-        id: 'mh_template_3',
+        id: '3',
         label: 'Template 3 - Name, Dates',
         front: {
           elements: {
@@ -509,7 +509,7 @@ export const templatesConfig = {
       },
       //template 4
       {
-        id: 'mh_template_4',
+        id: '4',
         label: 'Template 4',
         front: {
           elements: {

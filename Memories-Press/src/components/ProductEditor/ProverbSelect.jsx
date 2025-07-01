@@ -1,571 +1,110 @@
-import { FormControl, InputLabel, Select, MenuItem, Tooltip, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { PRODUCT_TYPES } from './templatesConfig';
 
-const proverbs = [
-    {
-      key: 'godHathNotPromised',
-      title: 'God Hath Not Promised',
-      prayerCard: { 
-        text: 
-`God hath not promised
-Skies always blue,
-Flower-strewn pathways
-All our lives through;
 
-God hath not promised
-Sun without rain,
-Joy without sorrow,
-Peace without pain.
+export default function ProverbSelect({ value, onChange, productType, disabled }) {
+  const [proverbs, setProverbs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-But God hath promised
-Strength for the day,
-Rest for the labor
-Light for the way.
+  useEffect(() => {
+    const username = 'rapi';
+    const password = 'L3IE 1UMG 8OuA wu6t p2Vf r80i';
+    const encoded = btoa(`${username}:${password}`);
 
-Grace for the trials,
-Help from above,
-Unfailing sympathy
-Undying love…`,
-        textAlignment: 'left'
+    fetch('http://localhost:8010/proxy/website_f71474e4/wp-json/mp/v1/proverbs', {
+      headers: {
+        'Authorization': `Basic ${encoded}`,
+        'Content-Type': 'application/json',
       },
-      bookmark: { 
-        text: 
-`God hath not promised
-Skies always blue,
-Flower-strewn pathways
-All our lives through;
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch proverbs');
+        return res.json();
+      })
+      .then(data => {
+        const formatted = data
+          .filter(p => p.name && p.prayer)
+          .map(p => ({
+            key: p.name.replace(/\s+/g, '-').toLowerCase(),
+            title: p.name,
+            prayerCard:    { text: p.prayer, textAlignment: p.textAlignment ? p.textAlignment : '' },
+            bookmark:      { text: p.prayer, textAlignment: p.textAlignment ? p.textAlignment : '' },
+            memorialHeart: { text: p.prayer, textAlignment: p.textAlignment ? p.textAlignment : '' },
+          }));
+        setProverbs(formatted);
+      })
+      .catch(err => {
+        console.error('Error fetching proverbs:', err);
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
-God hath not promised
-Sun without rain,
-Joy without sorrow,
-Peace without pain.
+  const getVersion = (p) => {
+    if (productType === PRODUCT_TYPES.MEMORIAL_HEART) return p.memorialHeart;
+    if (productType === PRODUCT_TYPES.BOOKMARK)      return p.bookmark;
+    return p.prayerCard;
+  };
 
-But God hath promised
-Strength for the day,
-Rest for the labor
-Light for the way.
+  const selectValue =
+    typeof value === 'object' && value !== null
+      ? JSON.stringify(value)
+      : value || '';
 
-Grace for the trials,
-Help from above,
-Unfailing sympathy
-Undying love…`,
-        textAlignment: 'left'
-      },
-      memorialHeart: { 
-        text: 
-`God hath not promised
-Skies always blue,
-Flower-strewn pathways
-All our lives through;
-God hath not promised
-Sun without rain,
-Joy without sorrow,
-Peace without pain.
-But God hath promised
-Strength for the day,
-Rest for the labor
-Light for the way.
-Grace for the trials,
-Help from above,
-Unfailing sympathy
-Undying love…`,
-        textAlignment: ''
-      },
-    },
-    {
-      key: 'reflections',
-      title: 'Reflections',
-      prayerCard: { 
-        text: 
-`Early in the morning
-awakening the sun
-Again as dusk is moving in
-with night skies soon to come
-Familiar place is sought to touch
-the soul with solitude
-Reflecting on Life’s seasons
-with Heartfelt gratitude
-In midst of waters peaceful
-memories fill the mind
-Of laughter, love, and family
-forever ties the bind
-Through sorrow sometimes visits
-blessings come to rest
-Each time that we remember
-the times that we loved best`,
-      },
-      bookmark: { 
-        text: 
-`Early in the morning
-awakening the sun
-Again as dusk is moving in
-with night skies soon to come
-Familiar place is sought to touch
-the soul with solitude
-Reflecting on Life’s seasons
-with Heartfelt gratitude
-In midst of waters peaceful
-memories fill the mind
-Of laughter, love, and family
-forever ties the bind
-Through sorrow sometimes visits
-blessings come to rest
-Each time that we remember
-the times that we loved best`,
-      },
-      memorialHeart: { 
-        text: `Early in the morning
-  awakening the sun
-  Again as dusk is moving in
-  with night skies soon to come
-  Familiar place is sought to touch
-  the soul with solitude
-  Reflecting on Life’s seasons
-  with Heartfelt gratitude
-  In midst of waters peaceful
-  memories fill the mind
-  Of laughter, love, and family
-  forever ties the bind
-  Through sorrow sometimes visits
-  blessings come to rest
-  Each time that we remember
-  the times that we loved best`,
-      },
-    },
-    {
-      key: 'irishBlessing',
-      title: 'Irish Blessing',
-      prayerCard: { 
-        text: 
-`May the road rise 
-to meet you.
-May the wind be always 
-at your back.
-May the sun shine 
-warm upon your face,
-and the rains fall soft 
-upon your fields.
-Until we meet again,
-may God hold you 
-in the palm of His hand.`,
-      },
-      bookmark: { 
-        text: 
-`May the road rise 
-to meet you.
-May the wind be always 
-at your back.
-May the sun shine 
-warm upon your face,
-and the rains fall soft 
-upon your fields.
-Until we meet again,
-may God hold you 
-in the palm of His hand.`,
-      },
-      memorialHeart: { 
-        text: `May the road rise to meet you.
-  May the wind be always at your back.
-  May the sun shine warm upon your face,
-  and the rains fall soft upon your fields.
-  Until we meet again,
-  may God hold you in the palm of His hand.`,
-      },
-    },
-    {
-      key: 'twentyThirdPsalm',
-      title: 'Twenty-Third Psalm',
-      prayerCard: { 
-        text: 
-`The Lord is my shepherd;
-I shall not want.
-He maketh me to lie down
-in green pastures:
-He leadeth me beside the still waters.
-He restoreth my soul:
-He leadeth me in the paths
-of righteousness for His name’s sake.
-Yea, though I walk through the valley
-of the shadow of death,
-I will fear no evil:
-for thou art with me.
-Thou preparest a table before me
-in the presence of mine enemies:
-thou anointest my head with oil;
-my cup runneth over.
-Surely goodness and mercy
-shall follow me 
-all the days of my life:
-and I will dwell in the house 
-of the Lord forever.`,
-      },
-      bookmark: { 
-        text: 
-`The Lord is my shepherd;
-I shall not want.
-He maketh me to lie down
-in green pastures:
-He leadeth me beside the still waters.
-He restoreth my soul:
-He leadeth me in the paths
-of righteousness for His name’s sake.
-Yea, though I walk through the valley
-of the shadow of death,
-I will fear no evil:
-for thou art with me.
-Thou preparest a table before me
-in the presence of mine enemies:
-thou anointest my head with oil;
-my cup runneth over.
-Surely goodness and mercy
-shall follow me 
-all the days of my life:
-and I will dwell in the house 
-of the Lord forever.`,
-      },
-      memorialHeart: { 
-        text: `The Lord is my shepherd;
-  I shall not want.
-  He maketh me to lie down
-  in green pastures:
-  He leadeth me beside the still waters;
-  He restoreth my soul:
-  He leadeth me in the paths
-  of righteousness for His name’s sake.
-  Yea, though I walk through the valley
-  of the shadow of death,
-  I will fear no evil;
-  for thou art with me.
-  Thou preparest a table before me
-  in the presence of mine enemies:
-  thou anointest my head with oil;
-  my cup runneth over.
-  Surely goodness and mercy
-  shall follow me all the days of my life,
-  and I will dwell in the house of the Lord forever.`,
-      },
-    },
-    {
-      key: 'lordsPrayer',
-      title: 'The Lord’s Prayer',
-      prayerCard: { 
-        text: 
-`Our Father who art in Heaven,
-Hallowed be Thy name;
-Thy kingdom will come,
-Thy will be done
-On earth as it is in Heaven.
-Give us this day our daily bread;
-And forgive us our trespasses
-As we forgive those who 
-trespass against us;
-And lead us not into temptation,
-But deliver us from evil.`,
-      },
-      bookmark: { 
-        text: 
-`Our Father who art in Heaven,
-Hallowed be Thy name;
-Thy kingdom will come,
-Thy will be done
-On earth as it is in Heaven.
-Give us this day our daily bread;
-And forgive us our trespasses
-As we forgive those who 
-trespass against us;
-And lead us not into temptation,
-But deliver us from evil.`,
-      },
-      memorialHeart: { 
-        text: `Our Father who art in Heaven,
-  Hallowed be Thy name;
-  Thy kingdom will come,
-  Thy will be done
-  On earth as it is in Heaven.
-  Give us this day our daily bread;
-  And forgive us our trespasses
-  As we forgive those who trespass against us;
-  And lead us not into temptation,
-  But deliver us from evil.`,
-      },
-    },
-    {
-      key: 'afterglow',
-      title: 'Afterglow',
-      prayerCard: { 
-        text: 
-`I’d like the memory of me,
-to be a happy one
-I’d like to leave an afterglow,
-of smiles when life is done
-I’d like to leave an echo whispering,
-softly down the ways
-Of happy times and laughing times,
-and bright and sunny days
-I’d like the tears of those who grieve,
-to dry before the sun
-Of happy memories that I leave,
-when life is done.`,
-      },
-      bookmark: { 
-        text: 
-`I’d like the memory of me,
-to be a happy one
-I’d like to leave an afterglow,
-of smiles when life is done
-I’d like to leave an echo whispering,
-softly down the ways
-Of happy times and laughing times,
-and bright and sunny days
-I’d like the tears of those who grieve,
-to dry before the sun
-Of happy memories that I leave,
-when life is done.`,
-      },
-      memorialHeart: { 
-        text: `I’d like the memory of me,
-  to be a happy one;
-  I’d like to leave an afterglow,
-  of smiles when life is done;
-  I’d like to leave an echo whispering,
-  softly down the ways
-  of happy times and laughing times,
-  and bright and sunny days;
-  I’d like the tears of those who grieve
-  to dry before the sun
-  of happy memories that I leave,
-  when life is done.`,
-      },
-    },
-    {
-      key: 'aNoteToYou',
-      title: 'A Note to You',
-      prayerCard: { 
-        text: 
-`Life is like a vapor
-On the side where you remain
-Forever is where time goes on
-Filled with joyful, timeless days
-I am quite alive, you see
-And waiting here for you
-So, please live your life 
-with joy and love
-Until you are timeless too
-We will laugh again together
-When life will have no end
-No, this is not goodbye at all
-It is, I will see you then.`,
-      },
-      bookmark: { 
-        text: 
-`Life is like a vapor
-On the side where you remain
-Forever is where time goes on
-Filled with joyful, timeless days
-I am quite alive, you see
-And waiting here for you
-So, please live your life 
-with joy and love
-Until you are timeless too
-We will laugh again together
-When life will have no end
-No, this is not goodbye at all
-It is, I will see you then.`,
-      },
-      memorialHeart: { 
-        text: `Life is like a vapor
-  On the side where you remain.
-  Forever is where time goes on,
-  Filled with joyful, timeless days.
-  I am quite alive, you see,
-  And waiting here for you;
-  So, please live your life with joy and love,
-  Until you are timeless too.
-  We will laugh again together
-  When life will have no end.
-  No, this is not goodbye at all;
-  It is, I will see you then.`,
-      },
-    },
-    {
-      key: 'foreverTouch',
-      title: 'Forever Touch',
-      prayerCard: { 
-        text: 
-`Each life leaves a unique legacy
-embossed upon our hearts
-A touch that lingers on and on
-when time has come to part
-Memories like fingerprints
-leave a special place
-knitted to the people
-that time cannot erase
-They live forever in our hearts
-as time continues on
-in memories of days gone by
-we still shared a special bond
-That bond cannot be broken
-even death can’t separate
-a touch that lives forever
-time cannot erase`,
-      },
-      bookmark: { 
-        text: 
-`Each life leaves a unique legacy
-embossed upon our hearts
-A touch that lingers on and on
-when time has come to part
-Memories like fingerprints
-leave a special place
-knitted to the people
-that time cannot erase
-They live forever in our hearts
-as time continues on
-in memories of days gone by
-we still shared a special bond
-That bond cannot be broken
-even death can’t separate
-a touch that lives forever
-time cannot erase.`,
-      },
-      memorialHeart: { 
-        text: `Each life leaves a unique legacy
-  embossed upon our hearts.
-  A touch that lingers on and on,
-  when time has come to part.
-  Memories like fingerprints
-  leave a special place,
-  knitted to the people
-  that time cannot erase.
-  They live forever in our hearts
-  as time continues on—
-  in memories of days gone by
-  we still shared a special bond.
-  That bond cannot be broken,
-  even death can’t separate;
-  a touch that lives forever,
-  time cannot erase.`,
-      },
-    },
-    {
-      key: 'footprintsInTheSand',
-      title: 'Footprints in the Sand',
-      prayerCard: { 
-        text: 
-`One night I dreamed I was
-walking along the beach with the 
-Lord. Scenes from my life flashed 
-across the sky. In each, I noticed 
-footprints in the sand. Sometimes 
-there were two sets of footprints; 
-other times there was only one.
+  const selectControl = (
+    <FormControl fullWidth margin="normal" disabled={disabled || loading}>
+      <InputLabel id="proverb-select-label">Select Proverb</InputLabel>
+      <Select
+        labelId="proverb-select-label"
+        label="Select Proverb"
+        value={selectValue}
+        onChange={(e) => {
+          try {
+            const parsed = JSON.parse(e.target.value);
+            onChange({ target: { value: parsed } });
+          } catch {
+            onChange({ target: { value: e.target.value } });
+          }
+        }}
+      >
+        {proverbs.map((p) => {
+          const version = getVersion(p);
+          return (
+            <MenuItem key={p.key} value={JSON.stringify(version)}>
+              {p.title}
+            </MenuItem>
+          );
+        })}
+        <MenuItem value="CUSTOM">Custom Proverb</MenuItem>
+      </Select>
+    </FormControl>
+  );
 
-During the low periods of my 
-life I could see only one set of 
-footprints, so I said, "You promised 
-me, Lord, that you would walk 
-with me always. Why, when I have 
-needed you most, have you not 
-been there for me?"
-
-The Lord replied, "The times when 
-you have seen only one set of 
-footprints, my child, is when 
-I carried you."`,
-      },
-      bookmark: { 
-        text: 
-`One night I dreamed I was
-walking along the beach with the 
-Lord. Scenes from my life flashed 
-across the sky. In each, I noticed 
-footprints in the sand. Sometimes 
-there were two sets of footprints; 
-other times there was only one.
-
-During the low periods of my 
-life I could see only one set of 
-footprints, so I said, "You promised 
-me, Lord, that you would walk 
-with me always. Why, when I have 
-needed you most, have you not 
-been there for me?"
-
-The Lord replied, "The times when 
-you have seen only one set of 
-footprints, my child, is when 
-I carried you."`,
-      },
-      memorialHeart: { 
-        text: `One night I dreamed I was
-  walking along the beach with the Lord.
-  Scenes from my life flashed across the sky.
-  In each, I noticed footprints in the sand.
-  Sometimes there were two sets of footprints; other times there was only one.
-  
-  During the low periods of my life I could see only one set of footprints,
-  so I said, "You promised me, Lord, that you would walk with me always.
-  Why, when I have needed you most, have you not been there for me?"
-  
-  The Lord replied, "The times when you have seen only one set of footprints,
-  my child, is when I carried you."`,
-      },
-    },
-  ];
-
-  function ProverbSelect({ value, onChange, productType, disabled }) {
-    const getVersion = (p) => {
-      if (productType === PRODUCT_TYPES.MEMORIAL_HEART) return p.memorialHeart;
-      if (productType === PRODUCT_TYPES.BOOKMARK) return p.bookmark;
-      return p.prayerCard;
-    };
-  
-    const selectValue =
-      typeof value === 'object' && value !== null ? JSON.stringify(value) : value || '';
-  
-    const selectControl = (
-      <FormControl fullWidth margin="normal" disabled={disabled}>
-        <InputLabel id="proverb-select-label">Select Proverb</InputLabel>
-        <Select
-          labelId="proverb-select-label"
-          label="Select Proverb"
-          value={selectValue}
-          onChange={(e) => {
-            try {
-              const parsed = JSON.parse(e.target.value);
-              onChange({ target: { value: parsed } });
-            } catch {
-              onChange({ target: { value: e.target.value } });
-            }
-          }}
-        >
-          {proverbs.map((p) => {
-            const version = getVersion(p);
-            return (
-              <MenuItem key={p.key} value={JSON.stringify(version)}>
-                {p.title}
-              </MenuItem>
-            );
-          })}
-          <MenuItem value="CUSTOM">Custom Proverb</MenuItem>
-        </Select>
-      </FormControl>
-    );
-  
-    if (productType === PRODUCT_TYPES.MEMORIAL_HEART) {
-      return (
-        <>
-        <Tooltip
-          title="This product does not support this feature."
-          disableFocusListener
-        >
+  if (productType === PRODUCT_TYPES.MEMORIAL_HEART) {
+    return (
+      <>
+        <Tooltip title="This product does not support this feature." disableFocusListener>
           <span>{selectControl}</span>
         </Tooltip>
-        <Typography sx={{display:{xs: 'block', md: 'none'}, fontStyle: 'italic', color: '#666665'}}>This product does not support this feature.</Typography>
-        </>
-      );
-    }
-    return selectControl;
+        <Typography
+          sx={{
+            display: { xs: 'block', md: 'none' },
+            fontStyle: 'italic',
+            color: '#666665',
+          }}
+        >
+          This product does not support this feature.
+        </Typography>
+      </>
+    );
   }
-  
-  export default ProverbSelect;
+
+  return selectControl;
+}
