@@ -257,7 +257,7 @@ export default function ProductEditor() {
 useEffect(() => {
   setProductsLoading(true);
 
-  fetch('http://localhost:8010/proxy/website_f71474e4/wp-json/mp/v1/products', {
+  fetch('https://ttr.laz.mybluehost.me/website_f71474e4/wp-json/mp/v1/products/', {
     headers: {
       'Authorization': `Basic ${encoded}`,
       'Content-Type': 'application/json',
