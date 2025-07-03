@@ -15,11 +15,11 @@ export default function ProverbSelect({ value, onChange, productType, disabled }
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const username = 'rapi';
-    const password = 'L3IE 1UMG 8OuA wu6t p2Vf r80i';
+    const username = import.meta.env.VITE_WP_USERNAME;
+    const password = import.meta.env.VITE_WP_PASSWORD;
     const encoded = btoa(`${username}:${password}`);
 
-    fetch('http://localhost:8010/proxy/website_f71474e4/wp-json/mp/v1/proverbs', {
+    fetch('https://ttr.laz.mybluehost.me/website_f71474e4/wp-json/mp/v1/proverbs', {
       headers: {
         'Authorization': `Basic ${encoded}`,
         'Content-Type': 'application/json',

@@ -39,8 +39,8 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import CircularProgress from '@mui/material/CircularProgress';
 import { BeatLoader } from 'react-spinners';
 
-const username = 'rapi';
-const password = 'L3IE 1UMG 8OuA wu6t p2Vf r80i';
+const username = import.meta.env.VITE_WP_USERNAME;
+const password = import.meta.env.VITE_WP_PASSWORD;
 const encoded = btoa(`${username}:${password}`);
 
 const mockAPI = [
@@ -257,7 +257,7 @@ export default function ProductEditor() {
 useEffect(() => {
   setProductsLoading(true);
 
-  fetch('https://ttr.laz.mybluehost.me/website_f71474e4/wp-json/mp/v1/products/', {
+  fetch('https://ttr.laz.mybluehost.me/website_f71474e4/wp-json/mp/v1/products', {
     headers: {
       'Authorization': `Basic ${encoded}`,
       'Content-Type': 'application/json',
