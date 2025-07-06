@@ -3,12 +3,14 @@ import { Grid, Card, CardActionArea, Box, Typography } from '@mui/material';
 import FadeInBox from '../FadeInBox';
 import { BeatLoader } from 'react-spinners';
 
-const TEMPLATE_WIDTH = 750;
+const TEMPLATE_WIDTH = 675;
 const TEMPLATE_HEIGHT = 1200;
 
-function DesignCard({ design, onSelect, selectedDesignId, delay }) {
+function DesignCard({ design, onSelect, selectedDesignId, delay, productConfig }) {
   // const [imgLoaded, setImgLoaded] = useState(false);
   const isSelected = selectedDesignId === design.id;
+  const templateWidth = productConfig.widthPx;
+  const templateHeight = productConfig.heightPx;
 
   return (
     <Grid item xs={12} sm={12} md={6} lg={6}>
@@ -17,8 +19,7 @@ function DesignCard({ design, onSelect, selectedDesignId, delay }) {
           variant={isSelected ? 'elevation' : 'outlined'}
           sx={{
             position: 'relative',
-            border: '2px solid grey',
-            borderColor: isSelected ? 'gray' : 'transparent',
+            border: isSelected ? '2px solid grey' : '1px solid grey',
             borderRadius: 0,
             transition: 'box-shadow 0.5s ease, border-color 0.3s ease',
             '&:hover': { boxShadow: '0 0 5px 2px rgba(99, 99, 99, 0.4)' },
@@ -40,7 +41,7 @@ function DesignCard({ design, onSelect, selectedDesignId, delay }) {
                 <BeatLoader />
               </Box>
             )} */}
-            <Box sx={{ position: 'relative', width: '100%', aspectRatio: '5/8' }}>
+            <Box sx={{ position: 'relative', width: '100%', aspectRatio: templateWidth / templateHeight }}>
                     <Box
                       component="img"
                       src={design.frontImage}
@@ -55,10 +56,10 @@ function DesignCard({ design, onSelect, selectedDesignId, delay }) {
                       }}
                     />
                     {design.front?.overlays?.map((ov, idx) => {
-                      const leftPct = (ov.x / TEMPLATE_WIDTH) * 100;
-                      const topPct = (ov.y / TEMPLATE_HEIGHT) * 100;
-                      const widthPct = (ov.width / TEMPLATE_WIDTH) * 100;
-                      const heightPct = (ov.height / TEMPLATE_HEIGHT) * 100;
+                      const leftPct = (ov.x / templateWidth) * 100;
+                      const topPct = (ov.y / templateHeight) * 100;
+                      const widthPct = (ov.width / templateWidth) * 100;
+                      const heightPct = (ov.height / templateHeight) * 100;
                       return (
                         <Box
                           key={idx}
@@ -86,7 +87,9 @@ function DesignCard({ design, onSelect, selectedDesignId, delay }) {
   );
 }
 
-export default function DesignSelector({ designs, onSelect, selectedDesignId, loading }) {
+export default function DesignSelector({ designs, onSelect, selectedDesignId, loading, productConfig }) {
+
+  
   if (loading) {
     return (
       <Box
@@ -112,12 +115,13 @@ export default function DesignSelector({ designs, onSelect, selectedDesignId, lo
   }
 
   return (
-    <Box height="100%">
+    <Box sx={{pb: 2}}>
     <Grid container spacing={2}>
       {designs.map((design, index) => (
         <DesignCard
           key={design.id}
           design={design}
+          productConfig={productConfig}
           onSelect={onSelect}
           selectedDesignId={selectedDesignId}
           delay={index * 0.06}

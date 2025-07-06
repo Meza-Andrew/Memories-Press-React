@@ -241,6 +241,7 @@ export default function ProductEditor() {
   const [fetchedProducts, setFetchedProducts] = useState([]);
   const [productsLoading, setProductsLoading] = useState(true);
   const [productsError, setProductsError] = useState(null);
+  const proxyURL = false ? 'http://localhost:8010/proxy/website_f71474e4/wp-json/mp/v1/products' : 'https://ttr.laz.mybluehost.me/website_f71474e4/wp-json/mp/v1/products';
 
 //     useEffect(() => {
 //   setProductsLoading(true);
@@ -257,7 +258,7 @@ export default function ProductEditor() {
 useEffect(() => {
   setProductsLoading(true);
 
-  fetch('https://ttr.laz.mybluehost.me/website_f71474e4/wp-json/mp/v1/products', {
+  fetch(proxyURL, {
     headers: {
       'Authorization': `Basic ${encoded}`,
       'Content-Type': 'application/json',
@@ -679,11 +680,15 @@ console.log('fetchedProducts:', fetchedProducts, 'isArray?', Array.isArray(fetch
   };
 
   const productConfig = templatesConfig[productRoute];
+   const currentTemplate = productConfig.templates.find(
+    (t) => t.id === selectedDesign?.templateId
+  );
 
   const designPickerContent = (
-    <Box sx={{ p: 2, height: '100%' }}>
+    <Box sx={{ p: 2, height: '100%', }}>
       <DesignSelector
         designs={productDesigns}
+        productConfig={productConfig}
         onSelect={handleDesignSelect}
         selectedDesignId={selectedDesign?.id}
         loading={productsLoading}
@@ -728,6 +733,7 @@ console.log('fetchedProducts:', fetchedProducts, 'isArray?', Array.isArray(fetch
                 variant="contained"
                 component="label"
                 fullWidth
+                disabled={currentTemplate?.front.elements.photo ? false : true}
                 startIcon={
                   <FileUploadIcon
                     sx={{
@@ -746,26 +752,35 @@ console.log('fetchedProducts:', fetchedProducts, 'isArray?', Array.isArray(fetch
                   onChange={handlePhotoUpload}
                 />
               </Button>
-              <Button
-                variant="outlined"
-                onClick={() => {
-                  if (originalImage) {
-                    setUploadedImage(originalImage);
-                    setShowCropModal(true);
-                  }
-                }}
-                disabled={!userData.photo}
-              >
-                Edit
-              </Button>
+              <Box sx={{ display: currentTemplate?.front.elements.photo ? 'block' : 'none'}}>
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      if (originalImage) {
+                        setUploadedImage(originalImage);
+                        setShowCropModal(true);
+                      }
+                    }}
+                    disabled={!userData.photo}
+                  >
+                    Edit
+                  </Button>
+                </Box>
             </Box>
             {userData.photo && (
-              <Typography
+              currentTemplate?.front.elements.photo ? 
+              (<Typography
                 variant="body2"
                 sx={{ mt: 1, fontStyle: 'italic', color: 'gray' }}
               >
                 Photo selected. Re-upload to replace.
-              </Typography>
+              </Typography>) :
+              (<Typography
+                variant="body2"
+                sx={{ mt: 1, fontStyle: 'italic', color: 'gray' }}
+              >
+                This design does not support photo uploads.
+              </Typography>)
             )}
           </Box>
           <Box sx={{ mb: 0, display: 'flex', flexDirection: 'column', gap: 4 }}>
@@ -906,6 +921,7 @@ console.log('fetchedProducts:', fetchedProducts, 'isArray?', Array.isArray(fetch
                   variant="contained"
                   component="label"
                   fullWidth
+                  disabled={currentTemplate?.front.elements.photo ? false : true}
                   startIcon={
                     <FileUploadIcon
                       sx={{ fontSize: 'inherit', position: 'relative', top: '-2px' }}
@@ -920,18 +936,20 @@ console.log('fetchedProducts:', fetchedProducts, 'isArray?', Array.isArray(fetch
                     onChange={handlePhotoUpload}
                   />
                 </Button>
-                <Button
-                  variant="outlined"
-                  onClick={() => {
-                    if (originalImage) {
-                      setUploadedImage(originalImage);
-                      setShowCropModal(true);
-                    }
-                  }}
-                  disabled={!userData.photo}
-                >
-                  Edit
-                </Button>
+                <Box sx={{ display: currentTemplate?.front.elements.photo ? 'block' : 'none'}}>
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      if (originalImage) {
+                        setUploadedImage(originalImage);
+                        setShowCropModal(true);
+                      }
+                    }}
+                    disabled={!userData.photo}
+                  >
+                    Edit
+                  </Button>
+                </Box>
               </Box>
               {userData.photo && (
                 <Typography

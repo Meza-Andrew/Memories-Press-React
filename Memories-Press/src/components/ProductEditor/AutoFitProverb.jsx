@@ -79,7 +79,7 @@ export default function AutoFitProverb({
             wordBreak: 'keep-all',
             lineHeight,
             width: '100%',
-            height: '100%',
+            height: 'auto',
             overflow: 'hidden',
           }}
         >
