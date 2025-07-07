@@ -160,6 +160,7 @@ export function renderTemplateElements({
         fontColor = fontSource.color || '#000';
       }   
       if (key === 'proverb') {
+        const isCustomProverb = displayUserData.proverb === 'CUSTOM';
         return (
           <AutoFitProverb
             key={key}
@@ -173,6 +174,7 @@ export function renderTemplateElements({
             fontStyle={fontStyle}
             fontColor={fontColor}
             textAlign={fontAlignment}
+            isCustomPrayer={isCustomProverb}
           />
         );
       }

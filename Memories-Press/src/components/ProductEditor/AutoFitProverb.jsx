@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
-import FadeInBox from '../FadeInBox';
 
 export default function AutoFitProverb({
   elem,
@@ -11,54 +10,110 @@ export default function AutoFitProverb({
   fontWeight,
   fontStyle,
   fontColor,
-  textAlign = 'center'
+  textAlign = 'center',
+  isCustomPrayer = false,
 }) {
   const containerRef = useRef(null);
   const textRef = useRef(null);
   const [fontSize, setFontSize] = useState(32);
-  const [lineHeight, setLineHeight] = useState(1.2);
+  const [lineHeight, setLineHeight] = useState(1);
 
   const maxFontSize = 60;
   const minFontSize = 20;
-  // const customProverbOffset = productType === 'prayer_card' ? 0 : 900;
 
   useEffect(() => {
     const resizeText = () => {
       if (!containerRef.current || !textRef.current) return;
-
       const container = containerRef.current;
-      const lines = (text.match(/\n/g) || []).length + 1;
-      const containerHeight = container.clientHeight;
+      const textEl = textRef.current;
+      const isBookmark = !isCustomPrayer && productType === 'BOOKMARK';
+      const presetBump = isBookmark ? .75 : 1;
 
-      let currentSize = maxFontSize;
-      textRef.current.style.fontSize = `${currentSize}px`;
-
-      while (
-        (textRef.current.scrollWidth > container.clientWidth ||
-         currentSize * lines > containerHeight) &&
-        currentSize > minFontSize
-      ) {
-        currentSize -= 1;
-        textRef.current.style.fontSize = `${currentSize}px`;
+      if (isCustomPrayer) {
+        let currentSize = maxFontSize;
+        textEl.style.fontSize = `${currentSize}px`;
+        textEl.style.lineHeight = '1';
+        while (
+          (textEl.scrollWidth > container.clientWidth ||
+           textEl.scrollHeight > container.clientHeight) &&
+          currentSize > minFontSize
+        ) {
+          currentSize -= 1;
+          textEl.style.fontSize = `${currentSize}px`;
+          textEl.style.lineHeight = '1';
+        }
+        setFontSize(currentSize);
+        const lines = textEl.scrollHeight / currentSize;
+        const idealLH = container.clientHeight / (currentSize * lines);
+        const newLH = Math.min(idealLH, 2);
+        setLineHeight(newLH);
+        textEl.style.lineHeight = newLH.toString();
+      } else {
+        const lines = (text.match(/\n/g) || []).length + 1;
+        let currentSize = maxFontSize;
+        textEl.style.fontSize = `${currentSize}px`;
+        textEl.style.lineHeight = '1';
+        while (
+          (textEl.scrollWidth > container.clientWidth ||
+           currentSize * lines > container.clientHeight) &&
+          currentSize > minFontSize
+        ) {
+          currentSize -= 1;
+          textEl.style.fontSize = `${currentSize}px`;
+        }
+        setFontSize(currentSize);
+        const baseLH = container.clientHeight / (currentSize * lines);
+        const bumpedLH = baseLH * presetBump;
+        setLineHeight(bumpedLH);
+        textEl.style.lineHeight = bumpedLH.toString();
       }
-
-      setFontSize(currentSize);
-
-      const idealLineHeight = containerHeight / (currentSize * lines);
-      setLineHeight(Math.min(idealLineHeight, 2));
     };
-
     resizeText();
-  }, [text, fontFamily, fontWeight, fontStyle, productType]);
+  }, [text, fontFamily, fontWeight, fontStyle, productType, isCustomPrayer]);
+
+  const commonTypography = {
+    ref: textRef,
+    sx: {
+      fontSize: `${fontSize}px`, 
+      fontFamily,
+      fontWeight,
+      fontStyle,
+      color: fontColor,
+      textAlign,
+      overflow: 'hidden',
+      width: '100%',
+    },
+  };
+
+  const presetProps = {
+    ...commonTypography,
+    sx: {
+      ...commonTypography.sx,
+      whiteSpace: 'pre',
+      wordBreak: 'keep-all',
+      lineHeight,
+    },
+  };
+
+  const customProps = {
+    ...commonTypography,
+    sx: {
+      ...commonTypography.sx,
+      whiteSpace: 'pre-wrap',
+      overflowWrap: 'break-word',
+      wordBreak: 'break-word',
+      lineHeight,
+    },
+  };
 
   return (
     <Box
       ref={containerRef}
       sx={{
         position: 'absolute',
-        top: `${(elem.y + offset.heightOffset)}px`,
-        left: `${(elem.x + offset.widthOffset)}px`,
-        width: `${elem.width}px`,
+        top: `${elem.y + offset.heightOffset}px`, 
+        left: `${elem.x + offset.widthOffset}px`, 
+        width: `${elem.width}px`, 
         height: `${elem.height}px`,
         display: 'flex',
         alignItems: 'center',
@@ -66,25 +121,11 @@ export default function AutoFitProverb({
         overflow: 'hidden',
       }}
     >
-        <Typography
-          ref={textRef}
-          sx={{
-            fontSize: `${fontSize}px`,
-            fontFamily,
-            fontWeight,
-            fontStyle,
-            color: fontColor,
-            textAlign,
-            whiteSpace: 'pre',
-            wordBreak: 'keep-all',
-            lineHeight,
-            width: '100%',
-            height: 'auto',
-            overflow: 'hidden',
-          }}
-        >
-          {text}
-        </Typography>
+      {isCustomPrayer ? (
+        <Typography {...customProps}>{text}</Typography>
+      ) : (
+        <Typography {...presetProps}>{text}</Typography>
+      )}
     </Box>
   );
 }
