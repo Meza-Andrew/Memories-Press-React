@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { Box } from '@mui/material';
 import { BeatLoader } from 'react-spinners';
 import { renderTemplateElements } from './RenderTemplateElements';
+import toProxiedUrl from './proxyURL';
 
 const SingleSidePreview = React.forwardRef(({
   productConfig,
@@ -12,6 +13,10 @@ const SingleSidePreview = React.forwardRef(({
   loading
 }, ref) => {
   if (!design || !productConfig) return null;
+  
+  const outerRef = useRef(null);
+  const [scaleFactor, setScaleFactor] = useState(1);
+  const [isMeasured, setIsMeasured] = useState(false);
 
   const currentTemplate = productConfig.templates.find(
     (t) => t.id === design.templateId
@@ -28,10 +33,6 @@ const SingleSidePreview = React.forwardRef(({
   if (!sideConfig) {
     return <Box>No {side} side found in template</Box>;
   }
-
-  const outerRef = useRef(null);
-  const [scaleFactor, setScaleFactor] = useState(1);
-  const [isMeasured, setIsMeasured] = useState(false);
 
   const measureAndComputeScale = useCallback(() => {
     if (!outerRef.current) return;
@@ -52,7 +53,7 @@ const SingleSidePreview = React.forwardRef(({
     };
   }, [measureAndComputeScale]);
 
-  const bgUrl = side === 'back' ? design.backImage : design.frontImage;
+  const bgUrl = toProxiedUrl(side === 'back' ? design.backImage : design.frontImage);
 
   const renderOverlays = (overlays) => {
     if (!overlays || !overlays.length) return null;
@@ -60,7 +61,7 @@ const SingleSidePreview = React.forwardRef(({
       <Box
         key={`overlay-${index}`}
         component="img"
-        src={ov.src}
+        src={toProxiedUrl(ov.src)}
         alt={`overlay-${index}`}
         sx={{
           position: 'absolute',

@@ -9,7 +9,6 @@ import {
 } from '@mui/material';
 import { PRODUCT_TYPES } from './templatesConfig';
 
-
 export default function ProverbSelect({ value, onChange, productType, disabled }) {
   const [proverbs, setProverbs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,7 +17,7 @@ export default function ProverbSelect({ value, onChange, productType, disabled }
     const username = import.meta.env.VITE_WP_USERNAME;
     const password = import.meta.env.VITE_WP_PASSWORD;
     const encoded = btoa(`${username}:${password}`);
-    const proxyURL = false ? 'http://localhost:8010/proxy/website_f71474e4/wp-json/mp/v1/proverbs' : 'https://ttr.laz.mybluehost.me/website_f71474e4/wp-json/mp/v1/proverbs';
+    const proxyURL = import.meta.env.DEV ? 'http://localhost:8010/proxy/website_f71474e4/wp-json/mp/v1/proverbs' : 'https://ttr.laz.mybluehost.me/website_f71474e4/wp-json/mp/v1/proverbs';
 
     fetch(proxyURL, {
       headers: {
@@ -106,6 +105,5 @@ export default function ProverbSelect({ value, onChange, productType, disabled }
       </>
     );
   }
-
   return selectControl;
 }

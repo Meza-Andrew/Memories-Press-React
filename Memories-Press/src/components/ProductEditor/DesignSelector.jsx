@@ -3,11 +3,8 @@ import { Grid, Card, CardActionArea, Box, Typography } from '@mui/material';
 import FadeInBox from '../FadeInBox';
 import { BeatLoader } from 'react-spinners';
 
-const TEMPLATE_WIDTH = 675;
-const TEMPLATE_HEIGHT = 1200;
 
 function DesignCard({ design, onSelect, selectedDesignId, delay, productConfig }) {
-  // const [imgLoaded, setImgLoaded] = useState(false);
   const isSelected = selectedDesignId === design.id;
   const templateWidth = productConfig.widthPx;
   const templateHeight = productConfig.heightPx;
@@ -26,21 +23,6 @@ function DesignCard({ design, onSelect, selectedDesignId, delay, productConfig }
           }}
         >
           <CardActionArea onClick={() => onSelect(design)}>
-            {/* {imgLoaded && (
-              <Box
-                sx={{
-                  position: 'absolute',
-                  inset: 0,
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  backgroundColor: 'rgba(255,255,255,0.7)',
-                  zIndex: 1,
-                }}
-              >
-                <BeatLoader />
-              </Box>
-            )} */}
             <Box sx={{ position: 'relative', width: '100%', aspectRatio: templateWidth / templateHeight }}>
                     <Box
                       component="img"
@@ -88,7 +70,6 @@ function DesignCard({ design, onSelect, selectedDesignId, delay, productConfig }
 }
 
 export default function DesignSelector({ designs, onSelect, selectedDesignId, loading, productConfig }) {
-
   
   if (loading) {
     return (

@@ -57,7 +57,7 @@ export function renderTemplateElements({
             sx={{
               width: '100%',
               height: '100%',
-              backgroundImage: `url(${displayUserData.photo})`,
+              backgroundImage: `url(${(displayUserData.photo)})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
@@ -134,19 +134,22 @@ export function renderTemplateElements({
         const estimatedWidth = computedFontSize * 0.5 * textValue.length;
         const textScale = estimatedWidth > allowedWidth ? allowedWidth / estimatedWidth : 1;
         transformStyle = `scale(${textScale})`;
-      } else if (key === 'proverb') {
+      } 
+      else if (key === 'proverb') {
         const fontFamilyWeightStyle = userData.selectedFontBack === 'font1' ? design.prayerFont : design.prayerFontAlt;
         const fontSizeNum = overrideFontSize !== undefined ? overrideFontSize : (parseInt(fontFamilyWeightStyle.size, 10) || 16);
         const fontSizeNumAlt = overrideFontSizeAlt !== undefined ? overrideFontSizeAlt : (parseInt(fontFamilyWeightStyle.size, 10) || 16);
         const fontSizeNumTrue = userData.selectedFontBack === 'font1' ? fontSizeNum : fontSizeNumAlt;
+
         fontLineHeight = userData.selectedFontBack === 'font1' ? overrideLineHeight : overrideLineHeightAlt;
         computedFontSize = Math.round(fontSizeNumTrue * fontSizeMultiplier * scaleFactor);
         fontFamily = fontFamilyWeightStyle.family || 'Arial';
         fontWeight = fontFamilyWeightStyle.weight || 'normal';
         fontStyle = fontFamilyWeightStyle.italic ? 'italic' : 'normal';
         fontColor = fontFamilyWeightStyle.color || '#000';
-      } else if (key === 'dates') {
-        // date font toggle logic
+      } 
+      else if (key === 'dates') {
+        // --- Date font toggle logic ---
         // const fontSource = userData.selectedFont === 'font1' ? design.dateFont : design.dateFontAlt;
         // const fontSizeNum = parseInt(userData.selectedFont === 'font1' ? design.dateFont.size : design.dateFontAlt.size, 10) || 16;
         // date font no toggle, uses dateFont

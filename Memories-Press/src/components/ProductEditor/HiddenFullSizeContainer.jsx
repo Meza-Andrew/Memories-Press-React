@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import { renderTemplateElements } from './RenderTemplateElements';
+import toProxiedUrl from './proxyURL';
 
 export default function HiddenFullSizeContainers({
   frontRef,
@@ -9,6 +10,7 @@ export default function HiddenFullSizeContainers({
   design,
   userData,
 }) {
+
   if (!design || !productConfig) return null;
 
   const currentTemplate = productConfig.templates.find(t => t.id === design.templateId);
@@ -26,7 +28,7 @@ export default function HiddenFullSizeContainers({
       <Box
         key={`overlay-${index}`}
         component="img"
-        src={overlay.src}
+        src={toProxiedUrl(overlay.src)}
         alt={`overlay-${index}`}
         sx={{
           position: 'absolute',
@@ -57,7 +59,7 @@ export default function HiddenFullSizeContainers({
         }}
       >
         <img
-          src={design.frontImageBleed}
+          src={toProxiedUrl(design.frontImageBleed)}
           alt="Front"
           style={{
             width: '100%',
@@ -92,7 +94,7 @@ export default function HiddenFullSizeContainers({
           }}
         >
           <img
-            src={design.backImageBleed}
+            src={toProxiedUrl(design.backImageBleed)}
             alt="Back"
             style={{
               width: '100%',
