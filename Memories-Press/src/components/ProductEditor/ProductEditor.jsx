@@ -112,7 +112,7 @@ export default function ProductEditor() {
   } else if (location.pathname.includes('memorialhearts')) {
     productRoute = PRODUCT_TYPES.MEMORIAL_HEART;
   } else {
-    productRoute = PRODUCT_TYPES.BOOKMARK;
+    productRoute = PRODUCT_TYPES.PRAYER_CARD;
   }
 
   const currentProduct = useMemo(
@@ -403,10 +403,10 @@ export default function ProductEditor() {
 
     // 3️⃣  run the 3-step helper  🔥
     await submitDesign({
-      productRoute,
       previewDataURL,
       pdfBlob,
       userData,
+      currentProduct
     });
 
     // (optional) any local cart logic you still want

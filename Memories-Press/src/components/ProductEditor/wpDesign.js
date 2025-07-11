@@ -29,16 +29,27 @@ export async function uploadMedia(blob, filename, mime) {
 }
 
 
-/** STEP 2 – POST /mp/v1/design */
-export async function createDesign(productType, images) {
-  const r = await fetch('/wp-json/mp/v1/media', {
+/** STEP 2 – upload a single image to /mp/v1/design      *
+ *  Expects multipart form-data with key "file".         */
+export async function createDesign(fileBlob, filename = 'design.png') {
+  const form = new FormData();
+  form.append('file', fileBlob, filename);   // fileBlob must be Blob/File
+
+  const r = await fetch('/wp-json/mp/v1/design', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', Authorization: authHeader() },
-    body: JSON.stringify({ product: productType, images }),
+    headers: { Authorization: authHeader() },
+    body: form,
   });
-  if (!r.ok) throw new Error(`design POST failed ${r.status}`);
-  return await r.json(); // expects { id }
+
+  if (!r.ok) {
+    const msg = await r.text();
+    throw new Error(`design POST failed ${r.status} – ${msg}`);
+  }
+  return await r.json();
 }
+
+
+
 
 /** STEP 3 – POST /mp/v1/cart-design */
 export async function saveCartDesign(payload) {
@@ -49,4 +60,39 @@ export async function saveCartDesign(payload) {
   });
   if (!r.ok) throw new Error(`cart-design POST failed ${r.status}`);
   return await r.json();
+}
+
+async function getStoreNonce() {
+  if (window.wcStoreApiNonce) return window.wcStoreApiNonce;
+
+  // hit the public cart endpoint → WP echoes a new nonce in the headers
+  const r = await fetch('/wp-json/wc/store/v1/cart', { credentials: 'include' });
+  const nonce = r.headers.get('X-WC-Store-API-Nonce');
+  if (!nonce) throw new Error('Could not obtain Store-API nonce');
+  return nonce;
+}
+
+/** Step 4 – add the product to the Woo cart */
+export async function addWooItem({ productId, quantity }) {
+  const nonce = await getStoreNonce();
+
+  const res = await fetch('/wp-json/wc/store/v1/cart/add-item', {
+    method: 'POST',
+    credentials: 'include',                 // keep the WP session
+    headers: {
+      'Content-Type': 'application/json',
+      'X-WC-Store-API-Nonce': nonce,        // ← header WP expects
+    },
+    body: JSON.stringify({
+      id:        productId,                 // currentProduct.id
+      quantity,                            // userData.quantity
+      cart_item_data: { mp_unique: crypto.randomUUID() },
+    }),
+  });
+
+  if (!res.ok) {
+    const msg = await res.text();
+    throw new Error(`Woo add-item failed ${res.status} – ${msg}`);
+  }
+  return await res.json();                 // cart line-item object
 }
