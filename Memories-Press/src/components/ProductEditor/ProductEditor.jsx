@@ -474,7 +474,7 @@ export default function ProductEditor() {
   );
 
   const designPickerContent = (
-    <Box sx={{ p: 2, height: '100%', }}>
+    <Box sx={{ p: {xs: 0, sm: 2}, height: '100%', }}>
       <DesignSelector
         designs={productDesigns}
         productConfig={productConfig}
