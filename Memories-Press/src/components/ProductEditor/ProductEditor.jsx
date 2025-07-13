@@ -7,10 +7,8 @@ import jsPDF from 'jspdf';
 import { templatesConfig, PRODUCT_TYPES } from './templatesConfig';
 import DesignSelector from './DesignSelector';
 import CropModal from './CropModal';
-import CartContext from '../../components/CartContext';
 import HiddenFullSizeContainer from './HiddenFullSizeContainer';
 import SingleSidePreview from './SingleSidePreview';
-import PrayerHero from '../PrayerHero';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -170,7 +168,6 @@ export default function ProductEditor() {
   const hiddenFrontRef = useRef(null);
   const hiddenBackRef = useRef(null);
   const singleSidePreviewRef = useRef(null);
-  const { addToCart, updateCartItem } = useContext(CartContext);
 
   useLoadDesignFonts(selectedDesign);
 
@@ -927,7 +924,6 @@ export default function ProductEditor() {
   );
   return (
     <>
-      <PrayerHero />
       <Box
         sx={{
           width: '100%',

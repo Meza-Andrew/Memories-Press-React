@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Grid, Card, CardActionArea, Box, Typography } from '@mui/material';
-import FadeInBox from '../FadeInBox';
+import FadeInBox from './FadeInBox';
 import { BeatLoader } from 'react-spinners';
 
 
