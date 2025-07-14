@@ -17,9 +17,9 @@ export default function ProverbSelect({ value, onChange, productType, disabled }
     const username = import.meta.env.VITE_WP_USERNAME;
     const password = import.meta.env.VITE_WP_PASSWORD;
     const encoded = btoa(`${username}:${password}`);
-    const proxyURL = import.meta.env.DEV ? 'http://localhost:8010/proxy/website_f71474e4/wp-json/mp/v1/proverbs' : 'https://ttr.laz.mybluehost.me/website_f71474e4/wp-json/mp/v1/proverbs';
+    const memPressURL = 'https://memoriespress.poweredbymeza.com/wp-json/mp/v1/proverbs';
 
-    fetch(proxyURL, {
+    fetch(memPressURL, {
       headers: {
         'Authorization': `Basic ${encoded}`,
         'Content-Type': 'application/json',

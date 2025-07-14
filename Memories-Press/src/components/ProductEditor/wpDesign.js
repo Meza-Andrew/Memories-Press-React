@@ -1,6 +1,7 @@
 const WP_USER = import.meta.env.VITE_WP_USERNAME;
 const WP_PASS = import.meta.env.VITE_WP_PASSWORD;
 const authHeader = () => 'Basic ' + btoa(`${WP_USER}:${WP_PASS}`);
+const isDev = import.meta.env.VITE
 
 /** STEP 1 – upload a file to the WP media library */
 export async function uploadMedia(blob, filename, mime) {
@@ -8,7 +9,7 @@ export async function uploadMedia(blob, filename, mime) {
   const form = new FormData();
   form.append('file', blob, filename);          // 🔹 key MUST be "file"
 
-  const r = await fetch('/wp-json/wp/v2/media', {
+  const r = await fetch('/wp-json/mp/v1/design', {
     method: 'POST',
     headers: {
       Authorization: authHeader(),             // no Content-Type here—fetch sets the boundary

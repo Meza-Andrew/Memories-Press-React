@@ -74,12 +74,12 @@ export default function ProductEditor() {
   const [fetchedProducts, setFetchedProducts] = useState([]);
   const [productsLoading, setProductsLoading] = useState(true);
   const [productsError, setProductsError] = useState(null);
-  const proxyURL = import.meta.env.DEV ? 'http://localhost:8010/proxy/website_f71474e4/wp-json/mp/v1/products' : 'https://ttr.laz.mybluehost.me/website_f71474e4/wp-json/mp/v1/products';
+  const memPressURL = 'https://memoriespress.poweredbymeza.com/wp-json/mp/v1/products';
 
   useEffect(() => {
     setProductsLoading(true);
 
-    fetch(proxyURL, {
+    fetch(memPressURL, {
       headers: {
         'Authorization': `Basic ${encoded}`,
         'Content-Type': 'application/json',

@@ -10,13 +10,13 @@ export default defineConfig({
     proxy: {
       // Proxy WP REST API calls to avoid CORS
       '/wp-json': {
-        target: 'https://ttr.laz.mybluehost.me/website_f71474e4',
+        target: 'https://memoriespress.poweredbymeza.com',
         changeOrigin: true,
         secure: false,
       },
       // Proxy uploads folder (media files)
       '/wp-content/uploads': {
-        target: 'https://ttr.laz.mybluehost.me/website_f71474e4',
+        target: 'https://memoriespress.poweredbymeza.com',
         changeOrigin: true,
         secure: false,
         rewrite: path => path.replace(/^\/wp-content\/uploads/, '/wp-content/uploads')

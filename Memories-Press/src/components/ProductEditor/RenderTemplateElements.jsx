@@ -57,7 +57,7 @@ export function renderTemplateElements({
             sx={{
               width: '100%',
               height: '100%',
-              backgroundImage: `url(${(displayUserData.photo)})`,
+              backgroundImage: `url(${displayUserData.photo})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
