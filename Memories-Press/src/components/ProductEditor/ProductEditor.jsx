@@ -131,12 +131,12 @@ export default function ProductEditor() {
     }, 300);
   };
 
-  useEffect(() => {
-    console.log('Current Product:', currentProduct);
-    console.log('Product Route:', productRoute);
-    console.log('Fetched Products:', fetchedProducts);
-    console.log('productDesigns:', productDesigns);
-  }, [currentProduct, productRoute, fetchedProducts, productDesigns]);
+  // useEffect(() => {
+  //   console.log('Current Product:', currentProduct);
+  //   console.log('Product Route:', productRoute);
+  //   console.log('Fetched Products:', fetchedProducts);
+  //   console.log('productDesigns:', productDesigns);
+  // }, [currentProduct, productRoute, fetchedProducts, productDesigns]);
 
   const [userData, setUserData] = useState({
     photo: null,
@@ -268,9 +268,9 @@ export default function ProductEditor() {
     }
   }, [location.state, productDesigns]);
 
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
+  // useEffect(() => {
+  //   console.log(userData);
+  // }, [userData]);
 
   useEffect(() => {
     if (
