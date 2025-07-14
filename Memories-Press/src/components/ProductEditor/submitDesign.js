@@ -1,46 +1,90 @@
 import {
-  uploadMedia,    // uploads to /wp-json/wp/v2/media  → { id, url, hash }
-  createDesign,   // sends ONE Blob to /wp-json/mp/v1/design → { id }
-  saveCartDesign,  // posts JSON to /wp-json/mp/v1/cart-design
+  uploadMedia,
+  createDesign,
+  saveCartDesign,
   addWooItem
 } from './wpDesign';
 
 export async function submitDesign({ previewDataURL, pdfBlob, userData, currentProduct }) {
-  const prayer = userData.proverb === 'CUSTOM' ? userData.customProverb : userData.proverb.text;
-  /* ----------  Step 1 – upload to WP media  ---------- */
+  // start total timer
+  const tTotalStart = performance.now();
 
-  // ⬤ thumbnail
-  const thumbBlob  = await (await fetch(previewDataURL)).blob();
-  const thumbMedia = await uploadMedia(thumbBlob, 'thumbnail.png', 'image/png');   // { id,url,hash }
+  const prayer = userData.proverb === 'CUSTOM'
+    ? userData.customProverb
+    : userData.proverb.text;
 
-  // ⬤ print-ready PDF
-  const printMedia = await uploadMedia(pdfBlob, 'printReady.pdf', 'application/pdf');
+  // — Step 1: fetch thumbnail blob —
+  const tFetch = performance.now();
+  const thumbBlob = await (await fetch(previewDataURL)).blob();
+  console.log(
+    `⭐️ fetch→blob: ${(performance.now() - tFetch).toFixed(0)}ms ` +
+    `(total ${(performance.now() - tTotalStart).toFixed(0)}ms)`
+  );
 
-  /* ----------  Step 2 – call /mp/v1/design for EACH image  ---------- */
+  // — Step 1b: upload both media in parallel —
+  function timedUpload(blob, filename, mime, label) {
+    const t0 = performance.now();
+    return uploadMedia(blob, filename, mime).then(result => {
+      console.log(
+        `✅ uploadMedia(${label}): ${(performance.now() - t0).toFixed(0)}ms ` +
+        `(total ${(performance.now() - tTotalStart).toFixed(0)}ms)`
+      );
+      return result;
+    });
+  }
 
-  // design id for thumbnail
-  const { id: thumbDesignId }  = await createDesign(thumbBlob,  'thumbnail.png');
+  const [thumbMedia, printMedia] = await Promise.all([
+    timedUpload(thumbBlob, 'thumbnail.png', 'image/png',       'thumbnail'),
+    timedUpload(pdfBlob,   'printReady.pdf', 'application/pdf','printReady')
+  ]);
 
-  // design id for printReady
-  const { id: printDesignId }  = await createDesign(pdfBlob,   'printReady.pdf');
+  // — Step 2: create designs in parallel —
+  function timedCreate(blob, filename, label) {
+    const t0 = performance.now();
+    return createDesign(blob, filename).then(res => {
+      console.log(
+        `✅ createDesign(${label}): ${(performance.now() - t0).toFixed(0)}ms ` +
+        `(total ${(performance.now() - tTotalStart).toFixed(0)}ms)`
+      );
+      return res;
+    });
+  }
 
-  /* ----------  Step 3 – /mp/v1/cart-design  ---------- */
+  const [{ id: thumbDesignId }, { id: printDesignId }] = await Promise.all([
+    timedCreate(thumbBlob, 'thumbnail.png',  'thumbnail-design'),
+    timedCreate(pdfBlob,   'printReady.pdf', 'printReady-design')
+  ]);
 
+  // — Step 3: save cart design —
+  const tSave = performance.now();
   await saveCartDesign({
     name:        userData.name,
     date_birth:  userData.dob,
     date_death:  userData.dod,
-    proverb:     prayer, 
+    proverb:     prayer,
     images: {
       thumbnail:  { id: thumbDesignId,  url: thumbMedia.url,  hash: thumbMedia.hash },
       printReady: { id: printDesignId,  url: printMedia.url,  hash: printMedia.hash },
     },
   });
+  console.log(
+    `✅ saveCartDesign: ${(performance.now() - tSave).toFixed(0)}ms ` +
+    `(total ${(performance.now() - tTotalStart).toFixed(0)}ms)`
+  );
 
-/* ----------  Step 4 – /mp/v1/cart-design  ---------- */
-
+  // — Step 4: add WooCommerce item —
+  const tWoo = performance.now();
   await addWooItem({
-  productId: currentProduct.id,
-  quantity:  userData.quantity,
-});
+    productId: currentProduct.id,
+    quantity:  userData.quantity,
+  });
+  console.log(
+    `✅ addWooItem: ${(performance.now() - tWoo).toFixed(0)}ms ` +
+    `(total ${(performance.now() - tTotalStart).toFixed(0)}ms)`
+  );
+
+  // final total
+  console.log(
+    `⚡️ submitDesign completed in ${(performance.now() - tTotalStart).toFixed(0)}ms`
+  );
 }
