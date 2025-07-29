@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react-swc'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/Memories-Press-React/',
+  base: '/wp-content/plugins/memories-builder/dist/',
   plugins: [react()],
   server: {
     host: '0.0.0.0',
