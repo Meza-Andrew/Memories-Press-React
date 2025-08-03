@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useRef, useMemo } from 'react';
-import { Box, Typography, Button, TextField, FormControl, InputLabel, Select, MenuItem, Paper, ToggleButton, ToggleButtonGroup, useMediaQuery, Backdrop} from '@mui/material';
+import { Box, Typography, Button, TextField, FormControl, InputLabel, Select, MenuItem, Paper, ToggleButton, ToggleButtonGroup, useMediaQuery, Backdrop } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useLocation, useNavigate } from 'react-router-dom';
 import domtoimage from 'dom-to-image-more';
@@ -100,7 +100,6 @@ export default function ProductEditor() {
         setProductsLoading(false);
       });
   }, []);
-
 
   let productRoute;
   if (location.pathname.includes('prayercards')) {
@@ -233,7 +232,7 @@ export default function ProductEditor() {
           selectedFont:
             item.selectedFont !== undefined ? item.selectedFont : prev.selectedFont,
           selectedFontBack:
-              item.selectedFontBack !== undefined ? item.selectedFontBack : prev.selectedFontBack,
+            item.selectedFontBack !== undefined ? item.selectedFontBack : prev.selectedFontBack,
         }));
         setOriginalImage(item.originalPhoto || item.photo);
       }
@@ -386,38 +385,64 @@ export default function ProductEditor() {
   }
 
   const handleAddToCart = async () => {
-  if (!selectedDesign) { alert('Please select a design.'); return; }
-  setIsAddingToCart(true);
+    if (!selectedDesign) {
+      alert('Please select a design.');
+      return;
+    }
+    setIsAddingToCart(true);
 
-  try {
-    // 1️⃣  create the thumbnail
-    const previewDataURL = await captureSingleSidePreview();
-    if (!previewDataURL) throw new Error('Thumbnail failed');
+    try {
+      // ✅ Create the thumbnail
+      const previewDataURL = await captureSingleSidePreview();
+      if (!previewDataURL) throw new Error('Thumbnail failed');
 
-    // 2️⃣  create the PDF Blob   (make handleGeneratePdf return pdf.output('blob'))
-    const pdfBlob = await handleGeneratePdf();
-    if (!pdfBlob)        throw new Error('PDF failed');
+      // ✅ Generate the PDF Blob
+      const pdfBlob = await handleGeneratePdf();
+      if (!pdfBlob) throw new Error('PDF failed');
 
-    // 3️⃣  run the 3-step helper  🔥
-    await submitDesign({
-      previewDataURL,
-      pdfBlob,
-      userData,
-      currentProduct
-    });
+      // ✅ Normalize proverb so submitDesign can safely use .text
+      let normalizedProverb;
+      if (userData.proverb === 'CUSTOM') {
+        normalizedProverb = {
+          name: 'Custom',
+          text: userData.customProverb || ''
+        };
+      } else if (typeof userData.proverb === 'object') {
+        normalizedProverb = {
+          name: userData.proverb.name || '',
+          text: userData.proverb.text || userData.proverb.prayer || ''
+        };
+      } else {
+        // fallback: if it's just a string, use it as name
+        normalizedProverb = {
+          name: userData.proverb,
+          text: ''
+        };
+      }
 
-    // (optional) any local cart logic you still want
-    // await addToCart(itemData);   // if you need it
-    // navigate('/cart');           // if/when you’re ready
+      alert('Proverb type:', typeof userData.proverb);
+      alert('Proverb raw value:', userData.proverb);
+      alert('Proverb JSON:', JSON.stringify(userData.proverb));
 
-    alert('Design saved!');
-  } catch (err) {
-    console.error(err);
-    alert(err.message);
-  } finally {
-    setIsAddingToCart(false);
-  }
-};
+      // ✅ Pass normalized userData to submitDesign
+      await submitDesign({
+        previewDataURL,
+        pdfBlob,
+        userData: {
+          ...userData,
+          proverb: normalizedProverb
+        },
+        currentProduct
+      });
+
+      alert('Design saved!');
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
+    } finally {
+      setIsAddingToCart(false);
+    }
+  };
 
   const handleGeneratePdf = async () => {
     if (!selectedDesign) {
@@ -474,7 +499,7 @@ export default function ProductEditor() {
   );
 
   const designPickerContent = (
-    <Box sx={{ p: {xs: 0, sm: 2}, height: '100%', }}>
+    <Box sx={{ p: { xs: 0, sm: 2 }, height: '100%', }}>
       <DesignSelector
         designs={productDesigns}
         productConfig={productConfig}
@@ -541,35 +566,35 @@ export default function ProductEditor() {
                   onChange={handlePhotoUpload}
                 />
               </Button>
-              <Box sx={{ display: currentTemplate?.front.elements.photo ? 'block' : 'none'}}>
-                  <Button
-                    variant="outlined"
-                    onClick={() => {
-                      if (originalImage) {
-                        setUploadedImage(originalImage);
-                        setShowCropModal(true);
-                      }
-                    }}
-                    disabled={!userData.photo}
-                  >
-                    Edit
-                  </Button>
-                </Box>
+              <Box sx={{ display: currentTemplate?.front.elements.photo ? 'block' : 'none' }}>
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    if (originalImage) {
+                      setUploadedImage(originalImage);
+                      setShowCropModal(true);
+                    }
+                  }}
+                  disabled={!userData.photo}
+                >
+                  Edit
+                </Button>
+              </Box>
             </Box>
             {userData.photo && (
-              currentTemplate?.front.elements.photo ? 
-              (<Typography
-                variant="body2"
-                sx={{ mt: 1, fontStyle: 'italic', color: 'gray' }}
-              >
-                Photo selected. Re-upload to replace.
-              </Typography>) :
-              (<Typography
-                variant="body2"
-                sx={{ mt: 1, fontStyle: 'italic', color: 'gray' }}
-              >
-                This design does not support photo uploads.
-              </Typography>)
+              currentTemplate?.front.elements.photo ?
+                (<Typography
+                  variant="body2"
+                  sx={{ mt: 1, fontStyle: 'italic', color: 'gray' }}
+                >
+                  Photo selected. Re-upload to replace.
+                </Typography>) :
+                (<Typography
+                  variant="body2"
+                  sx={{ mt: 1, fontStyle: 'italic', color: 'gray' }}
+                >
+                  This design does not support photo uploads.
+                </Typography>)
             )}
           </Box>
           <Box sx={{ mb: 0, display: 'flex', flexDirection: 'column', gap: 4 }}>
@@ -725,7 +750,7 @@ export default function ProductEditor() {
                     onChange={handlePhotoUpload}
                   />
                 </Button>
-                <Box sx={{ display: currentTemplate?.front.elements.photo ? 'block' : 'none'}}>
+                <Box sx={{ display: currentTemplate?.front.elements.photo ? 'block' : 'none' }}>
                   <Button
                     variant="outlined"
                     onClick={() => {
@@ -1049,18 +1074,18 @@ export default function ProductEditor() {
                     </Box>
                   ) : (
                     <Box
-                sx={{
-                  position: 'absolute',
-                  inset: 0,
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  backgroundColor: 'rgba(255,255,255,0.7)',
-                  zIndex: 1,
-                }}
-              >
-                <BeatLoader />
-              </Box>
+                      sx={{
+                        position: 'absolute',
+                        inset: 0,
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: 'rgba(255,255,255,0.7)',
+                        zIndex: 1,
+                      }}
+                    >
+                      <BeatLoader />
+                    </Box>
                   )}
                 </Paper>
               </Box>

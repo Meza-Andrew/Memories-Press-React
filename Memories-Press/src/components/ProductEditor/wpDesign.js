@@ -53,8 +53,6 @@ export async function saveCartDesign(payload) {
   console.log('🔹 saveCartDesign() called with payload:', payload);
 
   const url = '/wp-json/mp/v1/cart-design';
-  console.log(`🔹 saveCartDesign: POST ${url}`);
-
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -64,15 +62,12 @@ export async function saveCartDesign(payload) {
     body: JSON.stringify(payload),
   });
 
-  console.log('🔹 saveCartDesign: status', res.status, res.statusText);
   const text = await res.text();
   if (!res.ok) {
     throw new Error(`cart-design POST failed ${res.status}: ${text}`);
   }
 
-  const json = JSON.parse(text);
-  console.log('🔹 saveCartDesign: parsed JSON:', json);
-  return json;
+  return JSON.parse(text);
 }
 
 async function getStoreNonce() {
@@ -89,38 +84,38 @@ async function getStoreNonce() {
 /**
  * STEP 3 – add the product to the Woo cart
  */
-export async function addWooItem({ productId, quantity }) {
-  console.log('🔹 addWooItem() called with:', { productId, quantity });
+export async function addWooItem({ productId, variationId = null, quantity, variation = null }) {
   const nonce = await getStoreNonce();
-  console.log('🔹 addWooItem: using nonce:', nonce);
-
   const url = '/wp-json/wc/store/v1/cart/add-item';
-  console.log(`🔹 addWooItem: POST ${url}`);
 
   const body = {
-    id: productId,
+    id: variationId || productId,
     quantity,
-    cart_item_data: { mp_unique: crypto.randomUUID() },
+    cart_item_data: { mp_unique: crypto.randomUUID() }
   };
-  console.log('🔹 addWooItem: request body:', body);
+
+  if (variation) {
+    // Convert { attribute_pa_quality: 'matte' } into Woo API format
+    body.variation = Object.entries(variation).map(([attr, value]) => ({
+      attribute: attr.replace(/^attribute_/, ''), // remove prefix
+      value
+    }));
+  }
 
   const res = await fetch(url, {
     method: 'POST',
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
-      'X-WC-Store-API-Nonce': nonce,
+      'Nonce': nonce
     },
     body: JSON.stringify(body),
   });
 
-  console.log('🔹 addWooItem: status', res.status, res.statusText);
-  const text = await res.text();
   if (!res.ok) {
+    const text = await res.text();
     throw new Error(`Woo add-item failed ${res.status}: ${text}`);
   }
 
-  const json = JSON.parse(text);
-  console.log('🔹 addWooItem: parsed JSON:', json);
-  return json;
+  return res.json();
 }

@@ -35,8 +35,8 @@ export default function ProverbSelect({ value, onChange, productType, disabled }
           .map(p => ({
             key: p.name.replace(/\s+/g, '-').toLowerCase(),
             title: p.name,
-            prayerCard:    { text: p.prayer, textAlignment: p.textAlignment ? p.textAlignment : '' },
-            bookmark:      { text: p.prayer, textAlignment: p.textAlignment ? p.textAlignment : '' },
+            prayerCard: { text: p.prayer, textAlignment: p.textAlignment ? p.textAlignment : '' },
+            bookmark: { text: p.prayer, textAlignment: p.textAlignment ? p.textAlignment : '' },
             memorialHeart: { text: p.prayer, textAlignment: p.textAlignment ? p.textAlignment : '' },
           }));
         setProverbs(formatted);
@@ -49,7 +49,7 @@ export default function ProverbSelect({ value, onChange, productType, disabled }
 
   const getVersion = (p) => {
     if (productType === PRODUCT_TYPES.MEMORIAL_HEART) return p.memorialHeart;
-    if (productType === PRODUCT_TYPES.BOOKMARK)      return p.bookmark;
+    if (productType === PRODUCT_TYPES.BOOKMARK) return p.bookmark;
     return p.prayerCard;
   };
 
@@ -77,12 +77,16 @@ export default function ProverbSelect({ value, onChange, productType, disabled }
         {proverbs.map((p) => {
           const version = getVersion(p);
           return (
-            <MenuItem key={p.key} value={JSON.stringify(version)}>
+            <MenuItem
+              key={p.key}
+              value={JSON.stringify({ name: p.title, ...version })}
+            >
               {p.title}
             </MenuItem>
           );
         })}
         <MenuItem value="CUSTOM">Custom Proverb</MenuItem>
+
       </Select>
     </FormControl>
   );
